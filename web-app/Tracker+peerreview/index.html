@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTD Time Tracking and Peer Review</title>
+    <style type="text/css"> 
+
+    
+    
+    html {
+        background-color: #3a3a42;
+        font-weight: normal;
+        overflow-y: scroll;
+    }
+
+
+    #topnav{
+        position: fixed;
+        z-index: 10;
+
+        left: 50%;
+        transform: translate(-50%, 0);
+        width: 100%;
+        height: 125px;
+        padding-block: 5px;
+        padding-inline: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-style: solid;
+        border-color: #e97724;
+        background-color: white;
+    }
+
+    a{
+        text-decoration: none;
+        color: black;
+        display: flex;
+        align-items: center;
+        font-size: 17px;
+        font-weight: 600;
+    }
+
+    span {
+        font-size: 28px; 
+        margin-left: 10px; 
+    }
+
+    
+    #logo{
+        padding-inline: 42px;
+        padding-block: 2px;
+
+    }
+
+
+    #login{
+        width: 300px;
+        height: 200px;
+        position: fixed;
+        top: 400px;
+        padding: 30px;
+        left: 50%;
+        transform: translate(-50%, 0);
+        border-color: #e97724;
+        border-radius: 40px;
+        border-style: solid;
+        background-color: white;
+        display: flex;
+        justify-content: center;
+
+        
+    }
+
+    input{
+        width: 270px;
+        
+    }
+
+
+    
+
+     
+    </style>
+    
+</head>
+
+<div id="topnav">   
+    <div id="logo"> 
+        <img width="428" height="83" src="utdwords.jpg" alt="Logo" >
+    </div>  
+</div>
+
+<div id="login" class="modal"> 
+      <div class="modal-content">   
+         <form>  
+            <br> 
+            <label for="NetID">NetID</label>      
+            <input type="NetID" id="NetID" name="NetID" required>      
+            <br> <br> <br> 
+            <label for="UTD-ID">UTD-ID</label>    
+            <input type="UTD-ID" id="UTD-ID" name="UTD-ID" required>  
+            <br> <br>   
+            <input type="submit" value="Login">    
+        </form>  
+    </div>
+</div>
+
+</html>
