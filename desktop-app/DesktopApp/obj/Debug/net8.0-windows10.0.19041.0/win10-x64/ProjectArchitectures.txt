@@ -1,0 +1,1 @@
+D:\Documents\repos\DesktopApp\DesktopApp.csproj;x64

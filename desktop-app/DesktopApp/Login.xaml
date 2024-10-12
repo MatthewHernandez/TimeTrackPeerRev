@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--written by William LaFoy for CS4485, Project, started 9/25/2024. NetID wel190000-->
+
+<!--Base ui for logging in-->
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DesktopApp.Login"
+             Title="Professor Login Page">
+    <VerticalStackLayout Padding="20" Spacing="10">
+
+        <!-- Label Title -->
+        <Label Text="Welcome, please log in" 
+               FontSize="Medium"
+               HorizontalOptions="Center" />
+
+        <!-- Username Entry -->
+        <Entry x:Name="UsernameEntry"
+               Placeholder="Username"
+               HorizontalOptions="FillAndExpand" />
+
+        <!-- Password Entry -->
+        <Entry x:Name="PasswordEntry"
+               Placeholder="Password"
+               IsPassword="True"
+               HorizontalOptions="FillAndExpand" />
+
+        <!-- Login Button -->
+        <Button Text="Login"
+                HorizontalOptions="Center"
+                Clicked="ClickedLogin" />
+
+        <!-- Label to display login status -->
+        <Label x:Name="LoginStatusLabel"
+               TextColor="Red"
+               HorizontalOptions="Center" />
+
+    </VerticalStackLayout>
+</ContentPage>

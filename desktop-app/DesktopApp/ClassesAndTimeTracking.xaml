@@ -1,0 +1,51 @@
+<!--written by William LaFoy for CS4485, Project, 10/9/2024-10/11/2024. NetID wel190000-->
+<!--Base ui for listing classes, listing students' cummulative hours, and list of dates with associated hours-->
+
+    
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DesktopApp.ClassesAndTimeTracking"
+             Title="Classes and Time Tracking">
+
+    <StackLayout Padding="10">
+
+        <!-- Class Selection Picker -->
+        <Label Text="" VerticalOptions="Center" />
+        <Picker x:Name="ClassPicker" Title="Select Class" SelectedIndexChanged="ClassPicker_SelectedIndexChanged" />
+
+        <!-- CollectionView for Student Hours with associated Date -->
+        <CollectionView x:Name="StudentHoursCollectionView" SelectionMode="Single" SelectionChanged="StudentHoursCollectionView_SelectionChanged">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout Orientation="Horizontal" Padding="5">
+                        <Label Text="{Binding StudentName}" WidthRequest="200"/>
+                       
+                        <Label Text="{Binding Hours}" WidthRequest="100"/>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!-- Edit Hours (for specific student) and Import Buttons -->
+        <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand" Margin="0,10,0,0">
+            <Button Text="Edit Hours" Clicked="EditHours_Click" />
+            <Button Text="Import Students" Clicked="ImportStudents_Click" />
+        </StackLayout>
+
+        <!-- Student Detail Section -->
+        <StackLayout x:Name="StudentDetailStack" IsVisible="False" Margin="0,20,0,0">
+            <Label Text="Student Details" FontSize="Medium" FontAttributes="Bold"/>
+            <CollectionView x:Name="HoursCollectionView">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Orientation="Horizontal" Padding="5">
+                            <Label Text="{Binding Date, StringFormat='{0:MM/dd/yyyy}'}" WidthRequest="100"/>
+                            <Label Text="{Binding Hours}" WidthRequest="100"/>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </StackLayout>
+
+    </StackLayout>
+</ContentPage>
