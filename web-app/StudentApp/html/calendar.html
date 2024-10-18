@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTD Time Tracking and Peer Review</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="/StudentApp/css/calendar.css" />
+</head>
+<!--
+<div id="topnav">   
+    <div id="logo"> 
+        <img width="428" height="83" src="utdwords.jpg" alt="Logo" >
+    </div>  
+</div>
+-->
+
+<div id="tracker-header">
+    <h1>Time Tracking</h1>
+</div>
+
+
+<div id="calendar"> 
+    <div class="calendarheader">
+        <button id="prev">
+            <i class="material-icons">chevron_left</i>
+        </button>
+        <div id="monthYear"></div>
+        <button id="next">
+            <i class="material-icons">chevron_right</i>
+        </button>
+    </div>
+    <div class="days">
+        <div class="day">Mon</div>
+        <div class="day">Tue</div>
+        <div class="day">Wed</div>
+        <div class="day">Thu</div>
+        <div class="day">Fri</div>
+        <div class="day">Sat</div>
+        <div class="day">Sun</div>
+    </div>
+    <div class="dates" id="dates"></div>
+    
+</div>
+
+<script src="/StudentApp/js/calendar.js"></script>
+
+<section class="modal-container" id="modal">
+    <section class="modal">
+        <button class="modal-content, material-icons" id="close">close</button>
+        <div class="modal-content">
+            <h1>Description:</h1>
+            <form class="modal-form">
+                <input type="text" id="description">
+            </form>
+        </div>
+    </section>
+</section>
+
+</html>

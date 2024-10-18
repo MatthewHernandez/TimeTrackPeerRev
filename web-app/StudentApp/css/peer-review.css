@@ -1,0 +1,92 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+
+
+.body-container{
+  display: flex;
+}
+
+.body-container div{
+  padding: 2%;
+}
+
+.form-info{ 
+  font-family: "Poppins";
+  font-weight: 500;
+  background-color: rgb(177, 209, 147);
+  border-radius: 40px;
+  font-size: 0.7vw;
+}
+
+.form-info p{
+  font-size: 1.5vw;
+  font-family: "Poppins";
+  font-weight: 400;
+  font-style: normal;
+}
+
+th {
+  padding: 15px;
+  background-color: rgba(114, 145, 228, 0.947);
+  font-size: 0.8vw;
+  font-family: "Poppins";
+  font-weight: 500;
+  font-style: normal;
+  color: #000000;
+}
+
+td {
+  background-color: rgb(255, 255, 255);
+  font-size: 0.8vw;
+  font-family: "Poppins";
+  font-weight: 500;
+  font-style: normal;
+}
+
+table tr:nth-of-type(n + 2):nth-of-type(-n + 7) td:nth-child(1) {
+  background-color: rgb(192, 222, 244);
+}
+
+table {
+  width: 1000px;
+  border-collapse: collapse;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+}
+
+.ratings {
+  background-color: rgb(255, 255, 255);
+  width: 100px;
+  font-family: "Barlow", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+  cursor: pointer;
+  font-size: 1.2vw;
+}
+
+.submit-button {
+  background-color: rgb(65, 88, 218);
+  border-radius: 10px;
+  border: none;
+  padding: 10px 50px;
+  cursor: pointer;
+  font-family: "Barlow";
+  font-weight: 600;
+  font-style: normal;
+  color: white;
+}
+
+.submit-button:hover {
+  background-color: rgb(26, 40, 119);
+}
+
+select {
+  text-align: center;                                 
+  border: none;
+  outline: none;
+  appearance: none;
+  font-size: 20px;
+}

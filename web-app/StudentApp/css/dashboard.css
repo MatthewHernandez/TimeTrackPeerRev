@@ -1,0 +1,120 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+
+
+body {
+    margin:0;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(255, 255, 255);;
+    
+} 
+
+#container {
+    display: grid;
+    grid-template-areas:
+        "sn  h"
+        "sn  c";
+    grid-template-rows:     100px 1fr;
+    grid-template-columns:  252px 1fr;
+    height: 100vh;
+    width: 100vw;
+}
+
+.header {
+    background-color:   rgb(248, 248, 248);
+    grid-area:          h;
+    position: relative;
+    padding-top: 30px;
+    padding-left: 40px;
+    font-size: 30px;
+    font-family: 'Roboto Mono';
+    font-weight: 100;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    white-space:nowrap;
+    font-size: 2vh;
+}
+
+
+.content {
+    background-color:   rgb(255, 255, 255);
+    grid-area:          c;
+    padding: 90px;
+    overflow: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.side-nav {
+    background-color:   rgb(227, 168, 100);
+    grid-area:          sn;
+    padding-left:            20px; 
+    text-align:         left; 
+    border-radius: 0px 30px 30px 0px;
+    overflow: hidden;
+    z-index: 1;
+  
+}
+
+.profile {
+    padding-top: 50px;
+    height: 120px;
+    display: flex;
+}
+
+.profile-icon{
+    width: 40%;
+    height: 100%;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 15px;
+}
+
+.profile-icon img{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    justify-self: center;
+    box-shadow: 0 0 0 5px rgba(165, 129, 159, 0.4);
+}
+
+.profile-user{
+    width: 60%;
+    height: 100%;
+    display:flex;
+    align-items: center; 
+    color: white;
+    font-family: Poppins;
+    font-weight: 600;
+    font-size: 20px;
+}
+
+.side-nav a{
+    font-family: 'Poppins';
+    font-weight: 600;
+    text-decoration: none;  
+    display: block;
+    block-size: 50px;
+    text-align: left;
+    padding-left: 40px;
+    padding-top: 25px;
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.838);
+    border-radius: 80px 00px 0px 80px;
+}
+
+  .side-nav a.active,
+  .side-nav a:hover{
+    background-color:   rgb(255, 255, 255);
+    /* color: rgb(187, 119, 152); */
+    color: rgb(174, 121, 61);
+
+  }
+
+

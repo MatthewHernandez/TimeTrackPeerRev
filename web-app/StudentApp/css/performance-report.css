@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+.report-container{
+    display: flex;
+    gap: 50px;
+    background-color: rgba(255, 255, 255, 0.403);
+    justify-content: center;
+    font-family: Poppins;
+
+}
+
+.qual-of-work{
+    height: 420px;
+    width: 250px;
+    border-radius: 120px 120px 20px 20px;
+    overflow: hidden;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+}
+
+
+.timeliness{
+    height: 420px;
+    width: 250px;
+    border-radius: 120px 120px 20px 20px;
+    overflow: hidden;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+}
+
+.communication{
+    height: 420px;
+    width: 250px;
+    border-radius: 120px 120px 20px 20px;
+    overflow: hidden;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+}
+
+.teamwork{
+    height: 420px;
+    width: 250px;
+    border-radius: 120px 120px 20px 20px;
+    overflow: hidden;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+}
+
+.effort-part{
+    height: 420px;
+    width: 250px;
+    border-radius: 120px 120px 20px 20px;
+    overflow: hidden;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+}
+
+
+.average-grade{
+    display: block;
+    align-items: center;
+    justify-content: center;
+    height:40%;
+    background-image: linear-gradient(to right bottom, #feb281, #fbaa86, #f6a28b, #ef9c91, #e69695);
+    overflow: hidden;
+    
+}
+
+.avg-text {
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    height: 50%;
+    font-weight: 300;
+}
+
+.avg-num{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 50px;
+    height: 50%;
+    font-weight: 600;
+}
+
+.actual-grade{
+    height:60%;
+    background-color: rgb(251, 251, 251);
+    font-size: 12px;
+}
+
+
+
