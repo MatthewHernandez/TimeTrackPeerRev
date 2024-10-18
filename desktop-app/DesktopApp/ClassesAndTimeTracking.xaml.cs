@@ -1,33 +1,70 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using Microsoft.Maui.Controls;
+using System.IO;
+using System.Linq;
 
 namespace DesktopApp
 {
-
-
-
     public partial class ClassesAndTimeTracking : ContentPage
     {
-
-        //written by William LaFoy for CS4485, Project, 10/9/2024-10/11/2024. NetID wel190000
+        //written by William LaFoy for CS4485, Project, 10/9/2024-10/18/2024. NetID wel190000
         /*
          Base framework for listing out classes, listing out associated students and cummulative hours
-        and specific dates with those those hours.
+         and specific dates with those hours.
+
+        10/18 now allows you to select cells with ease and modify the date hour etc.
          */
 
         // Sample data structure for student hours
         public class StudentHour
         {
             public string StudentName { get; set; }
-           
+
+
+            public int TeamNumber { get; set; }
             public decimal Hours { get; set; }
         }
 
-        public class StudentHourDetail
+        // Updated StudentHourDetail with INotifyPropertyChanged
+        public class StudentHourDetail : INotifyPropertyChanged
         {
-            public DateTime Date { get; set; }
-            public decimal Hours { get; set; }
+            private DateTime _date;
+            private decimal _hours;
+
+            public DateTime Date
+            {
+                get => _date;
+                set
+                {
+                    if (_date != value)
+                    {
+                        _date = value;
+                        OnPropertyChanged(nameof(Date));
+                    }
+                }
+            }
+
+            public decimal Hours
+            {
+                get => _hours;
+                set
+                {
+                    if (_hours != value)
+                    {
+                        _hours = value;
+                        OnPropertyChanged(nameof(Hours));
+                    }
+                }
+            }
+
+            public event PropertyChangedEventHandler PropertyChanged;
+
+            protected void OnPropertyChanged(string propertyName)
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
 
         // Constructor
@@ -60,50 +97,76 @@ namespace DesktopApp
             // This should be replaced with a database call to get students & hours based on className
             var studentHours = new List<StudentHour>
             {
-                new StudentHour { StudentName = "William LaFoy", Hours = 9 },
-                new StudentHour { StudentName = "abc xyz", Hours = 9 }
+                new StudentHour { StudentName = "William LaFoy", TeamNumber = 1, Hours = 9 },
+                new StudentHour { StudentName = "abc xyz", TeamNumber = 1, Hours = 9 }
             };
 
-            StudentHoursCollectionView.ItemsSource = studentHours; // Bind to CollectionView
-        }
+            // Sort and group each team with their associated students
+            var sortedStudentHours = studentHours.OrderBy(sh => sh.TeamNumber).ToList();
 
-        // Event handler for editing hours
-        private async void EditHours_Click(object sender, EventArgs e)
-        {
-            if (StudentHoursCollectionView.SelectedItem is StudentHour selectedHour)
-            {
-                // Prompt for date
-                string dateResponse = await DisplayPromptAsync("Edit Hours", $"Please enter a date (M/D/Y) for {selectedHour.StudentName}:", "OK", "Cancel");
-                if (string.IsNullOrEmpty(dateResponse)) return; // User canceled
+            // Bind to CollectionView
+            StudentHoursCollectionView.ItemsSource = sortedStudentHours;
 
-                // Prompt for hours
-                string hoursResponse = await DisplayPromptAsync("Edit Hours", $"Please enter the number of hours for {selectedHour.StudentName}:", "OK", "Cancel");
-                if (string.IsNullOrEmpty(hoursResponse)) return; // User canceled
-
-                // Validate inputs
-                if (DateTime.TryParse(dateResponse, out DateTime date) && decimal.TryParse(hoursResponse, out decimal hours))
-                {
-                    // Here you would implement the logic to update the hours in your data source.
-                    // For example, you could replace the hours for the selected student on the specified date.
-                    await DisplayAlert("Success", $"Updated {selectedHour.StudentName}'s hours to {hours} on {date:MM/dd/yyyy}.", "OK");
-                }
-                else
-                {
-                    await DisplayAlert("Error", "Invalid date or hours input. Please try again.", "OK");
-                }
-            }
-            else
-            {
-                await DisplayAlert("Error", "Please select a student hour to edit.", "OK");
-            }
+           
         }
 
         // Event handler for importing students (not implemented)
         private async void ImportStudents_Click(object sender, EventArgs e)
         {
-            // Implement functionality to import student data from a spreadsheet or file
-            await DisplayAlert("Import Students", "Import Students functionality to be implemented.", "OK");
+            // Prompt for the CSV file path
+            //string filePath = "C:/Users/YourUsername/Documents/file.csv";
+            //string filePath = "C:\\Users\\YourUsername\\Documents\\file.csv";
+            string filePath = await DisplayPromptAsync("File Path", "Please enter a filepath to import CSV data:", "OK", "Cancel");
+            if (string.IsNullOrEmpty(filePath)) return; // User canceled or didn't enter anything
+
+            // Check if file exists
+            if (!File.Exists(filePath))
+            {
+                await DisplayAlert("Error", "File not found. Please make sure the path is correct.", "OK");
+                return;
+            }
+
+            try
+            {
+                var studentsData = new List<string[]>();
+
+                // Read the CSV file line by line
+                using (var reader = new StreamReader(filePath))
+                {
+                    string line;
+
+                    // Read each line in the CSV
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        // Split the line by commas into an array of strings (columns)
+                        var columns = line.Split(',');
+
+                        // Add the row (array of columns) to the studentsData list
+                        studentsData.Add(columns);
+
+
+                        
+                    }
+                }
+
+                // Display success message (optional)
+                await DisplayAlert("Success", $"{studentsData.Count} rows imported successfully!", "OK");
+
+                //process studentsData further
+                foreach (var row in studentsData)
+                {
+                    //Will need to read class teamnumber student name date hour date hour ...etc
+                    Console.WriteLine($"First column: {row[0]}, Second column: {row[1]}, Third column: {row[2]}");
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle errors file format issues, read errors
+                await DisplayAlert("Error", $"An error occurred while importing students: {ex.Message}", "OK");
+            }
         }
+
+
 
         // Event handler for selecting a student to view detailed hours
         private void StudentHoursCollectionView_SelectionChanged(object sender, SelectionChangedEventArgs e)
