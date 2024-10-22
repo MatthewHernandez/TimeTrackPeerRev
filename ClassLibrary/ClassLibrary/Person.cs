@@ -39,7 +39,7 @@ class Student : IPerson
         Name = name;
         UtdID = utdID;
         NetID = netID;
-        _password = netID;
+        _password = utdID;
         Cname = cName;
         Group = group;
     }
@@ -85,7 +85,7 @@ class Professor : IPerson
         Name = name;
         UtdID = utdID;
         NetID = netID;
-        _password = netID;
+        _password = utdID;
         _classes = new List<string>();
     }
 
