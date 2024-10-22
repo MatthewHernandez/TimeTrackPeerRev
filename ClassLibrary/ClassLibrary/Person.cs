@@ -10,149 +10,153 @@
  * Class:   Computer Science Project CS 4485.0W1
  * Net ID:  jxb171030
  * UTD ID:  2021348532
- * Version: 0.1
+ * Version: 0.2
  */
 using System;
 using System.Collections.Generic;
 
-//Interface used by Student and Professor
-interface IPerson
+namespace G81_Library
 {
-    string Name { get; set; }
-    int UtdID { get; set; }
-    string NetID { get; set; }
-
-    //Change password to pass
-    void ChangePassword(string pass);
-    //Check if pass matches Password; return true if it does
-    bool CheckPassword(string pass);
-}
-
-//Represents the data of a student with operations for retrieving or editing it
-class Student : IPerson
-{
-    private string _password;
-
-    //Constructor
-    public Student(string name, int utdID, string netID, string cName, int group)
+    //Interface used by Student and Professor
+    interface IPerson
     {
-        Name = name;
-        UtdID = utdID;
-        NetID = netID;
-        _password = utdID;
-        Cname = cName;
-        Group = group;
+        string Name { get; set; }
+        int UtdID { get; set; }
+        string NetID { get; set; }
+
+        //Change password to pass
+        void ChangePassword(string pass);
+        //Check if pass matches Password; return true if it does
+        bool CheckPassword(string pass);
     }
 
-    //Name property; readable and writeable
-    public string Name { get; set; }
-
-    //UTD ID property; readable and writeable 
-    public int UtdID { get; set; }
-
-    //Net ID property; readable and writeable
-    public string NetID { get; set; }    
-
-    //Class name property; readable and writeable
-    public string Cname { get; set; }
-
-    //Group Number property; readable and writeable
-    public int Group { get; set; }
-
-    //Change _password to pass
-    public void ChangePassword(string pass)
+    //Represents the data of a student with operations for retrieving or editing it
+    class Student : IPerson
     {
-        _password = pass;
+        private string _password;
+
+        //Constructor
+        public Student(string name, int utdID, string netID, string cName, int group)
+        {
+            Name = name;
+            UtdID = utdID;
+            NetID = netID;
+            _password = utdID;
+            Cname = cName;
+            Group = group;
+        }
+
+        //Name property; readable and writeable
+        public string Name { get; set; }
+
+        //UTD ID property; readable and writeable 
+        public int UtdID { get; set; }
+
+        //Net ID property; readable and writeable
+        public string NetID { get; set; }    
+
+        //Class name property; readable and writeable
+        public string Cname { get; set; }
+
+        //Group Number property; readable and writeable
+        public int Group { get; set; }
+
+        //Change _password to pass
+        public void ChangePassword(string pass)
+        {
+            _password = pass;
+        }
+
+        //Check if pass matches Password; return true if it does
+        public bool CheckPassword(string pass)
+        {
+            return pass.Equals(_password);
+        }
     }
 
-    //Check if pass matches Password; return true if it does
-    public bool CheckPassword(string pass)
+    //Represents the data of a professor with operations for retrieving, adding, and editing it
+    class Professor : IPerson
     {
-        return pass.Equals(_password);
-    }
-}
+        private string _password;
+        //The list of classes the professor is incharge of
+        private List<string> _classes;
 
-//Represents the data of a professor with operations for retrieving, adding, and editing it
-class Professor : IPerson
-{
-    private string _password;
-    //The list of classes the professor is incharge of
-    private List<string> _classes;
+        //Constructor
+        public Professor(string name, int utdID, string netID)
+        {
+            Name = name;
+            UtdID = utdID;
+            NetID = netID;
+            _password = utdID;
+            _classes = new List<string>();
+        }
 
-    //Constructor
-    public Professor(string name, int utdID, string netID)
-    {
-        Name = name;
-        UtdID = utdID;
-        NetID = netID;
-        _password = utdID;
-        _classes = new List<string>();
-    }
+        //Name property; readable and writeable
+        public string Name { get; set; }
 
-    //Name property; readable and writeable
-    public string Name { get; set; }
+        //UTD ID property; readable and writeable
+        public int UtdID { get; set; }
 
-    //UTD ID property; readable and writeable
-    public int UtdID { get; set; }
+        //Net ID property; readable and writeable
+        public string NetID { get; set; }
 
-    //Net ID property; readable and writeable
-    public string NetID { get; set; }
-
-    //Change _password to pass
-    public void ChangePassword(string pass)
-    {
-        _password = pass;
-    }
+        //Change _password to pass
+        public void ChangePassword(string pass)
+        {
+            _password = pass;
+        }
     
-    //Check if pass matches Password; return true if it does
-    public bool CheckPassword(string pass)
-    {
-        return pass.Equals(_password);
-    }
-
-    //Check if class c is already the class list and add it if it isn't; return true if added
-    public bool AddClass(string c)
-    {
-        if (_classes.Contains(c))
+        //Check if pass matches Password; return true if it does
+        public bool CheckPassword(string pass)
         {
-            return false;
+            return pass.Equals(_password);
         }
-        _classes.Add(c);
-        return true;
-    }
 
-    //Adds classes from newClasses to the class list using AddClass(); return true if at least 1 was added
-    public bool AddClasses(List<string> newClasses)
-    {
-        bool added = false;
-        foreach(string i in newClasses)
+        //Check if class c is already the class list and add it if it isn't; return true if added
+        public bool AddClass(string c)
         {
-            added = (added | AddClass(i));
+            if (_classes.Contains(c))
+            {
+                return false;
+            }
+            _classes.Add(c);
+            return true;
         }
-        return added;
+
+        //Adds classes from newClasses to the class list using AddClass(); return true if at least 1 was added
+        public bool AddClasses(List<string> newClasses)
+        {
+            bool added = false;
+            foreach(string i in newClasses)
+            {
+                added = (added | AddClass(i));
+            }
+            return added;
+        }
+
+        //Delete the remClass if it's in the class list; return true if successfully deleted
+        public bool RemoveClass(string remClass)
+        {
+            return _classes.Remove(remClass);
+        }
+
+        //Delete all classes from the class list
+        public void RemoveAllClasses()
+        {
+            _classes.Clear();
+        }
+
+        //Return the class list
+        public List<string> GetClasses()
+        {
+            return _classes;
+        }
+
+        //Check if hClass is in the class list; return true if it's present
+        public bool HasClass(string hClass)
+        {
+            return _classes.Contains(hClass);
+        }
     }
 
-    //Delete the remClass if it's in the class list; return true if successfully deleted
-    public bool RemoveClass(string remClass)
-    {
-        return _classes.Remove(remClass);
-    }
-
-    //Delete all classes from the class list
-    public void RemoveAllClasses()
-    {
-        _classes.Clear();
-    }
-
-    //Return the class list
-    public List<string> GetClasses()
-    {
-        return _classes;
-    }
-
-    //Check if hClass is in the class list; return true if it's present
-    public bool HasClass(string hClass)
-    {
-        return _classes.Contains(hClass);
-    }
 }

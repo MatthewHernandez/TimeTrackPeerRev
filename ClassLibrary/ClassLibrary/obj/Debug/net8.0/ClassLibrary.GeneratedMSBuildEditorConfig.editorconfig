@@ -8,6 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = ClassLibrary
-build_property.ProjectDir = D:\School\CS 4485\Project\ClassLibrary\ClassLibrary\
+build_property.ProjectDir = C:\Users\Jesus\Source\Repos\TimeTrackPeerRev\ClassLibrary\ClassLibrary\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
