@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("G81_Library")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4546238f837e060dfa5e33883b6d6f8926459d4e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b483391f8e308863f74bcefe1a375df7e73cb57a")]
 [assembly: System.Reflection.AssemblyProductAttribute("G81_Library")]
 [assembly: System.Reflection.AssemblyTitleAttribute("G81_Library")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
