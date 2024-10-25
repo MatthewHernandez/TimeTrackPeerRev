@@ -1,61 +1,155 @@
-<!--written by William LaFoy for CS4485, Project, 10/9/2024-10/18/2024. NetID wel190000-->
-<!--Base ui for listing classes, listing students' cummulative hours, and list of dates with associated hours-->
+<!--William LaFoy for CS4485, Project, 10/9/2024-10/25/2024. NetID wel190000-->
+<!--Base ui for listing classes, listing students' cummulative hours, and list of dates with associated hours, now includes peer reviews-->
 
-    
+
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="DesktopApp.ClassesAndTimeTracking"
              Title="Classes and Time Tracking">
 
-    <StackLayout Padding="10">
+    <!-- Overall layout using HorizontalStackLayout to place student details and peer reviews on the right side of the student list -->
+    <HorizontalStackLayout Padding="10">
 
-        <!-- Class Selection Picker -->
-        <Label Text="" VerticalOptions="Center" />
-        <Picker x:Name="ClassPicker" Title="Select Class" SelectedIndexChanged="ClassPicker_SelectedIndexChanged" />
-
-        <!-- Header Row -->
-        <StackLayout Orientation="Horizontal" Padding="5">
-            <Label Text="Student Name" WidthRequest="200" FontAttributes="Bold"/>
-            <Label Text="Team Number" WidthRequest="200" FontAttributes="Bold"/>
-            <Label Text="Hours" WidthRequest="100" FontAttributes="Bold"/>
-        </StackLayout>
-
-        <!-- CollectionView for Student Hours with associated Date -->
-        <CollectionView x:Name="StudentHoursCollectionView" SelectionMode="Single" SelectionChanged="StudentHoursCollectionView_SelectionChanged">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <StackLayout Orientation="Horizontal" Padding="5">
-                        <Label Text="{Binding StudentName}" WidthRequest="200"/>
-                        <Label Text="{Binding TeamNumber}" WidthRequest="200"/>
-                        <Label Text="{Binding Hours}" WidthRequest="100"/>
-                    </StackLayout>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-
-        <!-- Edit Hours (for specific student) and Import Buttons -->
-        <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand" Margin="0,10,0,0">
+        <!-- Left side: Student List -->
+        <VerticalStackLayout WidthRequest="400" Margin="0,0,20,0">
+            <!-- Class Selection Picker -->
             
-            <Button Text="Import Students" Clicked="ImportStudents_Click" />
-        </StackLayout>
+            <Picker x:Name="ClassPicker" Title="Select Class" SelectedIndexChanged="ClassPicker_SelectedIndexChanged" />
 
-        <!-- Student Detail Section -->
-        <StackLayout x:Name="StudentDetailStack" IsVisible="False" Margin="0,20,0,0">
+            <!-- Header Row for Students -->
+            <StackLayout Orientation="Horizontal" Padding="5">
+                <Label Text="Student Name" WidthRequest="200" FontAttributes="Bold"/>
+                <Label Text="Team Number" WidthRequest="200" FontAttributes="Bold"/>
+                <Label Text="Hours" WidthRequest="100" FontAttributes="Bold"/>
+            </StackLayout>
+
+            <!-- CollectionView for Student Hours -->
+            <CollectionView x:Name="StudentHoursCollectionView" SelectionMode="Single" SelectionChanged="StudentHoursCollectionView_SelectionChanged">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Orientation="Horizontal" Padding="5">
+                            <Label Text="{Binding StudentName}" WidthRequest="200"/>
+                            <Label Text="{Binding TeamNumber}" WidthRequest="200"/>
+                            <Label Text="{Binding Hours}" WidthRequest="100"/>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            
+            <!-- Edit Hours (for specific student) and Import Buttons -->
+            <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand" Margin="0,10,0,0">
+                <Button Text="Import Students" Clicked="ImportStudents_Click" />
+            </StackLayout>
+            
+            
+        </VerticalStackLayout>
+
+       
+
+        <!-- Middle section: Student Details -->
+        <VerticalStackLayout x:Name="StudentDetailStack" IsVisible="False" WidthRequest="400" Margin="0,0,20,0">
             <Label Text="Student Details" FontSize="Medium" FontAttributes="Bold"/>
             <CollectionView x:Name="HoursCollectionView">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <StackLayout Orientation="Horizontal" Padding="5">
-                            <!-- Date Picker for the Date -->
                             <DatePicker Date="{Binding Date, Mode=TwoWay}" Format="MM/dd/yyyy" WidthRequest="150"/>
-
-                            <!-- Entry for the Hours -->
                             <Entry Text="{Binding Hours, Mode=TwoWay}" Keyboard="Numeric" WidthRequest="100"/>
+                            <Entry Text="{Binding studentinfo, Mode=TwoWay}" Keyboard="Text" WidthRequest="100"/>
                         </StackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-        </StackLayout>
+        </VerticalStackLayout>
 
-    </StackLayout>
+        <HorizontalStackLayout>
+
+            <!-- Left Side: Peer Reviews and Teammates in Selected Review -->
+            <VerticalStackLayout x:Name="PeerReviewStack" WidthRequest="400" Margin="0,0,20,0">
+                <Label Text="Peer Reviews" FontSize="Medium" FontAttributes="Bold" Margin="0,0,0,10"/>
+
+                <!-- Add New Peer Review Button -->
+                <Button Text="Add New Peer Review" 
+                Clicked="AddNewPeerReviewButton_Clicked"
+                Margin="0,0,0,10"
+                />
+
+                <!-- Peer Reviews List -->
+                <CollectionView x:Name="PeerReviewsCollectionView" SelectionMode="Single" SelectionChanged="PeerReviewsCollectionView_SelectionChanged">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout Orientation="Horizontal" Padding="5">
+                                <Label Text="{Binding Timestamp, StringFormat='{}Date: {0:MM/dd/yyyy}'}" WidthRequest="200" FontAttributes="Bold"/>
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <Label Text="Teammates in Selected Peer Review" FontSize="Medium" FontAttributes="Bold" Margin="0,20,0,10"/>
+
+                <!-- Teammates List for Selected Peer Review -->
+                <CollectionView x:Name="TeammatesCollectionView" SelectionMode="Single" SelectionChanged="TeammatesCollectionView_SelectionChanged">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout Orientation="Horizontal" Padding="5">
+                                <Label Text="{Binding TeammateName}" WidthRequest="200"/>
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+            <!-- Right Side: Peer Review Details for Selected Teammate -->
+            <VerticalStackLayout x:Name="PeerReviewDetailsStack" IsVisible="False" WidthRequest="400" Margin="20,0,0,0">
+                <Label Text="Peer Review Details" FontSize="Medium" FontAttributes="Bold" />
+
+                <!-- Header collumn -->
+                <StackLayout Orientation="Horizontal" Padding="5">
+                    <Label Text="Timestamp:" WidthRequest="150" FontAttributes="Bold"/>
+                    <DatePicker Date="{Binding Timestamp, Mode=TwoWay}" Format="MM/dd/yyyy" WidthRequest="150"/>
+                </StackLayout>
+
+                <StackLayout Orientation="Horizontal" Padding="5">
+                    <Label Text="Quality of Work:" WidthRequest="150" FontAttributes="Bold"/>
+                    <Entry Text="{Binding QualityOfWork, Mode=TwoWay}" Keyboard="Numeric" WidthRequest="150"/>
+                </StackLayout>
+
+                <StackLayout Orientation="Horizontal" Padding="5">
+                    <Label Text="Timeliness:" WidthRequest="150" FontAttributes="Bold"/>
+                    <Entry Text="{Binding Timeliness, Mode=TwoWay}" Keyboard="Numeric" WidthRequest="150"/>
+                </StackLayout>
+
+                <StackLayout Orientation="Horizontal" Padding="5">
+                    <Label Text="Communication:" WidthRequest="150" FontAttributes="Bold"/>
+                    <Entry Text="{Binding Communication, Mode=TwoWay}" Keyboard="Numeric" WidthRequest="150"/>
+                </StackLayout>
+
+                <StackLayout Orientation="Horizontal" Padding="5">
+                    <Label Text="Teamwork:" WidthRequest="150" FontAttributes="Bold"/>
+                    <Entry Text="{Binding Teamwork, Mode=TwoWay}" Keyboard="Numeric" WidthRequest="150"/>
+                </StackLayout>
+
+                <StackLayout Orientation="Horizontal" Padding="5">
+                    <Label Text="Effort and Participation:" WidthRequest="150" FontAttributes="Bold"/>
+                    <Entry Text="{Binding EffortParticipation, Mode=TwoWay}" Keyboard="Numeric" WidthRequest="150"/>
+                </StackLayout>
+
+                <!-- Comments for selected team member -->
+                <Label Text="Comments on Teammates" FontSize="Medium" FontAttributes="Bold" Margin="0,20,0,0"/>
+                <CollectionView x:Name="CommentsCollectionView">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout Orientation="Horizontal" Padding="5">
+                                <Label Text="{Binding TeammateName}" WidthRequest="150" />
+                                <Entry Text="{Binding Comment, Mode=TwoWay}" Placeholder="Comment" WidthRequest="300"/>
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+
+        </HorizontalStackLayout>
+        
+    </HorizontalStackLayout>
+
 </ContentPage>
+

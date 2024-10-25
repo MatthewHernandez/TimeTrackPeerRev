@@ -46,7 +46,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
@@ -60,9 +60,22 @@
               "RelativeDocumentMoniker": "ClassesAndTimeTracking.xaml.cs",
               "ToolTip": "D:\\Documents\\repos\\DesktopApp\\ClassesAndTimeTracking.xaml.cs",
               "RelativeToolTip": "ClassesAndTimeTracking.xaml.cs",
-              "ViewState": "AgIAACwAAAAAAAAAAAAkwKMAAABAAAAAAAAAAA==",
+              "ViewState": "AgIAAD0AAAAAAAAAAAAcwBIAAAB9AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-11T14:08:26.056Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ClassesAndTimeTracking.xaml",
+              "DocumentMoniker": "D:\\Documents\\repos\\DesktopApp\\ClassesAndTimeTracking.xaml",
+              "RelativeDocumentMoniker": "ClassesAndTimeTracking.xaml",
+              "ToolTip": "D:\\Documents\\repos\\DesktopApp\\ClassesAndTimeTracking.xaml",
+              "RelativeToolTip": "ClassesAndTimeTracking.xaml",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAAEgAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2024-10-11T14:06:47.554Z",
               "EditorCaption": ""
             },
             {
@@ -89,19 +102,6 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
               "WhenOpened": "2024-10-11T15:18:15.046Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "ClassesAndTimeTracking.xaml",
-              "DocumentMoniker": "D:\\Documents\\repos\\DesktopApp\\ClassesAndTimeTracking.xaml",
-              "RelativeDocumentMoniker": "ClassesAndTimeTracking.xaml",
-              "ToolTip": "D:\\Documents\\repos\\DesktopApp\\ClassesAndTimeTracking.xaml",
-              "RelativeToolTip": "ClassesAndTimeTracking.xaml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACQAAABKAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-10-11T14:06:47.554Z",
               "EditorCaption": ""
             },
             {
