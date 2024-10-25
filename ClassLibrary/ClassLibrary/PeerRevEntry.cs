@@ -1,6 +1,6 @@
 /* PeerRevEntry contains and allows for the viewing and editing of Peer Review entry data.
  * Each entry is created by a student who will input also provide all relevant
- * into. This includes the ...
+ * into. This includes the Ranking, commenting, date and reviewer/reveiwee information.
  * Author:  Matthew Louis Hernandez
  * Date:    10/22/2024
  * Class:   Computer Science Project CS 4485.0W1
@@ -21,7 +21,7 @@ namespace G81_Library
         // Comment of review
         public string Comment { get; set; }
         // Date of review entry
-        public DateOnly Date { get; set; }  // TODO: check if needed
+        public DateOnly Date { get; set; } 
         // Rank of attribute (0 .. 5)
         public int Rank
         {
