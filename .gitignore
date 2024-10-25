@@ -1,2 +1,5 @@
 # macOS system file
 .DS_Store
+
+# visual studio 
+.vs/

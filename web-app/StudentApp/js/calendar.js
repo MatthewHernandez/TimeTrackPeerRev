@@ -1,3 +1,6 @@
+//THIS IS NOT NEEDED FOR WEBPAGE DUE TO MOVING CALENDAR JS TO DASHBOARD.JS, BUT LEAVING FOR NOW FOR DEBUG
+
+
 const monthYear = document.getElementById('monthYear');
 const dates = document.getElementById('dates');
 const prev = document.getElementById('prev');
