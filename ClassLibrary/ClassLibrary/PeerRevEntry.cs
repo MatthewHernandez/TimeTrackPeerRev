@@ -18,12 +18,23 @@ namespace G81_Library
         public Student Reviewer { get; set; }
         // Student to be reviewed
         public Student Reviewee { get; set; }
-        // Rank of attribute (0 .. 5)
-        public int Rank { get; set; }
         // Comment of review
         public string Comment { get; set; }
         // Date of review entry
         public DateOnly Date { get; set; }  // TODO: check if needed
+        // Rank of attribute (0 .. 5)
+        public int Rank
+        {
+            get { return Rank; }
+            set 
+            { 
+                if (newRank == Rank) return;
+                if (newRank <= 0 || newRank >= 5) {
+                    Rank = newRank;
+                    return;
+                } else throw new ArgumentOutOfRangeException("newRank must be <= 0 or >= 5.");
+            }
+        }
 
 
         public PeerRevEntry(Student reviewer, Student reviewee, int rank, string comment, DateOnly date)
@@ -33,34 +44,6 @@ namespace G81_Library
             Rank = rank;
             Comment = comment;
             Date = date;
-        }
-
-        // edit rank and validates newRank value
-        public void EditRank(int newRank) {
-            if (newRank == Rank) return;
-            if (newRank <= 0 || newRank >= 5) {
-                Rank = newRank;
-                return;
-            } else throw new ArgumentOutOfRangeException("newRank must be <= 0 or >= 5.");
-        }
-
-        // edit comment and validate newComment
-        public void EditComment(string newComment) {
-
-            if (newComment.Length >= 0 && newComment.Length <= 500){
-                Comment = newComment;
-                return;
-            } else throw new ArgumentOutOfRangeException("newRank must be <= 0 or >= 5.");
-            
-        }
-
-        // edit Reviewee and validate newReviewee
-        public void EditReviewee(Student newReviewee) {
-            if (newReviewee == null) throw new ArgumentNullException("null newReviewee");
-            if (newReviewee == Reviewee) return;
-            else {
-                Reviewee = newReviewee;
-            }
         }
     }
 }
