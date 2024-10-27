@@ -28,9 +28,9 @@ namespace G81_Library
             get { return Rank; }
             set 
             { 
-                if (newRank == Rank) return;
-                if (newRank <= 0 || newRank >= 5) {
-                    Rank = newRank;
+                if (value == Rank) return;
+                if (value <= 0 || value >= 5) {
+                    Rank = value;
                     return;
                 } else throw new ArgumentOutOfRangeException("newRank must be <= 0 or >= 5.");
             }
