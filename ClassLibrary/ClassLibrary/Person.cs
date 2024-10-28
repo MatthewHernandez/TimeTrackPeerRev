@@ -6,11 +6,11 @@
  * password. Professor contains methods for adding class(es), removing class(es), retrieving classes, and checking if a certain
  * class is already in their class list.
  * Author:  Jesus Barrera-Gilabert III
- * Date:    10/22/2024
+ * Date:    10/27/2024
  * Class:   Computer Science Project CS 4485.0W1
  * Net ID:  jxb171030
  * UTD ID:  2021348532
- * Version: 0.2
+ * Version: 0.3
  */
 
 using System;
@@ -41,7 +41,7 @@ namespace G81_Library
             Name = name;
             UtdID = utdID;
             NetID = netID;
-            _password = netID;
+            _password = Convert.ToString(utdID);
             Cname = cName;
             Group = group;
         }
@@ -87,7 +87,7 @@ namespace G81_Library
             Name = name;
             UtdID = utdID;
             NetID = netID;
-            _password = netID;
+            _password = Convert.ToString(utdID);
             _classes = new List<string>();
         }
 
