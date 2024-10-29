@@ -124,7 +124,8 @@
               "RelativeToolTip": "Desktop_App_For_Professor\\Form_main.cs",
               "ViewState": "AgIAAFQBAAAAAAAAAAAswHEBAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-10T15:24:15.375Z"
+              "WhenOpened": "2024-10-10T15:24:15.375Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -134,7 +135,7 @@
               "RelativeDocumentMoniker": "Desktop_App_For_Professor\\Form_std_work.Designer.cs",
               "ToolTip": "C:\\Users\\rlarh\\source\\repos\\Desktop_App_For_Professor\\Desktop_App_For_Professor\\Form_std_work.Designer.cs",
               "RelativeToolTip": "Desktop_App_For_Professor\\Form_std_work.Designer.cs",
-              "ViewState": "AgIAABkAAAAAAAAAAAAAABkAAAAIAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-25T18:53:51.416Z",
               "EditorCaption": ""
@@ -149,7 +150,8 @@
               "RelativeToolTip": "Desktop_App_For_Professor\\Form_std_work.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-24T16:32:27.116Z"
+              "WhenOpened": "2024-10-24T16:32:27.116Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
