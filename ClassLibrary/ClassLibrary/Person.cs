@@ -103,6 +103,7 @@ namespace G81_Library
             UtdID = utdID;
             NetID = netID;
             _password = Convert.ToString(utdID);
+            Projects = new List<CSProject>;
         }
 
         //Alt-Constructor
@@ -113,6 +114,7 @@ namespace G81_Library
             UtdID = utdID;
             NetID = netID;
             _password = password;
+            Projects = new List<CSProject>;
         }
 
         //First Name property; readable and writeable
@@ -126,6 +128,8 @@ namespace G81_Library
 
         //Net ID property; readable and writeable
         public string NetID { get; set; }
+
+        public List<CSProject> Projects { get; set; }
 
         //Change _password to pass
         public void ChangePassword(string pass)
