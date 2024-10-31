@@ -155,4 +155,22 @@ namespace G81_Library
             this.year = year;
         }
     }
+
+    class CSProject
+    {
+        public int projectNumber;   
+        public string type;
+        public int teamCount;
+        public string company;
+        public string title;
+
+        public CSProject(int projectNumber, string type, string teamCount, string company, string title)
+        {
+            this.projectNumber = projectNumber;
+            this.type = type;
+            this.teamCount = teamCount;
+            this.company = company;
+            this.title = title;
+        }
+    }
 }
