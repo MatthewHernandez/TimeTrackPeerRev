@@ -5,12 +5,12 @@
  * methods. Passwords can be set but can't be retrieved; a password must be provided in order to check that it matches the Person's
  * password. Professor contains methods for adding class(es), removing class(es), retrieving classes, and checking if a certain
  * class is already in their class list.
- * Author:  Jesus Barrera-Gilabert III
- * Date:    10/29/2024
+ * Authors:  Jesus Barrera-Gilabert III, Matthew Hernandez
+ * Date:    10/31/2024
  * Class:   Computer Science Project CS 4485.0W1
  * Net ID:  jxb171030
  * UTD ID:  2021348532
- * Version: 0.4
+ * Version: 0.5
  */
 
 namespace G81_Library
@@ -129,6 +129,7 @@ namespace G81_Library
         //Net ID property; readable and writeable
         public string NetID { get; set; }
 
+        //Project property; readable and writeable
         public List<CSProject> Projects { get; set; }
 
         //Change _password to pass
@@ -160,6 +161,7 @@ namespace G81_Library
         }
     }
 
+    // Represents the projects what will be in managed by Professors and assigned to Students
     class CSProject
     {
         public int projectNumber;   
