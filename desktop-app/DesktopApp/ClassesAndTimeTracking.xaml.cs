@@ -5,6 +5,9 @@ using Microsoft.Maui.Controls;
 using System.IO;
 using System.Linq;
 
+using MySql.Data.MySqlClient;
+using System.Data;//Mysql
+
 namespace DesktopApp
 {
     public partial class ClassesAndTimeTracking : ContentPage
@@ -17,7 +20,94 @@ namespace DesktopApp
         10/18 now allows you to select cells with ease and modify the date hour etc.
 
         10/25 now displays peer reviews, button to make a new peer review exists, but functionality will depend on sql calls.
+         
+         10/30 features backend connectivity with mysql, used gwangmo's code and info to jumpstart this.
          */
+
+        
+
+
+        private int professorId; // Store the professor ID
+        
+
+        // Constructor that takes professorId as a parameter
+        public ClassesAndTimeTracking(int professorId)
+        {
+            InitializeComponent();
+            this.professorId = professorId; // Store the professor ID
+            LoadClasses(); // Load classes on initialization
+        }
+
+        // Method to load classes into the Picker
+        private void LoadClasses()
+        {
+            // Load classes associated with the professor
+            var classes = GetClassesForProfessor(professorId);
+            ClassPicker.ItemsSource = classes;
+        }
+
+        // Get classes from the database
+        private List<ClassInfo> GetClassesForProfessor(int professorId)
+        {
+            var classes = new List<ClassInfo>();
+            string connectionString = "server=localhost;uid=root;pwd=kotori1430;database=test_schema";
+
+            using (var connection = new MySqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    string query = "SELECT id, class_name FROM class WHERE professor_id = @professorId";
+                    using (var cmd = new MySqlCommand(query, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@professorId", professorId);
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                classes.Add(new ClassInfo
+                                {
+                                    ClassId = reader.GetInt32(0), // Assuming id is the first column
+                                    ClassName = reader.GetString(1) // Assuming class_name is the second column
+                                });
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Handle exceptions (e.g., log them)
+                    Console.WriteLine($"Error: {ex.Message}");
+                }
+            }
+
+            return classes; // Return the list of class info
+        }
+
+
+        // Class to hold class information
+        public class ClassInfo
+        {
+            public int ClassId { get; set; }
+            public string ClassName { get; set; }
+
+            public override string ToString() => ClassName; // This makes the ClassPicker display class names
+        }
+
+
+        // Event handler when the class is selected
+        private void ClassPicker_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ClassPicker.SelectedItem is ClassInfo selectedClass)
+            {
+                LoadStudentHours(selectedClass.ClassId);
+            }
+        }
+
+
+
+
+
 
         // Sample data structure for student hours
         public class StudentHour
@@ -28,53 +118,69 @@ namespace DesktopApp
             public int TeamNumber { get; set; }
             public decimal Hours { get; set; }
 
-           // public string studentinfo { get; set; }
+            public int StudentId { get; set; }
+            public int ClassId { get; set; }
+            // public string studentinfo { get; set; }
         }
 
-       
-
-        // Constructor
-        public ClassesAndTimeTracking()
-        {
-            InitializeComponent();
-            LoadClasses(); // Load classes on initialization
-        }
-
-        // Method to load classes into the Picker
-        private void LoadClasses()
-        {
-            // This should be replaced with a database call to get classes taught by the professor
-            var classes = new List<string> { "Class 1", "Class 2", "Class 3" };
-            ClassPicker.ItemsSource = classes;
-        }
-
-        // Event handler when the class is selected
-        private void ClassPicker_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (ClassPicker.SelectedItem != null)
-            {
-                LoadStudentHours(ClassPicker.SelectedItem.ToString());
-            }
-        }
 
         // Method to load student hours based on selected class
-        private void LoadStudentHours(string className)
+        private void LoadStudentHours(int classId)
         {
-            // This should be replaced with a database call to get students & hours based on className
-            var studentHours = new List<StudentHour>
-            {
-                new StudentHour { StudentName = "William LaFoy", TeamNumber = 1, Hours = 9 },
-                new StudentHour { StudentName = "abc xyz", TeamNumber = 1, Hours = 9 }
-            };
+            var studentHours = new List<StudentHour>();
+            string connectionString = "server=localhost;uid=root;pwd=kotori1430;database=test_schema";
 
-            // Sort and group each team with their associated students
-            var sortedStudentHours = studentHours.OrderBy(sh => sh.TeamNumber).ToList();
+            using (var connection = new MySqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    string query = @"
+        SELECT 
+            s.id,            
+            s.first_name, 
+            s.last_name, 
+            s.team_id, 
+            SUM(sh.hours) AS TotalHours
+        FROM student_hours sh
+        JOIN student s ON sh.student_id = s.id
+        WHERE sh.class_id = @classId
+        GROUP BY s.id, s.team_id
+        ORDER BY s.last_name, s.first_name"; // Ordering by last and first name
+
+                    using (var cmd = new MySqlCommand(query, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@classId", classId);
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                studentHours.Add(new StudentHour
+                                {
+                                    StudentName = $"{reader.GetString(1)} {reader.GetString(2)}", // Combining first and last name
+                                    TeamNumber = reader.GetInt32(3), // Assuming team_id is the fourth column
+                                    Hours = reader.GetDecimal(4), // Total hours worked in the selected class
+                                    StudentId = reader.GetInt32(0), // Student ID is the first column
+                                    ClassId = classId // Class ID is passed in as a method parameter
+                                });
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Handle exceptions (e.g., log them)
+                    Console.WriteLine($"Error: {ex.Message}");
+                }
+            }
 
             // Bind to CollectionView
-            StudentHoursCollectionView.ItemsSource = sortedStudentHours;
-
-           
+            StudentHoursCollectionView.ItemsSource = studentHours.OrderBy(sh => sh.TeamNumber).ThenBy(sh => sh.StudentName).ToList(); // Sorting by team number and name
         }
+
+
+
+
 
         // Event handler for importing students (not implemented)
         private async void ImportStudents_Click(object sender, EventArgs e)
@@ -134,15 +240,7 @@ namespace DesktopApp
 
 
 
-        // Event handler for selecting a student to view detailed hours
-        private void StudentHoursCollectionView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (e.CurrentSelection.Count > 0 && e.CurrentSelection[0] is StudentHour selectedHour)
-            {
-                LoadStudentDetails(selectedHour.StudentName);
-                LoadPeerReviews(selectedHour.StudentName); // Load peer reviews for the selected student
-            }
-        }
+
 
 
 
@@ -156,7 +254,15 @@ namespace DesktopApp
         /// 
 
 
-
+        // Event handler for selecting a student to view detailed hours
+        private void StudentHoursCollectionView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.CurrentSelection.Count > 0 && e.CurrentSelection[0] is StudentHour selectedHour)
+            {
+                LoadStudentDetails(selectedHour.StudentId, selectedHour.ClassId);
+                LoadPeerReviews(selectedHour.StudentId, selectedHour.ClassId); // Load peer reviews for the selected student
+            }
+        }
 
 
 
@@ -216,35 +322,69 @@ namespace DesktopApp
 
 
         // Method to load details for the selected student
-        private void LoadStudentDetails(string studentName)
+        private void LoadStudentDetails(int studentId, int classId)
         {
-            // This should be replaced with a database call to get specific dates and hours for the selected student
-            var hours = new List<StudentHourDetail>
-            {
-                new StudentHourDetail { Date = DateTime.Today.AddDays(-1), Hours = 3, studentinfo = "Did x, y, z" },
-                new StudentHourDetail { Date = DateTime.Today.AddDays(-2), Hours = 2, studentinfo = "Did x, y, z" },
-                new StudentHourDetail { Date = DateTime.Today.AddDays(-3), Hours = 4, studentinfo = "Did x, y, z" }
-            };
+            var hours = new List<StudentHourDetail>();
+            string connectionString = "server=localhost;uid=root;pwd=kotori1430;database=test_schema";
 
-            HoursCollectionView.ItemsSource = hours; // Bind to CollectionView
+            using (var connection = new MySqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    string query = @"
+            SELECT 
+                sh.date, 
+                sh.hours, 
+                sh.comments 
+            FROM student_hours sh
+            WHERE sh.student_id = @studentId AND sh.class_id = @classId
+            ORDER BY sh.date DESC"; // Order by date for latest first
+
+                    using (var cmd = new MySqlCommand(query, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@studentId", studentId);
+                        cmd.Parameters.AddWithValue("@classId", classId);
+
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                hours.Add(new StudentHourDetail
+                                {
+                                    Date = reader.GetDateTime(0), // Date is the first column
+                                    Hours = reader.GetDecimal(1), // Hours is the second column
+                                    studentinfo = reader.IsDBNull(2) ? string.Empty : reader.GetString(2) // Comments is the third column
+                                });
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Handle exceptions (e.g., log them)
+                    Console.WriteLine($"Error: {ex.Message}");
+                }
+            }
+
+            // Bind to CollectionView
+            HoursCollectionView.ItemsSource = hours; // Bind the list of hours to the CollectionView
             StudentDetailStack.IsVisible = true; // Show the details stack
             PeerReviewStack.IsVisible = true; // Show the peer review stack
         }
 
 
-        
+
+
+
         ///
         ///Peer reviews section
         ///
         public class PeerReview
         {
             public DateTime Timestamp { get; set; } // The deadline or timestamp of the review
-            public int QualityOfWork { get; set; }
-            public int Timeliness { get; set; }
-            public int Communication { get; set; }
-            public int Teamwork { get; set; }
-            public int EffortParticipation { get; set; }
 
+           
             public List<TeamMemberComment> TeamMemberComments { get; set; } // Comments for each team member
         }
 
@@ -252,49 +392,110 @@ namespace DesktopApp
         {
             public string TeammateName { get; set; }
             public string Comment { get; set; }
+
+            public int QualityOfWork { get; set; }
+            public int Timeliness { get; set; }
+            public int Communication { get; set; }
+            public int Teamwork { get; set; }
+            public int EffortParticipation { get; set; }
+
+            public int TeammateId { get; set; }
         }
 
 
 
         // Loading peer reviews for a student
-        private void LoadPeerReviews(string studentName)
+        private void LoadPeerReviews(int studentId, int classId)
         {
-            // Sample peer reviews for demonstration
-            var peerReviews = new List<PeerReview>
-    {
-        new PeerReview
-        {
-            Timestamp = DateTime.Today.AddDays(-10),
-            QualityOfWork = 5,
-            Timeliness = 5,
-            Communication = 5,
-            Teamwork = 5,
-            EffortParticipation = 5,
-            TeamMemberComments = new List<TeamMemberComment>
+            var peerReviews = new List<PeerReview>();
+            string connectionString = "server=localhost;uid=root;pwd=kotori1430;database=test_schema";
+
+            using (var connection = new MySqlConnection(connectionString))
             {
-                new TeamMemberComment { TeammateName = "William LaFoy", Comment = "Excellent work!" },
-                new TeamMemberComment { TeammateName = "abc xyz", Comment = "Needs improvement." }
+                try
+                {
+                    connection.Open();
+                    string query = @"
+        SELECT 
+            pr.review_date AS Timestamp,
+            pr.qual_of_work_rating AS QualityOfWork,
+            pr.timeliness_rating AS Timeliness,
+            pr.communication_rating AS Communication,
+            pr.teamwork_rating AS Teamwork,
+            pr.eff_and_part_rating AS EffortParticipation,
+            pr.comments AS ReviewComments,
+            r.first_name AS ReviewerFirstName,
+            r.last_name AS ReviewerLastName,
+            e.first_name AS RevieweeFirstName,
+            e.last_name AS RevieweeLastName
+        FROM 
+            test_schema.peer_review pr
+        JOIN 
+            test_schema.student r ON pr.reviewer_id = r.id  -- Reviewer details
+        JOIN 
+            test_schema.student e ON pr.reviewee_id = e.id  -- Reviewee details
+        WHERE 
+            pr.reviewee_id = @studentId 
+            AND pr.class_id = @classId
+        ORDER BY 
+            pr.review_date DESC;";  // Order by review date
+
+                    using (var cmd = new MySqlCommand(query, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@studentId", studentId);
+                        cmd.Parameters.AddWithValue("@classId", classId);
+
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                // Get the review timestamp
+                                var reviewTimestamp = reader.GetDateTime("Timestamp");
+
+                                // Check if the peer review already exists
+                                var existingPeerReview = peerReviews.FirstOrDefault(pr => pr.Timestamp == reviewTimestamp);
+
+                                if (existingPeerReview == null)
+                                {
+                                    // Create a new peer review if it does not exist
+                                    existingPeerReview = new PeerReview
+                                    {
+                                        Timestamp = reviewTimestamp,
+                                        TeamMemberComments = new List<TeamMemberComment>() // Initialize the comments list
+                                    };
+
+                                    // Add the new peer review to the list
+                                    peerReviews.Add(existingPeerReview);
+                                }
+
+                                // Now add the comment to the existing or newly created peer review
+                                existingPeerReview.TeamMemberComments.Add(new TeamMemberComment
+                                {
+                                    // Use the reviewee's name as the TeammateName
+                                    TeammateName = $"{reader.GetString("RevieweeFirstName")} {reader.GetString("RevieweeLastName")}",
+                                    Comment = reader.GetString("ReviewComments"),
+                                    QualityOfWork = reader.GetInt32("QualityOfWork"),
+                                    Timeliness = reader.GetInt32("Timeliness"),
+                                    Communication = reader.GetInt32("Communication"),
+                                    Teamwork = reader.GetInt32("Teamwork"),
+                                    EffortParticipation = reader.GetInt32("EffortParticipation")
+                                });
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Handle exceptions (e.g., log them)
+                    Console.WriteLine($"Error: {ex.Message}");
+                }
             }
-        },
-        new PeerReview
-        {
-            Timestamp = DateTime.Today.AddDays(-20),
-            QualityOfWork = 4,
-            Timeliness = 3,
-            Communication = 4,
-            Teamwork = 4,
-            EffortParticipation = 4,
-            TeamMemberComments = new List<TeamMemberComment>
-            {
-                new TeamMemberComment { TeammateName = "William LaFoy", Comment = "Solid teamwork." },
-                new TeamMemberComment { TeammateName = "abc xyz", Comment = "Great communication." }
-            }
-        }
-    };
 
             // Bind peer reviews to PeerReviewsCollectionView
             PeerReviewsCollectionView.ItemsSource = peerReviews;
         }
+
+
 
         // Event handler for selecting a peer review
         private void PeerReviewsCollectionView_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -309,6 +510,7 @@ namespace DesktopApp
         }
 
         // Event handler for selecting a teammate
+        
         private void TeammatesCollectionView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (e.CurrentSelection.Count > 0 && e.CurrentSelection[0] is TeamMemberComment selectedTeammate)
@@ -317,8 +519,13 @@ namespace DesktopApp
 
                 // Bind comments to CommentsCollectionView for the selected teammate
                 CommentsCollectionView.ItemsSource = (PeerReviewDetailsStack.BindingContext as PeerReview)?.TeamMemberComments;
-            }
+            
+                // Set the binding context to the selected teammate
+                PeerReviewDetailsStack.BindingContext = selectedTeammate;
+
+                }
         }
+
 
 
 
