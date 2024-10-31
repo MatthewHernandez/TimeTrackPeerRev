@@ -297,62 +297,64 @@ namespace Desktop_App_For_Professor
 
             //10/22 newversion.
             //save selected class id into professor's session.
-            try
+            if (comboBoxClasses.Text != "") //none data
             {
-                db.openConnection();
-
-                // Get the selected class name from ComboBox
-                string selectedClass = comboBoxClasses.SelectedItem.ToString();
-
-                // Query to get the class ID for the selected class
-                string classIdQuery = "SELECT id FROM class WHERE class_name = @class_name AND professor_id = @prof_id";
-                MySqlCommand classIdCommand = new MySqlCommand(classIdQuery, db.getConnection);
-                classIdCommand.Parameters.AddWithValue("@class_name", selectedClass);
-                classIdCommand.Parameters.AddWithValue("@prof_id", ProfessorSession.ProfessorId);
-
-                // Execute the query to get the class ID
-                object result = classIdCommand.ExecuteScalar();
-
-                if (result != null)
+                try
                 {
-                    // Save the class ID in the session
-                    ProfessorSession.curClass = Convert.ToInt32(result);
+                    db.openConnection();
 
-                    // Query to get the students enrolled in the selected class
-                    string query = @"
+                    // Get the selected class name from ComboBox
+                    string selectedClass = comboBoxClasses.SelectedItem.ToString();
+
+                    // Query to get the class ID for the selected class
+                    string classIdQuery = "SELECT id FROM class WHERE class_name = @class_name AND professor_id = @prof_id";
+                    MySqlCommand classIdCommand = new MySqlCommand(classIdQuery, db.getConnection);
+                    classIdCommand.Parameters.AddWithValue("@class_name", selectedClass);
+                    classIdCommand.Parameters.AddWithValue("@prof_id", ProfessorSession.ProfessorId);
+
+                    // Execute the query to get the class ID
+                    object result = classIdCommand.ExecuteScalar();
+
+                    if (result != null)
+                    {
+                        // Save the class ID in the session
+                        ProfessorSession.curClass = Convert.ToInt32(result);
+
+                        // Query to get the students enrolled in the selected class
+                        string query = @"
                 SELECT s.id, s.first_name, s.last_name, s.email
                 FROM student_class_enrolled sc
                 JOIN student s ON sc.student_id = s.id
                 JOIN class c ON sc.class_id = c.id
                 WHERE c.class_name = @class_name AND c.professor_id = @prof_id";
 
-                    MySqlCommand command = new MySqlCommand(query, db.getConnection);
-                    command.Parameters.AddWithValue("@class_name", selectedClass);
-                    command.Parameters.AddWithValue("@prof_id", ProfessorSession.ProfessorId);
+                        MySqlCommand command = new MySqlCommand(query, db.getConnection);
+                        command.Parameters.AddWithValue("@class_name", selectedClass);
+                        command.Parameters.AddWithValue("@prof_id", ProfessorSession.ProfessorId);
 
-                    MySqlDataAdapter adapter = new MySqlDataAdapter(command);
-                    DataTable studentTable = new DataTable();
+                        MySqlDataAdapter adapter = new MySqlDataAdapter(command);
+                        DataTable studentTable = new DataTable();
 
-                    // Fill the DataTable with the query result
-                    adapter.Fill(studentTable);
+                        // Fill the DataTable with the query result
+                        adapter.Fill(studentTable);
 
-                    // Bind the DataTable to the DataGridView
-                    dataGridViewStudents.DataSource = studentTable;
+                        // Bind the DataTable to the DataGridView
+                        dataGridViewStudents.DataSource = studentTable;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Selected class ID not found.");
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    MessageBox.Show("Selected class ID not found.");
+                    MessageBox.Show("Error loading students: " + ex.Message);
+                }
+                finally
+                {
+                    db.closeConnection();
                 }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error loading students: " + ex.Message);
-            }
-            finally
-            {
-                db.closeConnection();
-            }
-
         }
 
         private void label1_Click(object sender, EventArgs e)

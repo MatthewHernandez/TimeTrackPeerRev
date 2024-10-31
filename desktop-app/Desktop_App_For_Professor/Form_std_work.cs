@@ -13,9 +13,74 @@ namespace Desktop_App_For_Professor
 {
     public partial class Form_std_work : Form
     {
+
         public Form_std_work()
         {
             InitializeComponent();
+
+            //Cell double click then edit form open
+            dataGridView_stdwork.CellDoubleClick += DataGridView_stdwork_CellDoubleClick;
+        }
+
+        //Work Hour Cell Double Click
+        private void DataGridView_stdwork_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            /* //previersion 10/31/2024
+            //throw new NotImplementedException();
+            if (e.RowIndex >= 0)
+            {
+                // Get the selected row
+                DataGridViewRow selectedRow = dataGridView_stdwork.Rows[e.RowIndex];
+
+                // Retrieve the student data from the selected row
+                //int studentId = Convert.ToInt32(selectedRow.Cells["id"].Value);         // Assuming "id" is the name of the column
+                //string firstName = selectedRow.Cells["first_name"].Value.ToString();   // Assuming "first_name" is the column name
+                //string lastName = selectedRow.Cells["last_name"].Value.ToString();     // Assuming "last_name" is the column name
+               //string email = selectedRow.Cells["email"].Value.ToString();            // Assuming "email" is the column name
+
+                DateTime date = Convert.ToDateTime(selectedRow.Cells["date"].Value);
+                decimal hour = Convert.ToDecimal(selectedRow.Cells["hours"].Value);
+                int workId = Convert.ToInt32(selectedRow.Cells["work_id"].Value);
+                string desc = selectedRow.Cells["description"].Value.ToString();
+
+                // Store the retrieved data in the STUDENT class
+                STUDENT.workId = workId;
+                STUDENT.workDate = date;
+                STUDENT.workHour = hour;
+                STUDENT.workDescrip = desc;
+                
+
+                // Optionally, display a message or take another action
+                //MessageBox.Show($"Selected Student:\nID: {studentId}\nName: {firstName} {lastName}\nEmail: {email}");
+
+                // Open Work Hours Form (Students)
+                Form_std_work_edit workStdInfo = new Form_std_work_edit();
+                workStdInfo.Show(this);
+            }
+            */
+
+            //version 10/31/2024
+            // Ensure the row is valid (not a header or empty)
+            if (e.RowIndex >= 0)
+            {
+                // Get the selected row
+                DataGridViewRow selectedRow = dataGridView_stdwork.Rows[e.RowIndex];
+
+                // Retrieve the selected work hour data from the row
+                STUDENT.workId = Convert.ToInt32(selectedRow.Cells["work_id"].Value);          // Assuming "work_id" is the column name
+                STUDENT.workDate = Convert.ToDateTime(selectedRow.Cells["date"].Value);        // Assuming "date" is the column name
+                STUDENT.workHour = Convert.ToDecimal(selectedRow.Cells["hours"].Value);        // Assuming "hours" is the column name
+                STUDENT.workDescrip = selectedRow.Cells["description"].Value.ToString();       // Assuming "description" is the column name
+
+                // Open the edit form
+                Form_std_work_edit workStdInfo = new Form_std_work_edit();
+
+                // Subscribe to the WorkHoursUpdated event
+                workStdInfo.WorkHoursUpdated += LoadStudentWorkHours;
+
+                // Show the edit form as a modal dialog
+                workStdInfo.ShowDialog();
+            }
         }
 
         private void Form_std_work_Load(object sender, EventArgs e)

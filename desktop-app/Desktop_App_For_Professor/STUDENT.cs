@@ -19,6 +19,11 @@ namespace Desktop_App_For_Professor
         public static string FirstName { get; set; }
         public static string LastName { get; set; }
         public static string Email { get; set; }
+        public static DateTime workDate { get; set; }
+        public static Decimal workHour { get; set; }
+        public static string workDescrip { get; set; }
+        public static int workId { get; set; }
+
 
         // Optionally, you can add a method to clear the data if needed
         public static void ClearStudentInfo()
@@ -29,6 +34,10 @@ namespace Desktop_App_For_Professor
             Email = string.Empty;
         }
 
+        //edit work hour
+        public bool editWork() { return true; }
+
+        //insert New Student info
         public bool insertStudent(String std_first, String std_last, String std_user, Int64 std_id, String std_email) // String std_tid //if use team_id
         {
             MySqlCommand command = new MySqlCommand("INSERT INTO student(first_name, last_name, username, id, email, team_id) VALUES (@fn,@ln,@usr,@sid,@smail, @tid)", db.getConnection);
