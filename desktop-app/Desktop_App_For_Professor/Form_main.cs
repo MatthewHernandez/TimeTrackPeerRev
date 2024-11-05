@@ -371,5 +371,12 @@ namespace Desktop_App_For_Professor
         {
 
         }
+
+        private void button_spread_Click(object sender, EventArgs e)
+        {
+            // Open Spreadsheet
+            Form_spsh spsheet = new Form_spsh();
+            spsheet.Show(this);
+        }
     }
 }

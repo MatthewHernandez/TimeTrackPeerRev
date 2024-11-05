@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,8 @@ namespace Desktop_App_For_Professor
 
         //current std info
         public static int Id { get; set; }
+        
+        public static string User {  get; set; } 
         public static string FirstName { get; set; }
         public static string LastName { get; set; }
         public static string Email { get; set; }

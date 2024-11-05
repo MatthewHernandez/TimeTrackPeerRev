@@ -56,6 +56,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Form_spsh.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_spsh.Designer.cs">
+      <DependentUpon>Form_spsh.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form_spsh_add.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_spsh_add.Designer.cs">
+      <DependentUpon>Form_spsh_add.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form_std_add.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -102,6 +114,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form_main.resx">
       <DependentUpon>Form_main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form_spsh.resx">
+      <DependentUpon>Form_spsh.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form_spsh_add.resx">
+      <DependentUpon>Form_spsh_add.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form_std_add.resx">
       <DependentUpon>Form_std_add.cs</DependentUpon>
