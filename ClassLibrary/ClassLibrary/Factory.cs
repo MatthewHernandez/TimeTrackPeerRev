@@ -28,9 +28,9 @@ namespace G81_Library
         }
 
         //Creates a Student entity and stores it in the database
-        Student? CreateStudent(string fname, string lname, string netID, int utdID, CSClass cName, int group)
+        Student? CreateStudent(string fname, string lname, string netID, int utdID, float cID, int group)
         {
-            string sCom = "INSERT INTO" + _StudentDB + "([FirstName], [LastName], [NetID], [UTDID], [Password], [CName], [Group]) VALUES(@first, @last, @net, @utd, @pass, @cn, @group)";
+            string sCom = "INSERT INTO" + _StudentDB + "([FirstName], [LastName], [NetID], [UTDID], [Password], [CID], [Group]) VALUES(@first, @last, @net, @utd, @pass, @c, @group)";
 
             using (SqlConnection cnn = new SqlConnection(_SqlCon))
             {
@@ -47,7 +47,7 @@ namespace G81_Library
                             cmd.Parameters.AddWithValue("@net", netID);
                             cmd.Parameters.AddWithValue("@utd", utdID);
                             cmd.Parameters.AddWithValue("@pass", Convert.ToString(utdID));
-                            cmd.Parameters.AddWithValue("@cn", cName.name);
+                            cmd.Parameters.AddWithValue("@c", cID);
                             cmd.Parameters.AddWithValue("@group", group);
 
                             if(cmd.ExecuteNonQuery() <= 0)
@@ -57,7 +57,7 @@ namespace G81_Library
                         }
                         catch
                         {
-                            throw new Exception("Failed to Create SqlCommand Object");
+                            throw new Exception("CreateStudent: Failed to Create SqlCommand Object");
                         }
                     }
                 }
@@ -67,7 +67,7 @@ namespace G81_Library
                 }
             }
 
-                return new Student(fname, lname, utdID, netID, cName, group);
+                return new Student(fname, lname, utdID, netID, cID, group);
         }
 
         //Creates a Professor entity and stores it in the database

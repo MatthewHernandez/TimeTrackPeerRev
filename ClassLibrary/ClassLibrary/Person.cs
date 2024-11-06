@@ -6,7 +6,7 @@
  * password. Professor contains methods for adding class(es), removing class(es), retrieving classes, and checking if a certain
  * class is already in their class list.
  * Authors:  Jesus Barrera-Gilabert III, Matthew Hernandez
- * Date:    10/31/2024
+ * Date:    11/06/2024
  * Class:   Computer Science Project CS 4485.0W1
  * Net ID:  jxb171030
  * UTD ID:  2021348532
@@ -34,27 +34,27 @@ namespace G81_Library
     {
         private string _password;
 
-        //Constructor
-        public Student(string fname, string lname, int utdID, string netID, CSClass cName, int group)
+        //Constructor (new student)
+        public Student(string fname, string lname, int utdID, string netID, float cID, int group)
         {
             FirstName = fname;
             LastName = lname;
             UtdID = utdID;
             NetID = netID;
             _password = Convert.ToString(utdID);
-            Cname = cName;
+            CID = cID;
             Group = group;
         }
 
-        //Alt-Constructor
-        public Student(string fname, string lname, int utdID, string netID, CSClass cName, int group, string password)
+        //Alt-Constructor (existing student)
+        public Student(string fname, string lname, int utdID, string netID, float cID, int group, string password)
         {
             FirstName = fname;
             LastName = lname;
             UtdID = utdID;
             NetID = netID;
             _password = Convert.ToString(utdID);
-            Cname = cName;
+            CID = cID;
             Group = group;
             _password = password;
         }
@@ -72,7 +72,7 @@ namespace G81_Library
         public string NetID { get; set; }    
 
         //Class name property; readable and writeable
-        public CSClass Cname { get; set; }
+        public float CID { get; set; }
 
         //Group Number property; readable and writeable
         public int Group { get; set; }
@@ -95,7 +95,7 @@ namespace G81_Library
     {
         private string _password;
 
-        //Constructor
+        //Constructor (new professor)
         public Professor(string fname, string lname, int utdID, string netID)
         {
             FirstName = fname;
@@ -103,10 +103,10 @@ namespace G81_Library
             UtdID = utdID;
             NetID = netID;
             _password = Convert.ToString(utdID);
-            Projects = new List<CSProject>;
+            //Projects = new List<CSProject>();
         }
 
-        //Alt-Constructor
+        //Alt-Constructor (existing professor)
         public Professor(string fname, string lname, int utdID, string netID, string password)
         {
             FirstName = fname;
@@ -114,7 +114,7 @@ namespace G81_Library
             UtdID = utdID;
             NetID = netID;
             _password = password;
-            Projects = new List<CSProject>;
+            //Projects = new List<CSProject>();
         }
 
         //First Name property; readable and writeable
@@ -130,7 +130,7 @@ namespace G81_Library
         public string NetID { get; set; }
 
         //Project property; readable and writeable
-        public List<CSProject> Projects { get; set; }
+        //public List<CSProject> Projects { get; set; }
 
         //Change _password to pass
         public void ChangePassword(string pass)
@@ -145,6 +145,7 @@ namespace G81_Library
         }
     }
 
+    /*
     //Represents the classes a Professor is in charge of and Students are a part of
     class CSClass
     {
@@ -161,6 +162,8 @@ namespace G81_Library
         }
     }
 
+
+
     // Represents the projects what will be in managed by Professors and assigned to Students
     class CSProject
     {
@@ -170,7 +173,7 @@ namespace G81_Library
         public string company;
         public string title;
 
-        public CSProject(int projectNumber, string type, string teamCount, string company, string title)
+        public CSProject(int projectNumber, string type, int teamCount, string company, string title)
         {
             this.projectNumber = projectNumber;
             this.type = type;
@@ -179,4 +182,5 @@ namespace G81_Library
             this.title = title;
         }
     }
+    */
 }

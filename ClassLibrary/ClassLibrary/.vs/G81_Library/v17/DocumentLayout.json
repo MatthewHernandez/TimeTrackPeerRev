@@ -3,24 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\Jesus\\source\\repos\\TimeTrackPeerRev\\ClassLibrary\\ClassLibrary\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{7F188D0C-3767-4E18-9668-61A2FC9DF89A}|G81_Library.csproj|c:\\users\\jesus\\source\\repos\\timetrackpeerrev\\classlibrary\\classlibrary\\g81_library.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{7F188D0C-3767-4E18-9668-61A2FC9DF89A}|G81_Library.csproj|solutionrelative:g81_library.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{7F188D0C-3767-4E18-9668-61A2FC9DF89A}|G81_Library.csproj|c:\\users\\jesus\\source\\repos\\timetrackpeerrev\\classlibrary\\classlibrary\\factory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7F188D0C-3767-4E18-9668-61A2FC9DF89A}|G81_Library.csproj|solutionrelative:factory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7F188D0C-3767-4E18-9668-61A2FC9DF89A}|G81_Library.csproj|c:\\users\\jesus\\source\\repos\\timetrackpeerrev\\classlibrary\\classlibrary\\person.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7F188D0C-3767-4E18-9668-61A2FC9DF89A}|G81_Library.csproj|solutionrelative:person.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{7F188D0C-3767-4E18-9668-61A2FC9DF89A}|G81_Library.csproj|c:\\users\\jesus\\source\\repos\\timetrackpeerrev\\classlibrary\\classlibrary\\timeentry.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7F188D0C-3767-4E18-9668-61A2FC9DF89A}|G81_Library.csproj|solutionrelative:timeentry.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7F188D0C-3767-4E18-9668-61A2FC9DF89A}|G81_Library.csproj|c:\\users\\jesus\\source\\repos\\timetrackpeerrev\\classlibrary\\classlibrary\\peerreventry.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7F188D0C-3767-4E18-9668-61A2FC9DF89A}|G81_Library.csproj|solutionrelative:peerreventry.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7F188D0C-3767-4E18-9668-61A2FC9DF89A}|G81_Library.csproj|c:\\users\\jesus\\source\\repos\\timetrackpeerrev\\classlibrary\\classlibrary\\timeentry.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7F188D0C-3767-4E18-9668-61A2FC9DF89A}|G81_Library.csproj|solutionrelative:timeentry.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{7F188D0C-3767-4E18-9668-61A2FC9DF89A}|G81_Library.csproj|c:\\users\\jesus\\source\\repos\\timetrackpeerrev\\classlibrary\\classlibrary\\person.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7F188D0C-3767-4E18-9668-61A2FC9DF89A}|G81_Library.csproj|solutionrelative:person.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -63,64 +59,51 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "G81_Library",
-              "DocumentMoniker": "C:\\Users\\Jesus\\source\\repos\\TimeTrackPeerRev\\ClassLibrary\\ClassLibrary\\G81_Library.csproj",
-              "RelativeDocumentMoniker": "G81_Library.csproj",
-              "ToolTip": "C:\\Users\\Jesus\\source\\repos\\TimeTrackPeerRev\\ClassLibrary\\ClassLibrary\\G81_Library.csproj",
-              "RelativeToolTip": "G81_Library.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2024-10-30T21:27:34.349Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
               "Title": "Factory.cs",
               "DocumentMoniker": "C:\\Users\\Jesus\\source\\repos\\TimeTrackPeerRev\\ClassLibrary\\ClassLibrary\\Factory.cs",
               "RelativeDocumentMoniker": "Factory.cs",
               "ToolTip": "C:\\Users\\Jesus\\source\\repos\\TimeTrackPeerRev\\ClassLibrary\\ClassLibrary\\Factory.cs",
               "RelativeToolTip": "Factory.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAASAAAAAAAAAA==",
+              "ViewState": "AgIAAEoAAAAAAAAAAAAwwHMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-27T23:52:06.745Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "Person.cs",
               "DocumentMoniker": "C:\\Users\\Jesus\\source\\repos\\TimeTrackPeerRev\\ClassLibrary\\ClassLibrary\\Person.cs",
               "RelativeDocumentMoniker": "Person.cs",
               "ToolTip": "C:\\Users\\Jesus\\source\\repos\\TimeTrackPeerRev\\ClassLibrary\\ClassLibrary\\Person.cs",
               "RelativeToolTip": "Person.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAHcAAABTAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-22T21:44:24.92Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "PeerRevEntry.cs",
               "DocumentMoniker": "C:\\Users\\Jesus\\source\\repos\\TimeTrackPeerRev\\ClassLibrary\\ClassLibrary\\PeerRevEntry.cs",
               "RelativeDocumentMoniker": "PeerRevEntry.cs",
               "ToolTip": "C:\\Users\\Jesus\\source\\repos\\TimeTrackPeerRev\\ClassLibrary\\ClassLibrary\\PeerRevEntry.cs",
               "RelativeToolTip": "PeerRevEntry.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADUAAAAFAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAQwDUAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-27T23:39:01.85Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 1,
               "Title": "TimeEntry.cs",
               "DocumentMoniker": "C:\\Users\\Jesus\\source\\repos\\TimeTrackPeerRev\\ClassLibrary\\ClassLibrary\\TimeEntry.cs",
               "RelativeDocumentMoniker": "TimeEntry.cs",
               "ToolTip": "C:\\Users\\Jesus\\source\\repos\\TimeTrackPeerRev\\ClassLibrary\\ClassLibrary\\TimeEntry.cs",
               "RelativeToolTip": "TimeEntry.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEEAAAAFAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAADAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-22T21:47:52.568Z",
               "EditorCaption": ""
