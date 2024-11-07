@@ -5,22 +5,21 @@
  * methods. Passwords can be set but can't be retrieved; a password must be provided in order to check that it matches the Person's
  * password. Professor contains methods for adding class(es), removing class(es), retrieving classes, and checking if a certain
  * class is already in their class list.
- * Author:  Jesus Barrera-Gilabert III
- * Date:    10/22/2024
+ * Authors:  Jesus Barrera-Gilabert III, Matthew Hernandez
+ * Date:    11/06/2024
  * Class:   Computer Science Project CS 4485.0W1
  * Net ID:  jxb171030
  * UTD ID:  2021348532
- * Version: 0.2
+ * Version: 0.5
  */
-
-using System;
 
 namespace G81_Library
 {
     //Interface used by Student and Professor
     interface IPerson
     {
-        string Name { get; set; }
+        string FirstName { get; set; }
+        string LastName { get; set; }
         int UtdID { get; set; }
         string NetID { get; set; }
 
@@ -35,19 +34,36 @@ namespace G81_Library
     {
         private string _password;
 
-        //Constructor
-        public Student(string name, int utdID, string netID, string cName, int group)
+        //Constructor (new student)
+        public Student(string fname, string lname, int utdID, string netID, float cID, int group)
         {
-            Name = name;
+            FirstName = fname;
+            LastName = lname;
             UtdID = utdID;
             NetID = netID;
-            _password = netID;
-            Cname = cName;
+            _password = Convert.ToString(utdID);
+            CID = cID;
             Group = group;
         }
 
+        //Alt-Constructor (existing student)
+        public Student(string fname, string lname, int utdID, string netID, float cID, int group, string password)
+        {
+            FirstName = fname;
+            LastName = lname;
+            UtdID = utdID;
+            NetID = netID;
+            _password = Convert.ToString(utdID);
+            CID = cID;
+            Group = group;
+            _password = password;
+        }
+
         //Name property; readable and writeable
-        public string Name { get; set; }
+        public string FirstName { get; set; }
+
+        //Last Name property; readable and writeable
+        public string LastName { get; set; }
 
         //UTD ID property; readable and writeable 
         public int UtdID { get; set; }
@@ -56,7 +72,7 @@ namespace G81_Library
         public string NetID { get; set; }    
 
         //Class name property; readable and writeable
-        public string Cname { get; set; }
+        public float CID { get; set; }
 
         //Group Number property; readable and writeable
         public int Group { get; set; }
@@ -78,27 +94,43 @@ namespace G81_Library
     class Professor : IPerson
     {
         private string _password;
-        //The list of classes the professor is incharge of
-        private List<string> _classes;
 
-        //Constructor
-        public Professor(string name, int utdID, string netID)
+        //Constructor (new professor)
+        public Professor(string fname, string lname, int utdID, string netID)
         {
-            Name = name;
+            FirstName = fname;
+            LastName = lname;
             UtdID = utdID;
             NetID = netID;
-            _password = netID;
-            _classes = new List<string>();
+            _password = Convert.ToString(utdID);
+            //Projects = new List<CSProject>();
         }
 
-        //Name property; readable and writeable
-        public string Name { get; set; }
+        //Alt-Constructor (existing professor)
+        public Professor(string fname, string lname, int utdID, string netID, string password)
+        {
+            FirstName = fname;
+            LastName = lname;
+            UtdID = utdID;
+            NetID = netID;
+            _password = password;
+            //Projects = new List<CSProject>();
+        }
+
+        //First Name property; readable and writeable
+        public string FirstName { get; set; }
+
+        //Last Name property; readable and writeable
+        public string LastName { get; set; }
 
         //UTD ID property; readable and writeable
         public int UtdID { get; set; }
 
         //Net ID property; readable and writeable
         public string NetID { get; set; }
+
+        //Project property; readable and writeable
+        //public List<CSProject> Projects { get; set; }
 
         //Change _password to pass
         public void ChangePassword(string pass)
@@ -111,52 +143,44 @@ namespace G81_Library
         {
             return pass.Equals(_password);
         }
+    }
 
-        //Check if class c is already the class list and add it if it isn't; return true if added
-        public bool AddClass(string c)
+    /*
+    //Represents the classes a Professor is in charge of and Students are a part of
+    class CSClass
+    {
+        public Professor prof;
+        public string name;
+        public string semester;
+        public int year;
+        public CSClass(Professor prof, string name, string semester, int year)
         {
-            if (_classes.Contains(c))
-            {
-                return false;
-            }
-            _classes.Add(c);
-            return true;
-        }
-
-        //Adds classes from newClasses to the class list using AddClass(); return true if at least 1 was added
-        public bool AddClasses(List<string> newClasses)
-        {
-            bool added = false;
-            foreach(string i in newClasses)
-            {
-                added = (added | AddClass(i));
-            }
-            return added;
-        }
-
-        //Delete the remClass if it's in the class list; return true if successfully deleted
-        public bool RemoveClass(string remClass)
-        {
-            return _classes.Remove(remClass);
-        }
-
-        //Delete all classes from the class list
-        public void RemoveAllClasses()
-        {
-            _classes.Clear();
-        }
-
-        //Return the class list
-        public List<string> GetClasses()
-        {
-            return _classes;
-        }
-
-        //Check if hClass is in the class list; return true if it's present
-        public bool HasClass(string hClass)
-        {
-            return _classes.Contains(hClass);
+            this.prof = prof;
+            this.name = name;
+            this.semester = semester;
+            this.year = year;
         }
     }
 
+
+
+    // Represents the projects what will be in managed by Professors and assigned to Students
+    class CSProject
+    {
+        public int projectNumber;   
+        public string type;
+        public int teamCount;
+        public string company;
+        public string title;
+
+        public CSProject(int projectNumber, string type, int teamCount, string company, string title)
+        {
+            this.projectNumber = projectNumber;
+            this.type = type;
+            this.teamCount = teamCount;
+            this.company = company;
+            this.title = title;
+        }
+    }
+    */
 }
