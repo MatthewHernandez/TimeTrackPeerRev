@@ -130,5 +130,185 @@ namespace Desktop_App_For_Professor
                 MessageBox.Show("Error saving to CSV file: " + ex.Message, "Save Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void SaveToCsv(string filePath, DataTable dataTable)
+        {
+            try
+            {
+                using (StreamWriter sw = new StreamWriter(filePath, false)) // Overwrite file
+                {
+                    // Write headers
+                    string[] columnNames = dataTable.Columns.Cast<DataColumn>()
+                                           .Select(column => column.ColumnName)
+                                           .ToArray();
+                    sw.WriteLine(string.Join(",", columnNames));
+
+                    // Write rows
+                    foreach (DataRow row in dataTable.Rows)
+                    {
+                        string[] fields = row.ItemArray.Select(field => field.ToString()).ToArray();
+                        sw.WriteLine(string.Join(",", fields));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error saving to CSV file: " + ex.Message, "Save Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void button_delete_Click(object sender, EventArgs e)
+        {
+            /*
+            if (dataGridViewStudents.SelectedRows.Count > 0)
+            {
+                DataTable dataTable = (DataTable)dataGridViewStudents.DataSource;
+
+                // Delete selected rows from the DataTable
+                foreach (DataGridViewRow row in dataGridViewStudents.SelectedRows)
+                {
+                    dataTable.Rows[row.Index].Delete(); // Mark row as deleted
+                }
+                dataTable.AcceptChanges(); // Apply deletions to the DataTable
+
+                // Refresh DataGridView to show changes
+                dataGridViewStudents.DataSource = null;
+                dataGridViewStudents.DataSource = dataTable;
+
+                // Rewrite the CSV file with updated data
+                SaveToCsv(csvFilePath, dataTable);
+            }
+            else
+            {
+                MessageBox.Show("Please select a row to delete.", "Delete Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            */
+            if (dataGridViewStudents.SelectedCells.Count > 0)
+            {
+                // Get the row index of the selected cell
+                int rowIndex = dataGridViewStudents.SelectedCells[0].RowIndex;
+
+                // Check if the selected row is the new (placeholder) row
+                if (dataGridViewStudents.Rows[rowIndex].IsNewRow)
+                {
+                    MessageBox.Show("Cannot delete the placeholder row.", "Delete Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Proceed with deletion for non-placeholder rows
+                DataTable dataTable = (DataTable)dataGridViewStudents.DataSource;
+
+                // Delete the row in the DataTable
+                dataTable.Rows[rowIndex].Delete();
+                dataTable.AcceptChanges(); // Commit the deletion to the DataTable
+
+                // Refresh the DataGridView to reflect the deleted row
+                dataGridViewStudents.DataSource = null;
+                dataGridViewStudents.DataSource = dataTable;
+
+                // Save the updated DataTable to the CSV file
+                SaveToCsv(csvFilePath, dataTable);
+            }
+            else
+            {
+                MessageBox.Show("Please select a cell in the row you want to delete.", "Delete Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void button_change_Click(object sender, EventArgs e)
+        {
+            /*
+            if (dataGridViewStudents.SelectedCells.Count > 0)
+            {
+                // Get the selected cell's row
+                DataGridViewRow selectedRow = dataGridViewStudents.Rows[dataGridViewStudents.SelectedCells[0].RowIndex];
+
+
+                // Extract the current data from the row
+                int studentId = Convert.ToInt32(selectedRow.Cells["Student ID"].Value);
+                string firstName = selectedRow.Cells["First Name"].Value.ToString();
+                string lastName = selectedRow.Cells["Last Name"].Value.ToString();
+                string userName = selectedRow.Cells["Username"].Value.ToString();
+
+                // Open Form_spsh_ch with current data for modification
+                Form_spsh_ch editForm = new Form_spsh_ch(studentId, firstName, lastName, userName);
+
+                // Subscribe to the event for confirming the changes
+                editForm.ChangeConfirmed += (newFirstName, newLastName, newId, newUserName) =>
+                {
+                    // Update the selected row with the new data
+                    selectedRow.Cells["Student ID"].Value = newId;
+                    selectedRow.Cells["First Name"].Value = newFirstName;
+                    selectedRow.Cells["Last Name"].Value = newLastName;
+                    selectedRow.Cells["Username"].Value = newUserName;
+
+                    // Refresh DataGridView to show updated data
+                    dataGridViewStudents.Refresh();
+
+                    // Rewrite the CSV file with updated data
+                    SaveToCsv(csvFilePath, (DataTable)dataGridViewStudents.DataSource);
+                };
+
+                editForm.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Please select a cell to modify.", "Modify Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }*/
+            if (dataGridViewStudents.SelectedCells.Count > 0)
+            {
+                // Get the row index of the selected cell
+                int rowIndex = dataGridViewStudents.SelectedCells[0].RowIndex;
+
+                // Check if the selected row is the placeholder row
+                if (dataGridViewStudents.Rows[rowIndex].IsNewRow)
+                {
+                    MessageBox.Show("Cannot modify the placeholder row.", "Modify Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Proceed with the change operation for non-placeholder rows
+                DataGridViewRow selectedRow = dataGridViewStudents.Rows[rowIndex];
+
+                try
+                {
+                    // Extract the current data from the row
+                    int studentId = Convert.ToInt32(selectedRow.Cells["Student ID"].Value);
+                    string firstName = selectedRow.Cells["First Name"].Value.ToString();
+                    string lastName = selectedRow.Cells["Last Name"].Value.ToString();
+                    string userName = selectedRow.Cells["Username"].Value.ToString();
+
+                    // Open Form_spsh_ch with current data for modification
+                    Form_spsh_ch editForm = new Form_spsh_ch(studentId, firstName, lastName, userName);
+
+                    // Subscribe to the event for confirming the changes
+                    editForm.ChangeConfirmed += (newFirstName, newLastName, newId, newUserName) =>
+                    {
+                        // Update the selected row with the new data
+                        selectedRow.Cells["Student ID"].Value = newId;
+                        selectedRow.Cells["First Name"].Value = newFirstName;
+                        selectedRow.Cells["Last Name"].Value = newLastName;
+                        selectedRow.Cells["Username"].Value = newUserName;
+
+                        // Refresh DataGridView to show updated data
+                        dataGridViewStudents.Refresh();
+
+                        // Rewrite the CSV file with updated data
+                        SaveToCsv(csvFilePath, (DataTable)dataGridViewStudents.DataSource);
+                    };
+
+                    // Show the edit form as a modal dialog
+                    editForm.ShowDialog();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error modifying the selected row: " + ex.Message, "Modify Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select a cell to modify.", "Modify Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
     }
     }

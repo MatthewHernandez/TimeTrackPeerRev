@@ -88,28 +88,28 @@
             this.textBox_last.Location = new System.Drawing.Point(184, 121);
             this.textBox_last.Name = "textBox_last";
             this.textBox_last.Size = new System.Drawing.Size(160, 22);
-            this.textBox_last.TabIndex = 1;
+            this.textBox_last.TabIndex = 2;
             // 
             // textBox_user
             // 
             this.textBox_user.Location = new System.Drawing.Point(184, 170);
             this.textBox_user.Name = "textBox_user";
             this.textBox_user.Size = new System.Drawing.Size(160, 22);
-            this.textBox_user.TabIndex = 1;
+            this.textBox_user.TabIndex = 3;
             // 
             // textBox_id
             // 
             this.textBox_id.Location = new System.Drawing.Point(184, 220);
             this.textBox_id.Name = "textBox_id";
             this.textBox_id.Size = new System.Drawing.Size(160, 22);
-            this.textBox_id.TabIndex = 1;
+            this.textBox_id.TabIndex = 4;
             // 
             // button_add
             // 
             this.button_add.Location = new System.Drawing.Point(200, 323);
             this.button_add.Name = "button_add";
             this.button_add.Size = new System.Drawing.Size(104, 33);
-            this.button_add.TabIndex = 2;
+            this.button_add.TabIndex = 5;
             this.button_add.Text = "Add";
             this.button_add.UseVisualStyleBackColor = true;
             this.button_add.Click += new System.EventHandler(this.button_add_Click);
@@ -119,7 +119,7 @@
             this.button_cancel.Location = new System.Drawing.Point(446, 323);
             this.button_cancel.Name = "button_cancel";
             this.button_cancel.Size = new System.Drawing.Size(104, 33);
-            this.button_cancel.TabIndex = 2;
+            this.button_cancel.TabIndex = 6;
             this.button_cancel.Text = "Cancel";
             this.button_cancel.UseVisualStyleBackColor = true;
             this.button_cancel.Click += new System.EventHandler(this.button_cancel_Click);

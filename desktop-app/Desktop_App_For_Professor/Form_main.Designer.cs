@@ -30,14 +30,15 @@ namespace Desktop_App_For_Professor
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.sTUDENTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.studentInfomationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.edittempToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mailTempToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.button_spread = new System.Windows.Forms.Button();
             this.label_classection = new System.Windows.Forms.Label();
             this.comboBoxClasses = new System.Windows.Forms.ComboBox();
             this.button_refrash = new System.Windows.Forms.Button();
@@ -46,7 +47,6 @@ namespace Desktop_App_For_Professor
             this.labelUsername = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.dataGridViewStudents = new System.Windows.Forms.DataGridView();
-            this.button_spread = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -62,7 +62,7 @@ namespace Desktop_App_For_Professor
             this.sTUDENTToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(62, 35);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(94, 42);
+            this.menuStrip1.Size = new System.Drawing.Size(93, 42);
             this.menuStrip1.TabIndex = 3;
             this.menuStrip1.Text = "menuStrip1";
             this.menuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip1_ItemClicked);
@@ -112,6 +112,16 @@ namespace Desktop_App_For_Professor
             this.panel1.Size = new System.Drawing.Size(200, 593);
             this.panel1.TabIndex = 7;
             // 
+            // button_spread
+            // 
+            this.button_spread.Location = new System.Drawing.Point(42, 313);
+            this.button_spread.Name = "button_spread";
+            this.button_spread.Size = new System.Drawing.Size(113, 51);
+            this.button_spread.TabIndex = 5;
+            this.button_spread.Text = "Spread Sheet";
+            this.button_spread.UseVisualStyleBackColor = true;
+            this.button_spread.Click += new System.EventHandler(this.button_spread_Click);
+            // 
             // label_classection
             // 
             this.label_classection.AutoSize = true;
@@ -130,7 +140,7 @@ namespace Desktop_App_For_Professor
             this.comboBoxClasses.Location = new System.Drawing.Point(22, 59);
             this.comboBoxClasses.Name = "comboBoxClasses";
             this.comboBoxClasses.Size = new System.Drawing.Size(160, 24);
-            this.comboBoxClasses.TabIndex = 10;
+            this.comboBoxClasses.TabIndex = 1;
             this.comboBoxClasses.SelectedIndexChanged += new System.EventHandler(this.LoadProfessorClasses_SelectedIndexChanged);
             // 
             // button_refrash
@@ -138,7 +148,7 @@ namespace Desktop_App_For_Professor
             this.button_refrash.Location = new System.Drawing.Point(42, 251);
             this.button_refrash.Name = "button_refrash";
             this.button_refrash.Size = new System.Drawing.Size(113, 56);
-            this.button_refrash.TabIndex = 1;
+            this.button_refrash.TabIndex = 7;
             this.button_refrash.Text = "button1";
             this.button_refrash.UseVisualStyleBackColor = true;
             // 
@@ -147,7 +157,7 @@ namespace Desktop_App_For_Professor
             this.button_stdlist.Location = new System.Drawing.Point(42, 129);
             this.button_stdlist.Name = "button_stdlist";
             this.button_stdlist.Size = new System.Drawing.Size(113, 56);
-            this.button_stdlist.TabIndex = 1;
+            this.button_stdlist.TabIndex = 2;
             this.button_stdlist.Text = "Student List";
             this.button_stdlist.UseVisualStyleBackColor = true;
             this.button_stdlist.Click += new System.EventHandler(this.button_stdlist_Click);
@@ -157,7 +167,7 @@ namespace Desktop_App_For_Professor
             this.button_read.Location = new System.Drawing.Point(42, 191);
             this.button_read.Name = "button_read";
             this.button_read.Size = new System.Drawing.Size(113, 54);
-            this.button_read.TabIndex = 0;
+            this.button_read.TabIndex = 6;
             this.button_read.Text = "read";
             this.button_read.UseVisualStyleBackColor = true;
             this.button_read.Click += new System.EventHandler(this.button_read_Click);
@@ -190,23 +200,23 @@ namespace Desktop_App_For_Professor
             this.dataGridViewStudents.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dataGridViewStudents.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dataGridViewStudents.BackgroundColor = System.Drawing.SystemColors.ControlLight;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Arial", 14F, System.Drawing.FontStyle.Bold);
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewStudents.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Arial", 14F, System.Drawing.FontStyle.Bold);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewStudents.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridViewStudents.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Arial", 12F);
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewStudents.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Arial", 12F);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewStudents.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridViewStudents.Location = new System.Drawing.Point(242, 113);
             this.dataGridViewStudents.Name = "dataGridViewStudents";
             this.dataGridViewStudents.ReadOnly = true;
@@ -215,16 +225,6 @@ namespace Desktop_App_For_Professor
             this.dataGridViewStudents.Size = new System.Drawing.Size(974, 493);
             this.dataGridViewStudents.TabIndex = 12;
             this.dataGridViewStudents.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewStudents_CellContentClick);
-            // 
-            // button_spread
-            // 
-            this.button_spread.Location = new System.Drawing.Point(42, 313);
-            this.button_spread.Name = "button_spread";
-            this.button_spread.Size = new System.Drawing.Size(113, 51);
-            this.button_spread.TabIndex = 12;
-            this.button_spread.Text = "Spread Sheet";
-            this.button_spread.UseVisualStyleBackColor = true;
-            this.button_spread.Click += new System.EventHandler(this.button_spread_Click);
             // 
             // Form_main
             // 

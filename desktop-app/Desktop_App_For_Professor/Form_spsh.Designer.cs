@@ -30,10 +30,10 @@
         {
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.button_import = new System.Windows.Forms.Button();
-            this.button_add = new System.Windows.Forms.Button();
-            this.button_change = new System.Windows.Forms.Button();
             this.button_delete = new System.Windows.Forms.Button();
+            this.button_change = new System.Windows.Forms.Button();
+            this.button_add = new System.Windows.Forms.Button();
+            this.button_import = new System.Windows.Forms.Button();
             this.dataGridViewStudents = new System.Windows.Forms.DataGridView();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewStudents)).BeginInit();
@@ -59,43 +59,45 @@
             this.panel2.Size = new System.Drawing.Size(109, 572);
             this.panel2.TabIndex = 2;
             // 
-            // button_import
+            // button_delete
             // 
-            this.button_import.Location = new System.Drawing.Point(19, 78);
-            this.button_import.Name = "button_import";
-            this.button_import.Size = new System.Drawing.Size(78, 41);
-            this.button_import.TabIndex = 0;
-            this.button_import.Text = "Import";
-            this.button_import.UseVisualStyleBackColor = true;
-            this.button_import.Click += new System.EventHandler(this.button_import_Click);
-            // 
-            // button_add
-            // 
-            this.button_add.Location = new System.Drawing.Point(19, 125);
-            this.button_add.Name = "button_add";
-            this.button_add.Size = new System.Drawing.Size(78, 41);
-            this.button_add.TabIndex = 0;
-            this.button_add.Text = "Add";
-            this.button_add.UseVisualStyleBackColor = true;
-            this.button_add.Click += new System.EventHandler(this.button_add_Click);
+            this.button_delete.Location = new System.Drawing.Point(19, 219);
+            this.button_delete.Name = "button_delete";
+            this.button_delete.Size = new System.Drawing.Size(78, 41);
+            this.button_delete.TabIndex = 4;
+            this.button_delete.Text = "Delete";
+            this.button_delete.UseVisualStyleBackColor = true;
+            this.button_delete.Click += new System.EventHandler(this.button_delete_Click);
             // 
             // button_change
             // 
             this.button_change.Location = new System.Drawing.Point(19, 172);
             this.button_change.Name = "button_change";
             this.button_change.Size = new System.Drawing.Size(78, 41);
-            this.button_change.TabIndex = 0;
+            this.button_change.TabIndex = 3;
             this.button_change.Text = "Change";
             this.button_change.UseVisualStyleBackColor = true;
+            this.button_change.Click += new System.EventHandler(this.button_change_Click);
             // 
-            // button_delete
+            // button_add
             // 
-            this.button_delete.Location = new System.Drawing.Point(19, 219);
-            this.button_delete.Name = "button_delete";
-            this.button_delete.Size = new System.Drawing.Size(78, 41);
-            this.button_delete.TabIndex = 0;
-            this.button_delete.Text = "Delete";
-            this.button_delete.UseVisualStyleBackColor = true;
+            this.button_add.Location = new System.Drawing.Point(19, 125);
+            this.button_add.Name = "button_add";
+            this.button_add.Size = new System.Drawing.Size(78, 41);
+            this.button_add.TabIndex = 2;
+            this.button_add.Text = "Add";
+            this.button_add.UseVisualStyleBackColor = true;
+            this.button_add.Click += new System.EventHandler(this.button_add_Click);
+            // 
+            // button_import
+            // 
+            this.button_import.Location = new System.Drawing.Point(19, 78);
+            this.button_import.Name = "button_import";
+            this.button_import.Size = new System.Drawing.Size(78, 41);
+            this.button_import.TabIndex = 1;
+            this.button_import.Text = "Import";
+            this.button_import.UseVisualStyleBackColor = true;
+            this.button_import.Click += new System.EventHandler(this.button_import_Click);
             // 
             // dataGridViewStudents
             // 
@@ -106,6 +108,7 @@
             this.dataGridViewStudents.RowTemplate.Height = 24;
             this.dataGridViewStudents.Size = new System.Drawing.Size(932, 506);
             this.dataGridViewStudents.TabIndex = 3;
+            this.dataGridViewStudents.TabStop = false;
             // 
             // Form_spsh
             // 
