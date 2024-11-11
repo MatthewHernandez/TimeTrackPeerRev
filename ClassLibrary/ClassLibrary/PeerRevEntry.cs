@@ -20,8 +20,10 @@ namespace G81_Library
         public Student Reviewee { get; set; }
         // Comment of review
         public string Comment { get; set; }
-        // Date of review entry
-        public DateOnly Date { get; set; } 
+        // Start of review period
+        public DateOnly PeriodStart { get; set; }
+        // End of review period
+        public DateOnly PeriodEnd { get; set; }
         // Rank of attribute (0 .. 5)
         public int Rank
         {
@@ -37,13 +39,14 @@ namespace G81_Library
         }
 
 
-        public PeerRevEntry(Student reviewer, Student reviewee, int rank, string comment, DateOnly date)
+        public PeerRevEntry(Student reviewer, Student reviewee, int rank, string comment, DateOnly periodStart, DateOnly periodEnd)
         {
             Reviewer = reviewer;
             Reviewee = reviewee;
             Rank = rank;
             Comment = comment;
-            Date = date;
+            PeriodStart = periodStart;
+            PeriodEnd = periodEnd;
         }
     }
 }

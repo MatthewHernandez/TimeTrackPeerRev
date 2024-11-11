@@ -11,8 +11,6 @@
  * Version: 0.1
  */
 
-using System;
-
 namespace G81_Library
 {
     class TimeEntry
