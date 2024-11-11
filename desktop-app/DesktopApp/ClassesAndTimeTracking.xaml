@@ -18,9 +18,9 @@
 
             <!-- Header Row for Students -->
             <StackLayout Orientation="Horizontal" Padding="5">
-                <Label Text="Student Name" WidthRequest="200" FontAttributes="Bold"/>
-                <Label Text="Team Number" WidthRequest="200" FontAttributes="Bold"/>
-                <Label Text="Hours" WidthRequest="100" FontAttributes="Bold"/>
+                <Label Text="Student Name" WidthRequest="150" FontAttributes="Bold"/>
+                <Label Text="Team Number" WidthRequest="150" FontAttributes="Bold"/>
+                <Label Text="Hours" WidthRequest="150" FontAttributes="Bold"/>
             </StackLayout>
 
             <!-- CollectionView for Student Hours -->
@@ -28,9 +28,9 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <StackLayout Orientation="Horizontal" Padding="5">
-                            <Label Text="{Binding StudentName}" WidthRequest="200"/>
-                            <Label Text="{Binding TeamNumber}" WidthRequest="200"/>
-                            <Label Text="{Binding Hours}" WidthRequest="100"/>
+                            <Label Text="{Binding StudentName}" WidthRequest="150"/>
+                            <Label Text="{Binding TeamNumber}" WidthRequest="150"/>
+                            <Label Text="{Binding Hours}" WidthRequest="150"/>
                         </StackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
@@ -60,6 +60,11 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
+            <!-- Update Information Button -->
+            <Button Text="Update Information" 
+HorizontalOptions="Center"
+Margin="0,20,0,0"
+Clicked="StudentDetailsOnUpdateInformationClicked"/>
         </VerticalStackLayout>
 
         <HorizontalStackLayout>
@@ -68,18 +73,32 @@
             <VerticalStackLayout x:Name="PeerReviewStack" WidthRequest="400" Margin="0,0,20,0">
                 <Label Text="Peer Reviews" FontSize="Medium" FontAttributes="Bold" Margin="0,0,0,10"/>
 
-                <!-- Add New Peer Review Button -->
-                <Button Text="Add New Peer Review" 
-                Clicked="AddNewPeerReviewButton_Clicked"
-                Margin="0,0,0,10"
-                />
+                <StackLayout Orientation="Horizontal" Spacing="10">
+                    <!-- Add New Peer Review Button -->
+                    <Button Text="Add New Peer Review" 
+            Clicked="AddNewPeerReviewButton_Clicked"
+            Margin="0,0,0,10"
+            WidthRequest="175"
+            HeightRequest="25"
+    />
+
+                    <!-- Remove Peer Review Button -->
+                    <Button Text="Remove Peer Review" 
+            Clicked="RemovePeerReviewButton_Clicked"
+            Margin="0,0,0,10"
+            WidthRequest="175"
+            HeightRequest="25"
+    />
+                </StackLayout>
 
                 <!-- Peer Reviews List -->
                 <CollectionView x:Name="PeerReviewsCollectionView" SelectionMode="Single" SelectionChanged="PeerReviewsCollectionView_SelectionChanged">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <StackLayout Orientation="Horizontal" Padding="5">
-                                <Label Text="{Binding Timestamp, StringFormat='{}Date: {0:MM/dd/yyyy}'}" WidthRequest="200" FontAttributes="Bold"/>
+                                <Label Text="{Binding StartDate, StringFormat='{}Date: {0:MM/dd/yyyy}'}" WidthRequest="200" FontAttributes="Bold"/>
+                                <!-- Bottom is EndDate Timestamp -->
+                                <Label Text="{Binding EndDate, StringFormat='{}Date: {0:MM/dd/yyyy}'}" WidthRequest="200" FontAttributes="Bold"/>
                             </StackLayout>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
@@ -105,7 +124,12 @@
                 <!-- Header collumn -->
                 <StackLayout Orientation="Horizontal" Padding="5">
                     <Label Text="Timestamp:" WidthRequest="150" FontAttributes="Bold"/>
-                    <DatePicker Date="{Binding Timestamp, Mode=TwoWay}" Format="MM/dd/yyyy" WidthRequest="150"/>
+                    <DatePicker Date="{Binding StartDate, Mode=TwoWay}" Format="MM/dd/yyyy" WidthRequest="150"/>
+                </StackLayout>
+                <!-- EndDate TimeStamp modification possible here -->
+                <StackLayout Orientation="Horizontal" Padding="5">
+                    <Label Text="Timestamp:" WidthRequest="150" FontAttributes="Bold"/>
+                    <DatePicker Date="{Binding EndDate, Mode=TwoWay}" Format="MM/dd/yyyy" WidthRequest="150"/>
                 </StackLayout>
 
                 <StackLayout Orientation="Horizontal" Padding="5">
@@ -134,17 +158,20 @@
                 </StackLayout>
 
                 <!-- Comments for selected team member -->
-                <Label Text="Comments on Teammates" FontSize="Medium" FontAttributes="Bold" Margin="0,20,0,0"/>
-                <CollectionView x:Name="CommentsCollectionView">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <StackLayout Orientation="Horizontal" Padding="5">
-                                <Label Text="{Binding TeammateName}" WidthRequest="150" />
-                                <Entry Text="{Binding Comment, Mode=TwoWay}" Placeholder="Comment" WidthRequest="300"/>
-                            </StackLayout>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                <Label Text="Comment on Teammate" FontSize="Medium" FontAttributes="Bold" Margin="0,20,0,0"/>
+                
+                <StackLayout Orientation="Horizontal" Padding="5">
+                    <Label Text="{Binding TeammateName}" WidthRequest="150" />
+                    <Entry Text="{Binding Comment, Mode=TwoWay}" Placeholder="Comment" WidthRequest="300"/>
+                </StackLayout>
+
+                <!-- Update Information Button -->
+                <Button Text="Update Information" 
+            HorizontalOptions="Center"
+            Margin="0,20,0,0"
+            Clicked="PeerReviewOnUpdateInformationClicked"/>
+
+
             </VerticalStackLayout>
 
         </HorizontalStackLayout>

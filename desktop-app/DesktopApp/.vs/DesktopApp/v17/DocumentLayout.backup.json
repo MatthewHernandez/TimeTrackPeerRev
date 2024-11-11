@@ -11,12 +11,16 @@
       "RelativeMoniker": "D:0:0:{D026CC87-83A4-4A71-9370-550A2E1121A2}|DesktopApp.csproj|solutionrelative:classesandtimetracking.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D026CC87-83A4-4A71-9370-550A2E1121A2}|DesktopApp.csproj|d:\\documents\\repos\\desktopapp\\appshell.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D026CC87-83A4-4A71-9370-550A2E1121A2}|DesktopApp.csproj|solutionrelative:appshell.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{D026CC87-83A4-4A71-9370-550A2E1121A2}|DesktopApp.csproj|d:\\documents\\repos\\desktopapp\\login.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D026CC87-83A4-4A71-9370-550A2E1121A2}|DesktopApp.csproj|solutionrelative:login.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D026CC87-83A4-4A71-9370-550A2E1121A2}|DesktopApp.csproj|d:\\documents\\repos\\desktopapp\\appshell.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{D026CC87-83A4-4A71-9370-550A2E1121A2}|DesktopApp.csproj|solutionrelative:appshell.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D026CC87-83A4-4A71-9370-550A2E1121A2}|DesktopApp.csproj|d:\\documents\\repos\\desktopapp\\appshell.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D026CC87-83A4-4A71-9370-550A2E1121A2}|DesktopApp.csproj|solutionrelative:appshell.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D026CC87-83A4-4A71-9370-550A2E1121A2}|DesktopApp.csproj|d:\\documents\\repos\\desktopapp\\desktopapp.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
@@ -25,10 +29,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{D026CC87-83A4-4A71-9370-550A2E1121A2}|DesktopApp.csproj|d:\\documents\\repos\\desktopapp\\login.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{D026CC87-83A4-4A71-9370-550A2E1121A2}|DesktopApp.csproj|solutionrelative:login.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D026CC87-83A4-4A71-9370-550A2E1121A2}|DesktopApp.csproj|d:\\documents\\repos\\desktopapp\\appshell.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{D026CC87-83A4-4A71-9370-550A2E1121A2}|DesktopApp.csproj|solutionrelative:appshell.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D026CC87-83A4-4A71-9370-550A2E1121A2}|DesktopApp.csproj|d:\\documents\\repos\\desktopapp\\app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -46,12 +46,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 4,
           "Children": [
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
-            },
             {
               "$type": "Document",
               "DocumentIndex": 1,
@@ -60,14 +56,13 @@
               "RelativeDocumentMoniker": "ClassesAndTimeTracking.xaml",
               "ToolTip": "D:\\Documents\\repos\\DesktopApp\\ClassesAndTimeTracking.xaml",
               "RelativeToolTip": "ClassesAndTimeTracking.xaml",
-              "ViewState": "AgIAAF0AAAAAAAAAAAAmwI4AAAA5AAAAAAAAAA==",
+              "ViewState": "AgIAABkAAAAAAAAAAAAswEIAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-10-11T14:06:47.554Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-11T14:06:47.554Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "Login.xaml.cs",
               "DocumentMoniker": "D:\\Documents\\repos\\DesktopApp\\Login.xaml.cs",
               "RelativeDocumentMoniker": "Login.xaml.cs",
@@ -75,12 +70,11 @@
               "RelativeToolTip": "Login.xaml.cs",
               "ViewState": "AgIAABYAAAAAAAAAAAAAwCAAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-11T12:56:33.528Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-11T12:56:33.528Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 3,
               "Title": "AppShell.xaml",
               "DocumentMoniker": "D:\\Documents\\repos\\DesktopApp\\AppShell.xaml",
               "RelativeDocumentMoniker": "AppShell.xaml",
@@ -88,8 +82,7 @@
               "RelativeToolTip": "AppShell.xaml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-10-11T13:19:48.148Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-11T13:19:48.148Z"
             },
             {
               "$type": "Document",
@@ -101,8 +94,7 @@
               "RelativeToolTip": "App.xaml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-10-11T15:18:15.046Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-11T15:18:15.046Z"
             },
             {
               "$type": "Document",
@@ -112,14 +104,14 @@
               "RelativeDocumentMoniker": "ClassesAndTimeTracking.xaml.cs",
               "ToolTip": "D:\\Documents\\repos\\DesktopApp\\ClassesAndTimeTracking.xaml.cs",
               "RelativeToolTip": "ClassesAndTimeTracking.xaml.cs",
-              "ViewState": "AgIAAHAAAAAAAAAAAIA1wBcAAABoAAAAAAAAAA==",
+              "ViewState": "AgIAAHkDAAAAAAAAAAAAADAAAAA/AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-11T14:08:26.056Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "AppShell.xaml.cs",
               "DocumentMoniker": "D:\\Documents\\repos\\DesktopApp\\AppShell.xaml.cs",
               "RelativeDocumentMoniker": "AppShell.xaml.cs",
@@ -127,8 +119,7 @@
               "RelativeToolTip": "AppShell.xaml.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-11T13:19:46.812Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-11T13:19:46.812Z"
             },
             {
               "$type": "Document",
@@ -140,12 +131,11 @@
               "RelativeToolTip": "App.xaml.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-11T13:19:36.501Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-11T13:19:36.501Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "DesktopApp.csproj",
               "DocumentMoniker": "D:\\Documents\\repos\\DesktopApp\\DesktopApp.csproj",
               "RelativeDocumentMoniker": "DesktopApp.csproj",
@@ -153,12 +143,11 @@
               "RelativeToolTip": "DesktopApp.csproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2024-10-11T12:54:12.569Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-11T12:54:12.569Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "Login.xaml",
               "DocumentMoniker": "D:\\Documents\\repos\\DesktopApp\\Login.xaml",
               "RelativeDocumentMoniker": "Login.xaml",
@@ -166,8 +155,11 @@
               "RelativeToolTip": "Login.xaml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-10-11T12:52:07.644Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-11T12:52:07.644Z"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
             }
           ]
         }
