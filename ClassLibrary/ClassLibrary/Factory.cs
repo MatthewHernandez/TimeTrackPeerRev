@@ -28,7 +28,7 @@ namespace G81_Library
         }
 
         // Creates a Student entity and stores it in the database; return the created instance
-        Student? CreateStudent(string fname, string lname, string netID, int utdID, float cID, int group)
+        public Student? CreateStudent(string fname, string lname, string netID, int utdID, PClass cID, int group)
         {
             string sCom = "INSERT INTO" + _StudentDB + "([FirstName], [LastName], [NetID], [UTDID], [Password], [CID], [Group]) VALUES(@first, @last, @net, @utd, @pass, @c, @group)";
 
@@ -47,7 +47,7 @@ namespace G81_Library
                             cmd.Parameters.AddWithValue("@net", netID);
                             cmd.Parameters.AddWithValue("@utd", utdID);
                             cmd.Parameters.AddWithValue("@pass", Convert.ToString(utdID));
-                            cmd.Parameters.AddWithValue("@c", cID);
+                            cmd.Parameters.AddWithValue("@c", cID.ID);
                             cmd.Parameters.AddWithValue("@group", group);
 
                             if(cmd.ExecuteNonQuery() <= 0)
@@ -71,7 +71,7 @@ namespace G81_Library
         }
 
         // Creates a Professor entity and stores it in the database; return the created instance
-        Professor? CreateProfessor(string fname, string lname, string netID, int utdID)
+        public Professor? CreateProfessor(string fname, string lname, string netID, int utdID)
         {
             string pCom = "INSERT INTO" + _ProfessorDB + "([FirstName], [LastName], [NetID], [UTDID], [Password]) VALUES(@first, @last, @net, @utd, @pass)";
 
@@ -127,7 +127,7 @@ namespace G81_Library
         }
 
         // Create a PeerRevEntry intance and store in the database; return the created instance
-        PeerRevEntry? CreateReview(Student reviewer, Student reviewee, string comment, DateOnly start, DateOnly end, int rank)
+        public PeerRevEntry? CreateReview(PClass pClass, Student reviewer, Student reviewee, string comment, DateOnly start, DateOnly end, int[] ranks)
         {
             string pCom = "INSERT INTO" + _peerDB + "([ReviewerID], [RevieweeID], [Comment], [Start], [End], [Rank]) VALUE(@rr, @re, @com, @s, @e, @rank)";
 
@@ -146,7 +146,7 @@ namespace G81_Library
                             cmd.Parameters.AddWithValue("@com", comment);
                             cmd.Parameters.AddWithValue("@s", start);
                             cmd.Parameters.AddWithValue("@e", end);
-                            cmd.Parameters.AddWithValue("@rank", rank);
+                            cmd.Parameters.AddWithValue("@rank", ranks[0]);
 
                             if (cmd.ExecuteNonQuery() <= 0)
                             {
@@ -165,7 +165,7 @@ namespace G81_Library
                 }
             }
 
-            return new PeerRevEntry(reviewer, reviewee, rank, comment, start, end);
+            return new PeerRevEntry(pClass, reviewer, reviewee, comment, start, end, ranks);
         }
     }
 
@@ -183,9 +183,9 @@ namespace G81_Library
         }
 
         // Create TimeEntry instance and store in the database; return the created instance
-        TimeEntry? CreateTime(Student stu, TimeSpan time, DateOnly date, string prob, string plan, string acc)
+        public TimeEntry? CreateTime(Student stu, TimeSpan time, DateOnly date, string comm)
         {
-            string tCom = "INSERT INTO" + _timeDB + "([StudentID], [Time], [Date], [Problems], [Plan], [Accomplished]) VALUES(@stu, @time, @date, @prob, @plan, @acc)";
+            string tCom = "INSERT INTO" + _timeDB + "([StudentID], [Time], [Date], [Comments]) VALUES(@stu, @time, @date, @comm)";
 
             using (SqlConnection cnn = new SqlConnection(_sqlCon))
             {
@@ -200,11 +200,9 @@ namespace G81_Library
                             cmd.Parameters.AddWithValue("@stu", stu.UtdID);
                             cmd.Parameters.AddWithValue("@time", time);
                             cmd.Parameters.AddWithValue("@date", date);
-                            cmd.Parameters.AddWithValue("@prob", prob);
-                            cmd.Parameters.AddWithValue("@plan", plan);
-                            cmd.Parameters.AddWithValue("@acc", acc);
+                            cmd.Parameters.AddWithValue("@comm", comm);
 
-                            if(cmd.Parameters.Count <= 0)
+                            if (cmd.Parameters.Count <= 0)
                             {
                                 return null;
                             }
@@ -221,7 +219,17 @@ namespace G81_Library
                 }
             }
 
-            return new TimeEntry(stu, time, date, prob, plan, acc);
+            return new TimeEntry(stu, time, date, comm);
+        }
+    }
+     
+    //Create instances of PClass
+    class ClassFactory
+    {
+        //Creates and returns PClass instances
+        public PClass? CreatePClass(Professor prof, int id, string name, string semester, int year)
+        {
+            return new PClass(prof, id, name, semester, year);
         }
     }
 }

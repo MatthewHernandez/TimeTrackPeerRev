@@ -18,83 +18,65 @@ namespace G81_Library
     //Interface used by Student and Professor
     interface IPerson
     {
-        string FirstName { get; set; }
-        string LastName { get; set; }
-        int UtdID { get; set; }
-        string NetID { get; set; }
-
-        //Change password to pass
-        void ChangePassword(string pass);
-        //Check if pass matches Password; return true if it does
-        bool CheckPassword(string pass);
+        string FirstName { get; }
+        string LastName { get; }
+        int UtdID { get; }
+        string NetID { get; }
+        string Password { get; }
     }
 
     //Represents the data of a student with operations for retrieving or editing it
     class Student : IPerson
     {
-        private string _password;
-
         //Constructor (new student)
-        public Student(string fname, string lname, int utdID, string netID, float cID, int group)
+        public Student(string fname, string lname, int utdID, string netID, PClass cID, int group)
         {
             FirstName = fname;
             LastName = lname;
             UtdID = utdID;
             NetID = netID;
-            _password = Convert.ToString(utdID);
+            Password = Convert.ToString(utdID);
             CID = cID;
             Group = group;
         }
 
         //Alt-Constructor (existing student)
-        public Student(string fname, string lname, int utdID, string netID, float cID, int group, string password)
+        public Student(string fname, string lname, int utdID, string netID, PClass cID, int group, string password)
         {
             FirstName = fname;
             LastName = lname;
             UtdID = utdID;
             NetID = netID;
-            _password = Convert.ToString(utdID);
             CID = cID;
             Group = group;
-            _password = password;
+            Password = password;
         }
 
-        //Name property; readable and writeable
-        public string FirstName { get; set; }
+        //Name property; read only
+        public string FirstName { get; private set; }
 
-        //Last Name property; readable and writeable
-        public string LastName { get; set; }
+        //Last Name property; read only
+        public string LastName { get; private set; }
 
-        //UTD ID property; readable and writeable 
-        public int UtdID { get; set; }
+        //UTD ID property; read only 
+        public int UtdID { get; private set; }
 
-        //Net ID property; readable and writeable
-        public string NetID { get; set; }    
+        //Net ID property; read only
+        public string NetID { get; private set; }    
 
-        //Class name property; readable and writeable
-        public float CID { get; set; }
+        //Class name property; read only
+        public PClass CID { get; private set; }
 
-        //Group Number property; readable and writeable
-        public int Group { get; set; }
+        //Group Number property; read only
+        public int Group { get; private set; }
 
-        //Change _password to pass
-        public void ChangePassword(string pass)
-        {
-            _password = pass;
-        }
-
-        //Check if pass matches Password; return true if it does
-        public bool CheckPassword(string pass)
-        {
-            return pass.Equals(_password);
-        }
+        //Password property; read only
+        public string Password { get; private set; }
     }
 
     //Represents the data of a professor with operations for retrieving, adding, and editing it
     class Professor : IPerson
     {
-        private string _password;
-
         //Constructor (new professor)
         public Professor(string fname, string lname, int utdID, string netID)
         {
@@ -102,8 +84,7 @@ namespace G81_Library
             LastName = lname;
             UtdID = utdID;
             NetID = netID;
-            _password = Convert.ToString(utdID);
-            //Projects = new List<CSProject>();
+            Password = Convert.ToString(utdID);
         }
 
         //Alt-Constructor (existing professor)
@@ -113,74 +94,47 @@ namespace G81_Library
             LastName = lname;
             UtdID = utdID;
             NetID = netID;
-            _password = password;
-            //Projects = new List<CSProject>();
+            Password = password;
         }
 
-        //First Name property; readable and writeable
-        public string FirstName { get; set; }
+        //First Name property; read only
+        public string FirstName { get; private set; }
 
-        //Last Name property; readable and writeable
-        public string LastName { get; set; }
+        //Last Name property; read only
+        public string LastName { get; private set; }
 
-        //UTD ID property; readable and writeable
-        public int UtdID { get; set; }
+        //UTD ID property; read only
+        public int UtdID { get; private set; }
 
-        //Net ID property; readable and writeable
-        public string NetID { get; set; }
+        //Net ID property; read only
+        public string NetID { get; private set; }
 
-        //Project property; readable and writeable
-        //public List<CSProject> Projects { get; set; }
+        //Password Property; read only
+        public string Password { get; private set; }
+    }
 
-        //Change _password to pass
-        public void ChangePassword(string pass)
-        {
-            _password = pass;
-        }
     
-        //Check if pass matches Password; return true if it does
-        public bool CheckPassword(string pass)
-        {
-            return pass.Equals(_password);
-        }
-    }
-
-    /*
     //Represents the classes a Professor is in charge of and Students are a part of
-    class CSClass
+    class PClass
     {
-        public Professor prof;
-        public string name;
-        public string semester;
-        public int year;
-        public CSClass(Professor prof, string name, string semester, int year)
+        //Constructor
+        public PClass(Professor prof, int id, string name, string semester, int year)
         {
-            this.prof = prof;
-            this.name = name;
-            this.semester = semester;
-            this.year = year;
+            Prof = prof;
+            ID = id;
+            Name = name;
+            Semester = semester;
+            Year = year;
         }
+
+        public Professor Prof { get; private set; }
+
+        public int ID { get; private set; }
+
+        public string Name { get; private set; }
+
+        public string Semester { get; private set; }
+
+        public int Year { get; private set; }
     }
-
-
-
-    // Represents the projects what will be in managed by Professors and assigned to Students
-    class CSProject
-    {
-        public int projectNumber;   
-        public string type;
-        public int teamCount;
-        public string company;
-        public string title;
-
-        public CSProject(int projectNumber, string type, int teamCount, string company, string title)
-        {
-            this.projectNumber = projectNumber;
-            this.type = type;
-            this.teamCount = teamCount;
-            this.company = company;
-            this.title = title;
-        }
-    }
-    */
 }
