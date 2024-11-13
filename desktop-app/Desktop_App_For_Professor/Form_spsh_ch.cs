@@ -29,7 +29,7 @@ namespace Desktop_App_For_Professor
 
         private void Form_spsh_ch_Load(object sender, EventArgs e)
         {
-                
+
         }
 
         private void textBox3_TextChanged(object sender, EventArgs e)
@@ -61,6 +61,23 @@ namespace Desktop_App_For_Professor
         {
             this.Close();
         }
+
+        private void button_copy_Click(object sender, EventArgs e)
+        {
+            textBoxIDIn.Text = textBoxID.Text;
+            textBoxFirstNameIn.Text = textBoxFirstName.Text;
+            textBoxLastNameIn.Text = textBoxLastName.Text;
+            textBoxUsernameIn.Text = textBoxUsername.Text;
+        }
+
+        private void button_clean_Click(object sender, EventArgs e)
+        {
+            textBoxIDIn.Text = null;
+            textBoxFirstNameIn.Text = null;
+            textBoxLastNameIn.Text = null;
+            textBoxUsernameIn.Text = null;
+        }
     }
-    
 }
+    
+

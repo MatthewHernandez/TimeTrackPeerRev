@@ -30,8 +30,8 @@ namespace Desktop_App_For_Professor
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.sTUDENTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.studentInfomationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -41,12 +41,14 @@ namespace Desktop_App_For_Professor
             this.button_spread = new System.Windows.Forms.Button();
             this.label_classection = new System.Windows.Forms.Label();
             this.comboBoxClasses = new System.Windows.Forms.ComboBox();
-            this.button_refrash = new System.Windows.Forms.Button();
+            this.button_save = new System.Windows.Forms.Button();
             this.button_stdlist = new System.Windows.Forms.Button();
             this.button_read = new System.Windows.Forms.Button();
             this.labelUsername = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.dataGridViewStudents = new System.Windows.Forms.DataGridView();
+            this.label_class = new System.Windows.Forms.Label();
+            this.label_class_0 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -104,13 +106,14 @@ namespace Desktop_App_For_Professor
             this.panel1.Controls.Add(this.button_spread);
             this.panel1.Controls.Add(this.label_classection);
             this.panel1.Controls.Add(this.comboBoxClasses);
-            this.panel1.Controls.Add(this.button_refrash);
+            this.panel1.Controls.Add(this.button_save);
             this.panel1.Controls.Add(this.button_stdlist);
             this.panel1.Controls.Add(this.button_read);
             this.panel1.Location = new System.Drawing.Point(0, 80);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(200, 593);
             this.panel1.TabIndex = 7;
+            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // button_spread
             // 
@@ -143,14 +146,15 @@ namespace Desktop_App_For_Professor
             this.comboBoxClasses.TabIndex = 1;
             this.comboBoxClasses.SelectedIndexChanged += new System.EventHandler(this.LoadProfessorClasses_SelectedIndexChanged);
             // 
-            // button_refrash
+            // button_save
             // 
-            this.button_refrash.Location = new System.Drawing.Point(42, 251);
-            this.button_refrash.Name = "button_refrash";
-            this.button_refrash.Size = new System.Drawing.Size(113, 56);
-            this.button_refrash.TabIndex = 7;
-            this.button_refrash.Text = "button1";
-            this.button_refrash.UseVisualStyleBackColor = true;
+            this.button_save.Location = new System.Drawing.Point(42, 251);
+            this.button_save.Name = "button_save";
+            this.button_save.Size = new System.Drawing.Size(113, 56);
+            this.button_save.TabIndex = 7;
+            this.button_save.Text = "Save";
+            this.button_save.UseVisualStyleBackColor = true;
+            this.button_save.Click += new System.EventHandler(this.button_save_Click);
             // 
             // button_stdlist
             // 
@@ -200,24 +204,24 @@ namespace Desktop_App_For_Professor
             this.dataGridViewStudents.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dataGridViewStudents.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dataGridViewStudents.BackgroundColor = System.Drawing.SystemColors.ControlLight;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Arial", 14F, System.Drawing.FontStyle.Bold);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewStudents.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Arial", 14F, System.Drawing.FontStyle.Bold);
+            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewStudents.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
             this.dataGridViewStudents.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Arial", 12F);
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewStudents.DefaultCellStyle = dataGridViewCellStyle2;
-            this.dataGridViewStudents.Location = new System.Drawing.Point(242, 113);
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Arial", 12F);
+            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewStudents.DefaultCellStyle = dataGridViewCellStyle8;
+            this.dataGridViewStudents.Location = new System.Drawing.Point(241, 139);
             this.dataGridViewStudents.Name = "dataGridViewStudents";
             this.dataGridViewStudents.ReadOnly = true;
             this.dataGridViewStudents.RowHeadersWidth = 51;
@@ -226,12 +230,35 @@ namespace Desktop_App_For_Professor
             this.dataGridViewStudents.TabIndex = 12;
             this.dataGridViewStudents.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewStudents_CellContentClick);
             // 
+            // label_class
+            // 
+            this.label_class.AutoSize = true;
+            this.label_class.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_class.Location = new System.Drawing.Point(311, 102);
+            this.label_class.Name = "label_class";
+            this.label_class.Size = new System.Drawing.Size(58, 23);
+            this.label_class.TabIndex = 14;
+            this.label_class.Text = "class";
+            this.label_class.Click += new System.EventHandler(this.label_class_Click);
+            // 
+            // label_class_0
+            // 
+            this.label_class_0.AutoSize = true;
+            this.label_class_0.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_class_0.Location = new System.Drawing.Point(251, 102);
+            this.label_class_0.Name = "label_class_0";
+            this.label_class_0.Size = new System.Drawing.Size(72, 23);
+            this.label_class_0.TabIndex = 15;
+            this.label_class_0.Text = "Class: ";
+            // 
             // Form_main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLight;
             this.ClientSize = new System.Drawing.Size(1262, 673);
+            this.Controls.Add(this.label_class);
+            this.Controls.Add(this.label_class_0);
             this.Controls.Add(this.dataGridViewStudents);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
@@ -247,6 +274,7 @@ namespace Desktop_App_For_Professor
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewStudents)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -260,11 +288,13 @@ namespace Desktop_App_For_Professor
         private System.Windows.Forms.Button button_read;
         private System.Windows.Forms.Label labelUsername;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Button button_refrash;
+        private System.Windows.Forms.Button button_save;
         private System.Windows.Forms.Button button_stdlist;
         private System.Windows.Forms.DataGridView dataGridViewStudents;
         private System.Windows.Forms.ComboBox comboBoxClasses;
         private System.Windows.Forms.Label label_classection;
         private Button button_spread;
+        private Label label_class;
+        private Label label_class_0;
     }
 }

@@ -38,11 +38,13 @@
             this.textBoxIDIn = new System.Windows.Forms.TextBox();
             this.button_confirm = new System.Windows.Forms.Button();
             this.button_cancel = new System.Windows.Forms.Button();
+            this.button_copy = new System.Windows.Forms.Button();
+            this.button_clean = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // textBoxLastName
             // 
-            this.textBoxLastName.Location = new System.Drawing.Point(73, 89);
+            this.textBoxLastName.Location = new System.Drawing.Point(241, 89);
             this.textBoxLastName.Name = "textBoxLastName";
             this.textBoxLastName.ReadOnly = true;
             this.textBoxLastName.Size = new System.Drawing.Size(152, 22);
@@ -51,7 +53,7 @@
             // 
             // textBoxFirstName
             // 
-            this.textBoxFirstName.Location = new System.Drawing.Point(241, 89);
+            this.textBoxFirstName.Location = new System.Drawing.Point(73, 89);
             this.textBoxFirstName.Name = "textBoxFirstName";
             this.textBoxFirstName.ReadOnly = true;
             this.textBoxFirstName.Size = new System.Drawing.Size(152, 22);
@@ -126,11 +128,33 @@
             this.button_cancel.UseVisualStyleBackColor = true;
             this.button_cancel.Click += new System.EventHandler(this.button_cancel_Click);
             // 
+            // button_copy
+            // 
+            this.button_copy.Location = new System.Drawing.Point(241, 194);
+            this.button_copy.Name = "button_copy";
+            this.button_copy.Size = new System.Drawing.Size(63, 27);
+            this.button_copy.TabIndex = 7;
+            this.button_copy.Text = "copy";
+            this.button_copy.UseVisualStyleBackColor = true;
+            this.button_copy.Click += new System.EventHandler(this.button_copy_Click);
+            // 
+            // button_clean
+            // 
+            this.button_clean.Location = new System.Drawing.Point(462, 197);
+            this.button_clean.Name = "button_clean";
+            this.button_clean.Size = new System.Drawing.Size(59, 23);
+            this.button_clean.TabIndex = 8;
+            this.button_clean.Text = "Clean";
+            this.button_clean.UseVisualStyleBackColor = true;
+            this.button_clean.Click += new System.EventHandler(this.button_clean_Click);
+            // 
             // Form_spsh_ch
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.button_clean);
+            this.Controls.Add(this.button_copy);
             this.Controls.Add(this.button_cancel);
             this.Controls.Add(this.button_confirm);
             this.Controls.Add(this.textBoxIDIn);
@@ -161,5 +185,7 @@
         private System.Windows.Forms.TextBox textBoxIDIn;
         private System.Windows.Forms.Button button_confirm;
         private System.Windows.Forms.Button button_cancel;
+        private System.Windows.Forms.Button button_copy;
+        private System.Windows.Forms.Button button_clean;
     }
 }

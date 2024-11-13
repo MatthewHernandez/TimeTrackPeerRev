@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -41,43 +42,7 @@ namespace Desktop_App_For_Professor
         {
             // Call MY_DB to connect to the database
             MY_DB db = new MY_DB();
-            /*
-            try
-            {
-                
-                db.openConnection();
-
-                // Query to get the logged-in professor's classes
-                string query = "SELECT class_name FROM class WHERE professor_id = @prof_id";
-
-                // Prepare the MySqlCommand with the query
-                MySqlCommand command = new MySqlCommand(query, db.getConnection);
-
-                // Use the professor's ID from the session
-                command.Parameters.AddWithValue("@prof_id", ProfessorSession.ProfessorId);
-
-                // Execute the query and read the results
-                MySqlDataReader reader = command.ExecuteReader();
-
-                // Clear existing items
-                comboBoxClasses.Items.Clear();
-
-                // Loop through the result and add class names to the ComboBox
-                while (reader.Read())
-                {
-                    comboBoxClasses.Items.Add(reader["class_name"].ToString());
-                }
-
-                // Close the reader
-                reader.Close();
-
-                db.closeConnection();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error loading classes: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-               */
+            
             try
             {
                 db.openConnection();
@@ -235,16 +200,16 @@ namespace Desktop_App_For_Professor
                 int studentId = Convert.ToInt32(selectedRow.Cells["id"].Value);         // Assuming "id" is the name of the column
                 string firstName = selectedRow.Cells["first_name"].Value.ToString();   // Assuming "first_name" is the column name
                 string lastName = selectedRow.Cells["last_name"].Value.ToString();     // Assuming "last_name" is the column name
-                string email = selectedRow.Cells["email"].Value.ToString();            // Assuming "email" is the column name
-
+                string username = selectedRow.Cells["user"].Value.ToString();            // Assuming "username" is the column name
+                
                 // Store the retrieved data in the STUDENT class
                 STUDENT.Id = studentId;
                 STUDENT.FirstName = firstName;
                 STUDENT.LastName = lastName;
-                STUDENT.Email = email;
+                STUDENT.User = username;
 
                 // Optionally, display a message or take another action
-                MessageBox.Show($"Selected Student:\nID: {studentId}\nName: {firstName} {lastName}\nEmail: {email}");
+                MessageBox.Show($"Selected Student:\nID: {studentId}\nName: {firstName} {lastName}\nUsername: {username}");
 
                 // Open Work Hours Form (Students)
                 Form_std_work workStdInfo = new Form_std_work();
@@ -322,7 +287,7 @@ namespace Desktop_App_For_Professor
 
                         // Query to get the students enrolled in the selected class
                         string query = @"
-                SELECT s.id, s.first_name, s.last_name, s.email
+                SELECT s.last_name, s.first_name, s.username, s.id
                 FROM student_class_enrolled sc
                 JOIN student s ON sc.student_id = s.id
                 JOIN class c ON sc.class_id = c.id
@@ -340,6 +305,11 @@ namespace Desktop_App_For_Professor
 
                         // Bind the DataTable to the DataGridView
                         dataGridViewStudents.DataSource = studentTable;
+
+
+                        label_class.Text = selectedClass.ToString();
+                      
+                        
                     }
                     else
                     {
@@ -377,6 +347,65 @@ namespace Desktop_App_For_Professor
             // Open Spreadsheet
             Form_spsh spsheet = new Form_spsh();
             spsheet.Show(this);
+        }
+
+        private void button_save_Click(object sender, EventArgs e)
+        {
+            // Use SaveFileDialog to specify where to save the CSV file
+            using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+            {
+                saveFileDialog.Filter = "CSV Files|*.csv";
+                saveFileDialog.Title = "Save as CSV File";
+                saveFileDialog.FileName = ProfessorSession.ProfessorId + "_" + label_class.Text + "_Students.csv";
+
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    // Get the path chosen by the user
+                    string filePath = saveFileDialog.FileName;
+
+                    // Save DataGridView data to the specified CSV file
+                    SaveDataGridViewToCsv(filePath);
+                    MessageBox.Show("Data successfully saved to CSV file.", "Save Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+        }
+        // Method to save the DataGridView data to a CSV file
+        private void SaveDataGridViewToCsv(string filePath)
+        {
+            try
+            {
+                using (StreamWriter sw = new StreamWriter(filePath))
+                {
+                    // Write custom headers
+                    var customHeaders = new[] { "First Name", "Last Name", "Username", "Student ID"};
+                    sw.WriteLine(string.Join(",", customHeaders));
+
+                    // Write rows
+                    foreach (DataGridViewRow row in dataGridViewStudents.Rows)
+                    {
+                        if (!row.IsNewRow) // Ignore the placeholder row
+                        {
+                            var fields = row.Cells.Cast<DataGridViewCell>()
+                                         .Select(cell => cell.Value?.ToString() ?? ""); // Handle null values
+                            sw.WriteLine(string.Join(",", fields));
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error saving to CSV file: " + ex.Message, "Save Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void label_class_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }
