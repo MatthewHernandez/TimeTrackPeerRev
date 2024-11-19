@@ -77,6 +77,11 @@ namespace Desktop_App_For_Professor
             textBoxLastNameIn.Text = null;
             textBoxUsernameIn.Text = null;
         }
+
+        private void textBoxLastName_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
     

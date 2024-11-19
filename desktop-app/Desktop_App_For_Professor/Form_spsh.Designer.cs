@@ -30,13 +30,13 @@
         {
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.button_recovery = new System.Windows.Forms.Button();
+            this.button_intoserver = new System.Windows.Forms.Button();
             this.button_delete = new System.Windows.Forms.Button();
             this.button_change = new System.Windows.Forms.Button();
             this.button_add = new System.Windows.Forms.Button();
             this.button_import = new System.Windows.Forms.Button();
             this.dataGridViewStudents = new System.Windows.Forms.DataGridView();
-            this.button_intoserver = new System.Windows.Forms.Button();
-            this.button_recovery = new System.Windows.Forms.Button();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewStudents)).BeginInit();
             this.SuspendLayout();
@@ -62,6 +62,27 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(109, 572);
             this.panel2.TabIndex = 2;
+            this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
+            // 
+            // button_recovery
+            // 
+            this.button_recovery.Location = new System.Drawing.Point(19, 269);
+            this.button_recovery.Name = "button_recovery";
+            this.button_recovery.Size = new System.Drawing.Size(77, 40);
+            this.button_recovery.TabIndex = 6;
+            this.button_recovery.Text = "Recovery";
+            this.button_recovery.UseVisualStyleBackColor = true;
+            this.button_recovery.Click += new System.EventHandler(this.button_recovery_Click);
+            // 
+            // button_intoserver
+            // 
+            this.button_intoserver.Location = new System.Drawing.Point(12, 333);
+            this.button_intoserver.Name = "button_intoserver";
+            this.button_intoserver.Size = new System.Drawing.Size(87, 49);
+            this.button_intoserver.TabIndex = 5;
+            this.button_intoserver.Text = "Save to Server";
+            this.button_intoserver.UseVisualStyleBackColor = true;
+            this.button_intoserver.Click += new System.EventHandler(this.button_intoserver_Click);
             // 
             // button_delete
             // 
@@ -114,26 +135,6 @@
             this.dataGridViewStudents.TabIndex = 3;
             this.dataGridViewStudents.TabStop = false;
             this.dataGridViewStudents.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewStudents_CellContentClick);
-            // 
-            // button_intoserver
-            // 
-            this.button_intoserver.Location = new System.Drawing.Point(12, 333);
-            this.button_intoserver.Name = "button_intoserver";
-            this.button_intoserver.Size = new System.Drawing.Size(87, 49);
-            this.button_intoserver.TabIndex = 5;
-            this.button_intoserver.Text = "Save to Server";
-            this.button_intoserver.UseVisualStyleBackColor = true;
-            this.button_intoserver.Click += new System.EventHandler(this.button_intoserver_Click);
-            // 
-            // button_recovery
-            // 
-            this.button_recovery.Location = new System.Drawing.Point(19, 269);
-            this.button_recovery.Name = "button_recovery";
-            this.button_recovery.Size = new System.Drawing.Size(77, 40);
-            this.button_recovery.TabIndex = 6;
-            this.button_recovery.Text = "Recovery";
-            this.button_recovery.UseVisualStyleBackColor = true;
-            this.button_recovery.Click += new System.EventHandler(this.button_recovery_Click);
             // 
             // Form_spsh
             // 

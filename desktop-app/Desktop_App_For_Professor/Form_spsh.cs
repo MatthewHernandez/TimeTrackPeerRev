@@ -585,5 +585,10 @@ namespace Desktop_App_For_Professor
                 MessageBox.Show("No rows to restore.", "Recovery Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
     }

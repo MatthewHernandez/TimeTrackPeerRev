@@ -30,8 +30,8 @@ namespace Desktop_App_For_Professor
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.sTUDENTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.studentInfomationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -43,12 +43,16 @@ namespace Desktop_App_For_Professor
             this.comboBoxClasses = new System.Windows.Forms.ComboBox();
             this.button_save = new System.Windows.Forms.Button();
             this.button_stdlist = new System.Windows.Forms.Button();
-            this.button_read = new System.Windows.Forms.Button();
             this.labelUsername = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.dataGridViewStudents = new System.Windows.Forms.DataGridView();
             this.label_class = new System.Windows.Forms.Label();
             this.label_class_0 = new System.Windows.Forms.Label();
+            this.button_add = new System.Windows.Forms.Button();
+            this.button_change = new System.Windows.Forms.Button();
+            this.button_delete = new System.Windows.Forms.Button();
+            this.button_import = new System.Windows.Forms.Button();
+            this.button_enroll = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -58,6 +62,7 @@ namespace Desktop_App_For_Professor
             // menuStrip1
             // 
             this.menuStrip1.Dock = System.Windows.Forms.DockStyle.None;
+            this.menuStrip1.Enabled = false;
             this.menuStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Visible;
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -103,12 +108,16 @@ namespace Desktop_App_For_Professor
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.button_enroll);
+            this.panel1.Controls.Add(this.button_import);
+            this.panel1.Controls.Add(this.button_delete);
+            this.panel1.Controls.Add(this.button_change);
+            this.panel1.Controls.Add(this.button_add);
             this.panel1.Controls.Add(this.button_spread);
             this.panel1.Controls.Add(this.label_classection);
             this.panel1.Controls.Add(this.comboBoxClasses);
             this.panel1.Controls.Add(this.button_save);
             this.panel1.Controls.Add(this.button_stdlist);
-            this.panel1.Controls.Add(this.button_read);
             this.panel1.Location = new System.Drawing.Point(0, 80);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(200, 593);
@@ -117,7 +126,7 @@ namespace Desktop_App_For_Professor
             // 
             // button_spread
             // 
-            this.button_spread.Location = new System.Drawing.Point(42, 313);
+            this.button_spread.Location = new System.Drawing.Point(41, 530);
             this.button_spread.Name = "button_spread";
             this.button_spread.Size = new System.Drawing.Size(113, 51);
             this.button_spread.TabIndex = 5;
@@ -148,9 +157,9 @@ namespace Desktop_App_For_Professor
             // 
             // button_save
             // 
-            this.button_save.Location = new System.Drawing.Point(42, 251);
+            this.button_save.Location = new System.Drawing.Point(46, 153);
             this.button_save.Name = "button_save";
-            this.button_save.Size = new System.Drawing.Size(113, 56);
+            this.button_save.Size = new System.Drawing.Size(110, 45);
             this.button_save.TabIndex = 7;
             this.button_save.Text = "Save";
             this.button_save.UseVisualStyleBackColor = true;
@@ -158,23 +167,13 @@ namespace Desktop_App_For_Professor
             // 
             // button_stdlist
             // 
-            this.button_stdlist.Location = new System.Drawing.Point(42, 129);
+            this.button_stdlist.Location = new System.Drawing.Point(44, 101);
             this.button_stdlist.Name = "button_stdlist";
-            this.button_stdlist.Size = new System.Drawing.Size(113, 56);
+            this.button_stdlist.Size = new System.Drawing.Size(110, 46);
             this.button_stdlist.TabIndex = 2;
             this.button_stdlist.Text = "Student List";
             this.button_stdlist.UseVisualStyleBackColor = true;
             this.button_stdlist.Click += new System.EventHandler(this.button_stdlist_Click);
-            // 
-            // button_read
-            // 
-            this.button_read.Location = new System.Drawing.Point(42, 191);
-            this.button_read.Name = "button_read";
-            this.button_read.Size = new System.Drawing.Size(113, 54);
-            this.button_read.TabIndex = 6;
-            this.button_read.Text = "read";
-            this.button_read.UseVisualStyleBackColor = true;
-            this.button_read.Click += new System.EventHandler(this.button_read_Click);
             // 
             // labelUsername
             // 
@@ -204,24 +203,24 @@ namespace Desktop_App_For_Professor
             this.dataGridViewStudents.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dataGridViewStudents.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dataGridViewStudents.BackgroundColor = System.Drawing.SystemColors.ControlLight;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Arial", 14F, System.Drawing.FontStyle.Bold);
-            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewStudents.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Arial", 14F, System.Drawing.FontStyle.Bold);
+            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewStudents.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
             this.dataGridViewStudents.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Arial", 12F);
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewStudents.DefaultCellStyle = dataGridViewCellStyle8;
-            this.dataGridViewStudents.Location = new System.Drawing.Point(241, 139);
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("Arial", 12F);
+            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewStudents.DefaultCellStyle = dataGridViewCellStyle10;
+            this.dataGridViewStudents.Location = new System.Drawing.Point(255, 139);
             this.dataGridViewStudents.Name = "dataGridViewStudents";
             this.dataGridViewStudents.ReadOnly = true;
             this.dataGridViewStudents.RowHeadersWidth = 51;
@@ -250,6 +249,56 @@ namespace Desktop_App_For_Professor
             this.label_class_0.Size = new System.Drawing.Size(72, 23);
             this.label_class_0.TabIndex = 15;
             this.label_class_0.Text = "Class: ";
+            // 
+            // button_add
+            // 
+            this.button_add.Location = new System.Drawing.Point(47, 258);
+            this.button_add.Name = "button_add";
+            this.button_add.Size = new System.Drawing.Size(112, 44);
+            this.button_add.TabIndex = 12;
+            this.button_add.Text = "Add";
+            this.button_add.UseVisualStyleBackColor = true;
+            this.button_add.Click += new System.EventHandler(this.button_add_Click);
+            // 
+            // button_change
+            // 
+            this.button_change.Location = new System.Drawing.Point(47, 308);
+            this.button_change.Name = "button_change";
+            this.button_change.Size = new System.Drawing.Size(112, 46);
+            this.button_change.TabIndex = 12;
+            this.button_change.Text = "Change";
+            this.button_change.UseVisualStyleBackColor = true;
+            this.button_change.Click += new System.EventHandler(this.button_change_Click);
+            // 
+            // button_delete
+            // 
+            this.button_delete.Location = new System.Drawing.Point(47, 360);
+            this.button_delete.Name = "button_delete";
+            this.button_delete.Size = new System.Drawing.Size(112, 46);
+            this.button_delete.TabIndex = 12;
+            this.button_delete.Text = "Delete";
+            this.button_delete.UseVisualStyleBackColor = true;
+            this.button_delete.Click += new System.EventHandler(this.button_delete_Click);
+            // 
+            // button_import
+            // 
+            this.button_import.Location = new System.Drawing.Point(46, 204);
+            this.button_import.Name = "button_import";
+            this.button_import.Size = new System.Drawing.Size(113, 48);
+            this.button_import.TabIndex = 13;
+            this.button_import.Text = "Import";
+            this.button_import.UseVisualStyleBackColor = true;
+            this.button_import.Click += new System.EventHandler(this.button_import_Click);
+            // 
+            // button_enroll
+            // 
+            this.button_enroll.Location = new System.Drawing.Point(47, 412);
+            this.button_enroll.Name = "button_enroll";
+            this.button_enroll.Size = new System.Drawing.Size(112, 45);
+            this.button_enroll.TabIndex = 14;
+            this.button_enroll.Text = "Enroll";
+            this.button_enroll.UseVisualStyleBackColor = true;
+            this.button_enroll.Click += new System.EventHandler(this.button_enroll_Click);
             // 
             // Form_main
             // 
@@ -285,7 +334,6 @@ namespace Desktop_App_For_Professor
         private System.Windows.Forms.ToolStripMenuItem edittempToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mailTempToolStripMenuItem;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Button button_read;
         private System.Windows.Forms.Label labelUsername;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button button_save;
@@ -296,5 +344,10 @@ namespace Desktop_App_For_Professor
         private Button button_spread;
         private Label label_class;
         private Label label_class_0;
+        private Button button_delete;
+        private Button button_change;
+        private Button button_add;
+        private Button button_import;
+        private Button button_enroll;
     }
 }
