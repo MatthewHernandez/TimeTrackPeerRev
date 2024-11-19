@@ -2,10 +2,10 @@
  * Each entry is created by a student who will input also provide all relevant
  * into. This includes the Ranking, commenting, date and reviewer/reveiwee information.
  * Author:  Matthew Louis Hernandez
- * Date:    10/22/2024
+ * Date:    11/18/2024
  * Class:   Computer Science Project CS 4485.0W1
  * Net ID:  mlh190006
- * Version: 0.1
+ * Version: 0.2
  */
 
 using System;
@@ -16,7 +16,7 @@ namespace G81_Library
     class PeerRevEntry
     {
         //Constructor
-        public PeerRevEntry(PClass cID, Student reviewer, Student reviewee, string comment, DateOnly periodStart, DateOnly periodEnd, int[] ranks)
+        public PeerRevEntry(int cID, int reviewer, int reviewee, string comment, DateTime periodStart, DateTime periodEnd, int[] ranks)
         {
             CID = cID;
             Reviewer = reviewer;
@@ -32,36 +32,36 @@ namespace G81_Library
         }
 
         //Class ID
-        public PClass CID { get; private set; }
+        public int CID { get; set; }
 
         // Student who createing review
-        public Student Reviewer { get; private set; }
+        public int Reviewer { get; set; }
 
         // Student to be reviewed
-        public Student Reviewee { get; private set; }
+        public int Reviewee { get; set; }
 
         // Comment of review
-        public string Comment { get; private set; }
+        public string Comment { get; set; }
 
         // Start of review period
-        public DateOnly PeriodStart { get; private set; }
+        public DateTime PeriodStart { get; set; }
 
         // End of review period
-        public DateOnly PeriodEnd { get; private set; }
+        public DateTime PeriodEnd { get; set; }
 
         //quality_of_work_rating
-        public int QualRating {  get; private set; }
+        public int QualRating {  get; set; }
 
         //timeliness_rating
-        public int TimelinessRating { get; private set; }
+        public int TimelinessRating { get; set; }
 
         //teamwork_rating
-        public int TeamworkRating { get; private set; }
+        public int TeamworkRating { get; set; }
 
         //eff_and_part_rating 
-        public int EffRating { get; private set; }
+        public int EffRating { get; set; }
 
         //communication_rating
-        public int CommRating { get; private set; }
+        public int CommRating { get; set; }
     }
 }

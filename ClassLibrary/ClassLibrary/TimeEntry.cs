@@ -4,11 +4,11 @@
  * on, as well as their accomplishments, problems they faced, and their plans moving
  * forward.
  * Author:  Jesus Barrera-Gilabert III
- * Date:    11/12/2024
+ * Date:    11/18/2024
  * Class:   Computer Science Project CS 4485.0W1
  * Net ID:  jxb171030
  * UTD ID:  2021348532
- * Version: 0.2
+ * Version: 0.3
  */
 
 namespace G81_Library
@@ -16,37 +16,24 @@ namespace G81_Library
     class TimeEntry
     {
         //Constructor
-        public TimeEntry (Student student, TimeSpan time, DateOnly date, string comments)
+        public TimeEntry (int student, decimal time, DateTime date, string comments)
         {
             Stu = student;
             Time = time;
             Date = date;
-            Comm = comments;
-            /*Accomplish = accomplish;
-            Plan = plan;
-            Problems = problems;*/            
+            Comments = comments;          
         }
 
         //Student who created the Time Entry
-        public Student Stu { get; }
+        public int Stu { get; set; }
 
         //Amount of time project on the given Date
-        public TimeSpan Time { get; }
+        public decimal Time { get; set; }
 
         //Date of the Time Entry
-        public DateOnly Date { get;  }
+        public DateTime Date { get; set; }
 
         //Comments on time spent
-        public string Comm { get; }
-
-        /*
-        //Comments on what was accomplished
-        public string Accomplish {  get; }
-
-        //Comments on problems faced 
-        public string Problems {  get; }
-
-        //Comments on plans for next Time Entry/Week
-        public string Plan {  get; }*/
+        public string Comments { get; set; }
     }
 }
