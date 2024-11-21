@@ -24,13 +24,19 @@ namespace Desktop_App_For_Professor
 
         private void Form_main_Load(object sender, EventArgs e)
         {
+
             //gxk220025 display logged in user
-            // Check if the user is logged in and display the username
+            // Display logged-in user
             if (!string.IsNullOrEmpty(ProfessorSession.Username))
             {
                 // Set the label to display the current professor's username
                 labelUsername.Text = "Welcome, " + ProfessorSession.Username;
+
+                // Load professor's classes
                 LoadProfessorClasses();
+
+                // Subscribe to the SelectedIndexChanged event of comboBoxClasses
+                comboBoxClasses.SelectedIndexChanged += comboBoxClasses_SelectedIndexChanged;
             }
             else
             {
@@ -74,14 +80,8 @@ namespace Desktop_App_For_Professor
 
         }
 
-        // Event handler for ComboBox selection change
-        private void comboBoxClasses_SelectedIndexChanged(object sender,    EventArgs e)
-        {
-            // When a class is selected, load the enrolled students
-            //LoadEnrolledStudents();
-
-            
-        }
+       
+        
         // Load the students enrolled in the selected class
         //10/22 not user now
         private void LoadEnrolledStudents()
@@ -159,7 +159,97 @@ namespace Desktop_App_For_Professor
         {
             
         }
+        private void comboBoxClasses_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Ensure a valid selection
+            if (comboBoxClasses.SelectedItem == null)
+            {
+                MessageBox.Show("Please select a class.", "Selection Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
+            MY_DB db = new MY_DB();
+
+            try
+            {
+                db.openConnection();
+
+                // Get the selected class name from ComboBox
+                string selectedClass = comboBoxClasses.SelectedItem.ToString();
+
+                if (selectedClass == "All Students")
+                {
+                    // Load all students without filtering by class
+                    string allStudentsQuery = @"
+                SELECT last_name AS 'Last Name', first_name AS 'First Name', username AS 'Username', id AS 'Student ID'
+                FROM student";
+
+                    MySqlCommand allStudentsCommand = new MySqlCommand(allStudentsQuery, db.getConnection);
+                    MySqlDataAdapter allStudentsAdapter = new MySqlDataAdapter(allStudentsCommand);
+                    DataTable allStudentsTable = new DataTable();
+
+                    // Fill the DataTable with all students
+                    allStudentsAdapter.Fill(allStudentsTable);
+
+                    // Bind the DataTable to the DataGridView
+                    dataGridViewStudents.DataSource = allStudentsTable;
+
+                    label_class.Text = "All Students";
+                }
+                else
+                {
+                    // Load students enrolled in the selected class
+                    string classIdQuery = "SELECT id FROM class WHERE class_name = @class_name AND professor_id = @prof_id";
+                    MySqlCommand classIdCommand = new MySqlCommand(classIdQuery, db.getConnection);
+                    classIdCommand.Parameters.AddWithValue("@class_name", selectedClass);
+                    classIdCommand.Parameters.AddWithValue("@prof_id", ProfessorSession.ProfessorId);
+
+                    // Execute the query to get the class ID
+                    object result = classIdCommand.ExecuteScalar();
+
+                    if (result != null)
+                    {
+                        // Save the class ID in the session
+                        ProfessorSession.curClass = Convert.ToInt32(result);
+
+                        // Query to get the students enrolled in the selected class
+                        string query = @"
+                    SELECT s.last_name AS 'Last Name', s.first_name AS 'First Name', s.username AS 'Username', s.id AS 'Student ID'
+                    FROM student_class_enrolled sc
+                    JOIN student s ON sc.student_id = s.id
+                    JOIN class c ON sc.class_id = c.id
+                    WHERE c.class_name = @class_name AND c.professor_id = @prof_id";
+
+                        MySqlCommand command = new MySqlCommand(query, db.getConnection);
+                        command.Parameters.AddWithValue("@class_name", selectedClass);
+                        command.Parameters.AddWithValue("@prof_id", ProfessorSession.ProfessorId);
+
+                        MySqlDataAdapter adapter = new MySqlDataAdapter(command);
+                        DataTable studentTable = new DataTable();
+
+                        // Fill the DataTable with the query result
+                        adapter.Fill(studentTable);
+
+                        // Bind the DataTable to the DataGridView
+                        dataGridViewStudents.DataSource = studentTable;
+
+                        label_class.Text = selectedClass;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Selected class ID not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading students: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                db.closeConnection();
+            }
+        }
         private void LoadProfessorClasses_SelectedIndexChanged(object sender, EventArgs e)
         {
 
@@ -176,10 +266,10 @@ namespace Desktop_App_For_Professor
                 DataGridViewRow selectedRow = dataGridViewStudents.Rows[e.RowIndex];
 
                 // Retrieve the student data from the selected row
-                int studentId = Convert.ToInt32(selectedRow.Cells["id"].Value);         // Assuming "id" is the name of the column
-                string firstName = selectedRow.Cells["first_name"].Value.ToString();   // Assuming "first_name" is the column name
-                string lastName = selectedRow.Cells["last_name"].Value.ToString();     // Assuming "last_name" is the column name
-                string username = selectedRow.Cells["user"].Value.ToString();            // Assuming "username" is the column name
+                int studentId = Convert.ToInt32(selectedRow.Cells["Student ID"].Value);         // Assuming "id" is the name of the column
+                string firstName = selectedRow.Cells["First Name"].Value.ToString();   // Assuming "first_name" is the column name
+                string lastName = selectedRow.Cells["Last Name"].Value.ToString();     // Assuming "last_name" is the column name
+                string username = selectedRow.Cells["Username"].Value.ToString();            // Assuming "username" is the column name
                 
                 // Store the retrieved data in the STUDENT class
                 STUDENT.Id = studentId;
@@ -822,7 +912,83 @@ namespace Desktop_App_For_Professor
 
         private void button_delete_Click(object sender, EventArgs e)
         {
+            if (dataGridViewStudents.SelectedCells.Count > 0)
+            {
+                // Get the row index of the selected cell
+                int rowIndex = dataGridViewStudents.SelectedCells[0].RowIndex;
 
+                // Check if the selected row is the placeholder row
+                if (dataGridViewStudents.Rows[rowIndex].IsNewRow)
+                {
+                    MessageBox.Show("Cannot delete the placeholder row.", "Delete Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Proceed with deletion for non-placeholder rows
+                DataTable dataTable = (DataTable)dataGridViewStudents.DataSource;
+
+                // Back up the row data before deletion by pushing it onto the stack
+                DataRow deletedRow = dataTable.NewRow();
+                deletedRow.ItemArray = dataTable.Rows[rowIndex].ItemArray.Clone() as object[]; // Clone row data
+                
+
+                // Delete from MySQL
+                long studentId = Convert.ToInt64(deletedRow["Student ID"]);
+                bool isDeletedFromMySQL = DeleteFromMySQL(studentId);
+
+                // Only update DataGridView if successfully deleted from MySQL
+                if (isDeletedFromMySQL)
+                {
+                    // Delete the row in the DataTable
+                    dataTable.Rows[rowIndex].Delete();
+                    dataTable.AcceptChanges(); // Commit the deletion to the DataTable
+
+                    // Refresh the DataGridView to reflect the deleted row
+                    dataGridViewStudents.DataSource = null;
+                    dataGridViewStudents.DataSource = dataTable;
+
+                    // Show success message
+                    MessageBox.Show("Student data successfully deleted from MySQL and removed from the application.",
+                                    "Delete Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select a cell in the row you want to delete.", "Delete Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private bool DeleteFromMySQL(long studentId)
+        {
+            
+            MY_DB db = new MY_DB();
+            bool isDeleted = false;
+
+            try
+            {
+                db.openConnection();
+
+                // Proceed with deletion
+                string deleteQuery = "DELETE FROM student WHERE id = @id";
+                using (MySqlCommand deleteCmd = new MySqlCommand(deleteQuery, db.getConnection))
+                {
+                    deleteCmd.Parameters.AddWithValue("@id", studentId);
+                    int rowsAffected = deleteCmd.ExecuteNonQuery();
+
+                    // Check if a row was actually deleted
+                    isDeleted = rowsAffected > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error deleting student from MySQL: " + ex.Message, "Delete Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                db.closeConnection();
+            }
+
+            return isDeleted;
         }
 
         private void button_enroll_Click(object sender, EventArgs e)

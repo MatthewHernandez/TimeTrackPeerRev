@@ -30,14 +30,20 @@ namespace Desktop_App_For_Professor
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form_main));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.sTUDENTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.studentInfomationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.edittempToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mailTempToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.button_enroll = new System.Windows.Forms.Button();
+            this.button_import = new System.Windows.Forms.Button();
+            this.button_delete = new System.Windows.Forms.Button();
+            this.button_change = new System.Windows.Forms.Button();
+            this.button_add = new System.Windows.Forms.Button();
             this.button_spread = new System.Windows.Forms.Button();
             this.label_classection = new System.Windows.Forms.Label();
             this.comboBoxClasses = new System.Windows.Forms.ComboBox();
@@ -48,15 +54,12 @@ namespace Desktop_App_For_Professor
             this.dataGridViewStudents = new System.Windows.Forms.DataGridView();
             this.label_class = new System.Windows.Forms.Label();
             this.label_class_0 = new System.Windows.Forms.Label();
-            this.button_add = new System.Windows.Forms.Button();
-            this.button_change = new System.Windows.Forms.Button();
-            this.button_delete = new System.Windows.Forms.Button();
-            this.button_import = new System.Windows.Forms.Button();
-            this.button_enroll = new System.Windows.Forms.Button();
+            this.login_top_logo = new System.Windows.Forms.PictureBox();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewStudents)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.login_top_logo)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -67,7 +70,7 @@ namespace Desktop_App_For_Professor
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.sTUDENTToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(62, 35);
+            this.menuStrip1.Location = new System.Drawing.Point(902, 17);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(93, 42);
             this.menuStrip1.TabIndex = 3;
@@ -109,26 +112,76 @@ namespace Desktop_App_For_Professor
             // panel1
             // 
             this.panel1.Controls.Add(this.button_enroll);
+            this.panel1.Controls.Add(this.labelUsername);
             this.panel1.Controls.Add(this.button_import);
             this.panel1.Controls.Add(this.button_delete);
             this.panel1.Controls.Add(this.button_change);
             this.panel1.Controls.Add(this.button_add);
-            this.panel1.Controls.Add(this.button_spread);
             this.panel1.Controls.Add(this.label_classection);
             this.panel1.Controls.Add(this.comboBoxClasses);
             this.panel1.Controls.Add(this.button_save);
-            this.panel1.Controls.Add(this.button_stdlist);
             this.panel1.Location = new System.Drawing.Point(0, 80);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(200, 593);
             this.panel1.TabIndex = 7;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
+            // button_enroll
+            // 
+            this.button_enroll.Location = new System.Drawing.Point(43, 287);
+            this.button_enroll.Name = "button_enroll";
+            this.button_enroll.Size = new System.Drawing.Size(110, 45);
+            this.button_enroll.TabIndex = 14;
+            this.button_enroll.Text = "Enroll";
+            this.button_enroll.UseVisualStyleBackColor = true;
+            this.button_enroll.Click += new System.EventHandler(this.button_enroll_Click);
+            // 
+            // button_import
+            // 
+            this.button_import.Location = new System.Drawing.Point(43, 185);
+            this.button_import.Name = "button_import";
+            this.button_import.Size = new System.Drawing.Size(110, 45);
+            this.button_import.TabIndex = 13;
+            this.button_import.Text = "Import";
+            this.button_import.UseVisualStyleBackColor = true;
+            this.button_import.Click += new System.EventHandler(this.button_import_Click);
+            // 
+            // button_delete
+            // 
+            this.button_delete.Location = new System.Drawing.Point(43, 389);
+            this.button_delete.Name = "button_delete";
+            this.button_delete.Size = new System.Drawing.Size(110, 45);
+            this.button_delete.TabIndex = 12;
+            this.button_delete.Text = "Delete";
+            this.button_delete.UseVisualStyleBackColor = true;
+            this.button_delete.Click += new System.EventHandler(this.button_delete_Click);
+            // 
+            // button_change
+            // 
+            this.button_change.Location = new System.Drawing.Point(43, 338);
+            this.button_change.Name = "button_change";
+            this.button_change.Size = new System.Drawing.Size(110, 45);
+            this.button_change.TabIndex = 12;
+            this.button_change.Text = "Change";
+            this.button_change.UseVisualStyleBackColor = true;
+            this.button_change.Click += new System.EventHandler(this.button_change_Click);
+            // 
+            // button_add
+            // 
+            this.button_add.Location = new System.Drawing.Point(43, 236);
+            this.button_add.Name = "button_add";
+            this.button_add.Size = new System.Drawing.Size(110, 45);
+            this.button_add.TabIndex = 12;
+            this.button_add.Text = "Add";
+            this.button_add.UseVisualStyleBackColor = true;
+            this.button_add.Click += new System.EventHandler(this.button_add_Click);
+            // 
             // button_spread
             // 
-            this.button_spread.Location = new System.Drawing.Point(41, 530);
+            this.button_spread.Enabled = false;
+            this.button_spread.Location = new System.Drawing.Point(1095, 17);
             this.button_spread.Name = "button_spread";
-            this.button_spread.Size = new System.Drawing.Size(113, 51);
+            this.button_spread.Size = new System.Drawing.Size(100, 30);
             this.button_spread.TabIndex = 5;
             this.button_spread.Text = "Spread Sheet";
             this.button_spread.UseVisualStyleBackColor = true;
@@ -138,7 +191,7 @@ namespace Desktop_App_For_Professor
             // 
             this.label_classection.AutoSize = true;
             this.label_classection.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_classection.Location = new System.Drawing.Point(18, 33);
+            this.label_classection.Location = new System.Drawing.Point(18, 48);
             this.label_classection.Name = "label_classection";
             this.label_classection.Size = new System.Drawing.Size(111, 23);
             this.label_classection.TabIndex = 11;
@@ -149,7 +202,7 @@ namespace Desktop_App_For_Professor
             // 
             this.comboBoxClasses.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxClasses.FormattingEnabled = true;
-            this.comboBoxClasses.Location = new System.Drawing.Point(22, 59);
+            this.comboBoxClasses.Location = new System.Drawing.Point(22, 74);
             this.comboBoxClasses.Name = "comboBoxClasses";
             this.comboBoxClasses.Size = new System.Drawing.Size(160, 24);
             this.comboBoxClasses.TabIndex = 1;
@@ -157,7 +210,7 @@ namespace Desktop_App_For_Professor
             // 
             // button_save
             // 
-            this.button_save.Location = new System.Drawing.Point(46, 153);
+            this.button_save.Location = new System.Drawing.Point(43, 134);
             this.button_save.Name = "button_save";
             this.button_save.Size = new System.Drawing.Size(110, 45);
             this.button_save.TabIndex = 7;
@@ -167,9 +220,10 @@ namespace Desktop_App_For_Professor
             // 
             // button_stdlist
             // 
-            this.button_stdlist.Location = new System.Drawing.Point(44, 101);
+            this.button_stdlist.Enabled = false;
+            this.button_stdlist.Location = new System.Drawing.Point(1000, 17);
             this.button_stdlist.Name = "button_stdlist";
-            this.button_stdlist.Size = new System.Drawing.Size(110, 46);
+            this.button_stdlist.Size = new System.Drawing.Size(89, 30);
             this.button_stdlist.TabIndex = 2;
             this.button_stdlist.Text = "Student List";
             this.button_stdlist.UseVisualStyleBackColor = true;
@@ -181,7 +235,7 @@ namespace Desktop_App_For_Professor
             this.labelUsername.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.labelUsername.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.labelUsername.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelUsername.Location = new System.Drawing.Point(22, 9);
+            this.labelUsername.Location = new System.Drawing.Point(22, 20);
             this.labelUsername.Name = "labelUsername";
             this.labelUsername.Size = new System.Drawing.Size(2, 25);
             this.labelUsername.TabIndex = 9;
@@ -189,8 +243,10 @@ namespace Desktop_App_For_Professor
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.login_top_logo);
             this.panel2.Controls.Add(this.menuStrip1);
-            this.panel2.Controls.Add(this.labelUsername);
+            this.panel2.Controls.Add(this.button_stdlist);
+            this.panel2.Controls.Add(this.button_spread);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
@@ -203,23 +259,23 @@ namespace Desktop_App_For_Professor
             this.dataGridViewStudents.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dataGridViewStudents.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dataGridViewStudents.BackgroundColor = System.Drawing.SystemColors.ControlLight;
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Arial", 14F, System.Drawing.FontStyle.Bold);
-            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewStudents.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Arial", 14F, System.Drawing.FontStyle.Bold);
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewStudents.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridViewStudents.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle10.Font = new System.Drawing.Font("Arial", 12F);
-            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewStudents.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Arial", 12F);
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewStudents.DefaultCellStyle = dataGridViewCellStyle4;
             this.dataGridViewStudents.Location = new System.Drawing.Point(255, 139);
             this.dataGridViewStudents.Name = "dataGridViewStudents";
             this.dataGridViewStudents.ReadOnly = true;
@@ -250,55 +306,15 @@ namespace Desktop_App_For_Professor
             this.label_class_0.TabIndex = 15;
             this.label_class_0.Text = "Class: ";
             // 
-            // button_add
+            // login_top_logo
             // 
-            this.button_add.Location = new System.Drawing.Point(47, 258);
-            this.button_add.Name = "button_add";
-            this.button_add.Size = new System.Drawing.Size(112, 44);
-            this.button_add.TabIndex = 12;
-            this.button_add.Text = "Add";
-            this.button_add.UseVisualStyleBackColor = true;
-            this.button_add.Click += new System.EventHandler(this.button_add_Click);
-            // 
-            // button_change
-            // 
-            this.button_change.Location = new System.Drawing.Point(47, 308);
-            this.button_change.Name = "button_change";
-            this.button_change.Size = new System.Drawing.Size(112, 46);
-            this.button_change.TabIndex = 12;
-            this.button_change.Text = "Change";
-            this.button_change.UseVisualStyleBackColor = true;
-            this.button_change.Click += new System.EventHandler(this.button_change_Click);
-            // 
-            // button_delete
-            // 
-            this.button_delete.Location = new System.Drawing.Point(47, 360);
-            this.button_delete.Name = "button_delete";
-            this.button_delete.Size = new System.Drawing.Size(112, 46);
-            this.button_delete.TabIndex = 12;
-            this.button_delete.Text = "Delete";
-            this.button_delete.UseVisualStyleBackColor = true;
-            this.button_delete.Click += new System.EventHandler(this.button_delete_Click);
-            // 
-            // button_import
-            // 
-            this.button_import.Location = new System.Drawing.Point(46, 204);
-            this.button_import.Name = "button_import";
-            this.button_import.Size = new System.Drawing.Size(113, 48);
-            this.button_import.TabIndex = 13;
-            this.button_import.Text = "Import";
-            this.button_import.UseVisualStyleBackColor = true;
-            this.button_import.Click += new System.EventHandler(this.button_import_Click);
-            // 
-            // button_enroll
-            // 
-            this.button_enroll.Location = new System.Drawing.Point(47, 412);
-            this.button_enroll.Name = "button_enroll";
-            this.button_enroll.Size = new System.Drawing.Size(112, 45);
-            this.button_enroll.TabIndex = 14;
-            this.button_enroll.Text = "Enroll";
-            this.button_enroll.UseVisualStyleBackColor = true;
-            this.button_enroll.Click += new System.EventHandler(this.button_enroll_Click);
+            this.login_top_logo.Image = ((System.Drawing.Image)(resources.GetObject("login_top_logo.Image")));
+            this.login_top_logo.Location = new System.Drawing.Point(22, 9);
+            this.login_top_logo.Name = "login_top_logo";
+            this.login_top_logo.Size = new System.Drawing.Size(68, 72);
+            this.login_top_logo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.login_top_logo.TabIndex = 6;
+            this.login_top_logo.TabStop = false;
             // 
             // Form_main
             // 
@@ -322,6 +338,7 @@ namespace Desktop_App_For_Professor
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewStudents)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.login_top_logo)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -349,5 +366,6 @@ namespace Desktop_App_For_Professor
         private Button button_add;
         private Button button_import;
         private Button button_enroll;
+        private PictureBox login_top_logo;
     }
 }
