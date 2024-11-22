@@ -13,7 +13,7 @@
 
 namespace G81_Library
 {
-    class TimeEntry
+    public class TimeEntry
     {
         //Constructor
         public TimeEntry (int student, decimal time, DateTime date, string comments)

@@ -26,18 +26,18 @@ namespace G81_Library
     }
 
     //Represents the data of a student with operations for retrieving or editing it
-    class Student : IPerson
+    public class Student : IPerson
     {
         //Constructor (new student)
-        public Student(string fname, string lname, int utdID, string netID, int cID, int group)
+        public Student(string fname, string lname, int utdID, string netID)
         {
             FirstName = fname;
             LastName = lname;
             UtdID = utdID;
             NetID = netID;
+            CID = 0;
+            Group = 0;
             Password = Convert.ToString(utdID);
-            CID = cID;
-            Group = group;
         }
 
         //Alt-Constructor (existing student)
@@ -75,7 +75,7 @@ namespace G81_Library
     }
 
     //Represents the data of a professor with operations for retrieving, adding, and editing it
-    class Professor : IPerson
+    public class Professor : IPerson
     {
         //Constructor (new professor)
         public Professor(string fname, string lname, int utdID, string netID)
@@ -115,7 +115,7 @@ namespace G81_Library
 
     
     //Represents the classes a Professor is in charge of and Students are a part of
-    class PClass
+    public class PClass
     {
         //Constructor
         public PClass(int prof, int id, string name, string semester, int year)

@@ -1,11 +1,11 @@
 ﻿/* Factory contains classes and functions for creating/updating Student, Professor, PeerReviewEntry, and TimeEntry
  * entities and adding them to the database given to them 
  * Author:  Jesus Barrera-Gilabert III
- * Date:    11/18/2024
+ * Date:    11/21/2024
  * Class:   Computer Science Project CS 4485.0W1
  * Net ID:  jxb171030
  * UTD ID:  2021348532
- * Version: 0.4
+ * Version: 0.5
  */
 
 using MySql.Data.MySqlClient;
@@ -18,149 +18,192 @@ namespace G81_Library
     class PersonFactory
     {
         // Constructor
-        public PersonFactory(MySqlConnection con)
+        public PersonFactory(string con)
         {
             SqlCon = con;
         }
 
-        // Connection to the database entities will be added to
-        public MySqlConnection SqlCon { get; set; }
+        // Database address
+        string SqlCon { get; set; }
 
-        // Creates a Student entity and stores it in the database; return the created instance (no password)
-        public Student? CreateStudent(int utdID, string netID, int group, string fname, string lname, int cID)
+        // Creates a Student entity and stores it in the database; return the created instance (new Student)
+        public Student? CreateStudent(int utdID, string netID, string fname, string lname)
         {
-            string commandText = "INSERT INTO students (id, username, password, team_id, first_name, last_name, class_id) VALUES (@id, @username, @password, @team_id, @first_name, @last_name, @class_id)";
-            using (var cmd = new MySqlCommand(commandText, SqlCon))
+            var student = new Student(fname, lname, utdID, netID);
+
+            using (var con = new MySqlConnection(SqlCon))
             {
-                try
+                con.Open();
+
+                string commandText = "INSERT INTO students (id, username, password, team_id, first_name, last_name, class_id) VALUES (@id, @username, @password, 0, @first_name, @last_name, 0)";
+
+                using (var cmd = new MySqlCommand(commandText, con))
                 {
-                    cmd.Parameters.AddWithValue("@id", utdID);
-                    cmd.Parameters.AddWithValue("@username", netID);
-                    cmd.Parameters.AddWithValue("@password", Convert.ToString(utdID));
-                    cmd.Parameters.AddWithValue("@team_id", group);
-                    cmd.Parameters.AddWithValue("@first_name", fname);
-                    cmd.Parameters.AddWithValue("@last_name", lname);
-                    cmd.Parameters.AddWithValue("@class_id", cID);
-                }
-                catch
-                {
-                    return null;
+                    try
+                    {
+                        cmd.Parameters.AddWithValue("@id", student.UtdID);
+                        cmd.Parameters.AddWithValue("@username", student.NetID);
+                        cmd.Parameters.AddWithValue("@password", student.Password);
+                        cmd.Parameters.AddWithValue("@first_name", student.FirstName);
+                        cmd.Parameters.AddWithValue("@last_name", student.LastName);
+                    }
+                    catch
+                    {
+                        student = null;
+                    }
                 }
             }
-            return new Student(fname, lname, utdID, netID, cID, group);
+
+            return student;
         }
 
-        // Creates a Student entity and stores it in the database; return the created instance (password)
+        // Creates a Student entity and stores it in the database; return the created instance (existing Student)
         public Student? CreateStudent(int utdID, string netID, string password, int group, string fname, string lname, int cID)
         {
-            string commandText = "INSERT INTO students (id, username, password, team_id, first_name, last_name, class_id) VALUES (@id, @username, @password, @team_id, @first_name, @last_name, @class_id)";
-            using (var cmd = new MySqlCommand(commandText, SqlCon))
+            var student = new Student(fname, lname, utdID, netID, cID, group, password);
+
+            using (var con = new MySqlConnection(SqlCon))
             {
-                try
+                con.Open();
+
+                string commandText = "INSERT INTO students (id, username, password, team_id, first_name, last_name, class_id) VALUES (@id, @username, @password, @team_id, @first_name, @last_name, @class_id)";
+
+                using (var cmd = new MySqlCommand(commandText, con))
                 {
-                    cmd.Parameters.AddWithValue("@id", utdID);
-                    cmd.Parameters.AddWithValue("@username", netID);
-                    cmd.Parameters.AddWithValue("@password", password);
-                    cmd.Parameters.AddWithValue("@team_id", group);
-                    cmd.Parameters.AddWithValue("@first_name", fname);
-                    cmd.Parameters.AddWithValue("@last_name", lname);
-                    cmd.Parameters.AddWithValue("@class_id", cID);
-                }
-                catch
-                {
-                    return null;
+                    try
+                    {
+                        cmd.Parameters.AddWithValue("@id", student.UtdID);
+                        cmd.Parameters.AddWithValue("@username", student.NetID);
+                        cmd.Parameters.AddWithValue("@password", student.Password);
+                        cmd.Parameters.AddWithValue("@team_id", student.Group);
+                        cmd.Parameters.AddWithValue("@first_name", student.FirstName);
+                        cmd.Parameters.AddWithValue("@last_name", student.LastName);
+                        cmd.Parameters.AddWithValue("@class_id", student.CID);
+                    }
+                    catch
+                    {
+                        student = null;
+                    }
                 }
             }
-            return new Student(fname, lname, utdID, netID, cID, group, password);
+
+            return student;
         }
 
         // Stores an existing Student in the database; return the success status
         public bool CreateStudent(Student student)
         {
-            string commandText = "INSERT INTO students (id, username, password, team_id, first_name, last_name, class_id) VALUES (@id, @username, @password, @team_id, @first_name, @last_name, @class_id)";
-            using (var cmd = new MySqlCommand(commandText, SqlCon))
+            using (var con = new MySqlConnection(SqlCon))
             {
-                try
+                con.Open();
+
+                string commandText = "INSERT INTO students (id, username, password, team_id, first_name, last_name, class_id) VALUES (@id, @username, @password, @team_id, @first_name, @last_name, @class_id)";
+                using (var cmd = new MySqlCommand(commandText, con))
                 {
-                    cmd.Parameters.AddWithValue("@id", student.UtdID);
-                    cmd.Parameters.AddWithValue("@username", student.NetID);
-                    cmd.Parameters.AddWithValue("@password", student.Password);
-                    cmd.Parameters.AddWithValue("@team_id", student.Group);
-                    cmd.Parameters.AddWithValue("@first_name", student.FirstName);
-                    cmd.Parameters.AddWithValue("@last_name", student.LastName);
-                    cmd.Parameters.AddWithValue("@class_id", student.CID);
-                }
-                catch
-                {
-                    return false;
+                    try
+                    {
+                        cmd.Parameters.AddWithValue("@id", student.UtdID);
+                        cmd.Parameters.AddWithValue("@username", student.NetID);
+                        cmd.Parameters.AddWithValue("@password", student.Password);
+                        cmd.Parameters.AddWithValue("@team_id", student.Group);
+                        cmd.Parameters.AddWithValue("@first_name", student.FirstName);
+                        cmd.Parameters.AddWithValue("@last_name", student.LastName);
+                        cmd.Parameters.AddWithValue("@class_id", student.CID);
+                    }
+                    catch
+                    {
+                        return false;
+                    }
                 }
             }
+
             return true;
         }
 
         // Creates a Professor entity and stores it in the database; return the created instance (no password)
         public Professor? CreateProfessor(int utdID, string netID, string fname, string lname)
         {
-            string commandText = "INSERT INTO professors (id, username, password, first_name, last_name) VALUES (@id, @username, @password, @first_name, @last_name)";
-            using (var cmd = new MySqlCommand(commandText, SqlCon))
+            var prof = new Professor(fname, lname, utdID, netID);
+
+            using (var con = new MySqlConnection(SqlCon))
             {
-                try
+                con.Open();
+                
+                string commandText = "INSERT INTO professors (id, username, password, first_name, last_name) VALUES (@id, @username, @password, @first_name, @last_name)";
+
+                using (var cmd = new MySqlCommand(commandText, con))
                 {
-                    cmd.Parameters.AddWithValue("@id", utdID);
-                    cmd.Parameters.AddWithValue("@username", netID);
-                    cmd.Parameters.AddWithValue("@password", Convert.ToString(utdID));
-                    cmd.Parameters.AddWithValue("@first_name", fname);
-                    cmd.Parameters.AddWithValue("@last_name", lname);
-                }
-                catch
-                {
-                    return null;
+                    try
+                    {
+                        cmd.Parameters.AddWithValue("@id", prof.UtdID);
+                        cmd.Parameters.AddWithValue("@username", prof.NetID);
+                        cmd.Parameters.AddWithValue("@password", prof.Password);
+                        cmd.Parameters.AddWithValue("@first_name", prof.FirstName);
+                        cmd.Parameters.AddWithValue("@last_name", prof.LastName);
+                    }
+                    catch
+                    {
+                        prof = null;
+                    }
                 }
             }
-                        
-            return new Professor(fname, lname, utdID, netID);
+
+            return prof;
         }
 
         // Creates a Professor entity and stores it in the database; return the created instance (password)
         public Professor? CreateProfessor(int utdID, string netID, string password, string fname, string lname)
         {
-            string commandText = "INSERT INTO professors (id, username, password, first_name, last_name) VALUES (@id, @username, @password, @first_name, @last_name)";
-            using (var cmd = new MySqlCommand(commandText, SqlCon))
+            var prof = new Professor(fname, lname, utdID, netID, password);
+            using (var con = new MySqlConnection(SqlCon))
             {
-                try
+                con.Open();
+                
+                string commandText = "INSERT INTO professors (id, username, password, first_name, last_name) VALUES (@id, @username, @password, @first_name, @last_name)";
+
+                using (var cmd = new MySqlCommand(commandText, con))
                 {
-                    cmd.Parameters.AddWithValue("@id", utdID);
-                    cmd.Parameters.AddWithValue("@username", netID);
-                    cmd.Parameters.AddWithValue("@password", Convert.ToString(utdID));
-                    cmd.Parameters.AddWithValue("@first_name", fname);
-                    cmd.Parameters.AddWithValue("@last_name", lname);
-                }
-                catch
-                {
-                    return null;
+                    try
+                    {
+                        cmd.Parameters.AddWithValue("@id", prof.UtdID);
+                        cmd.Parameters.AddWithValue("@username", prof.NetID);
+                        cmd.Parameters.AddWithValue("@password", prof.Password);
+                        cmd.Parameters.AddWithValue("@first_name", prof.FirstName);
+                        cmd.Parameters.AddWithValue("@last_name", prof.LastName);
+                    }
+                    catch
+                    {
+                        prof = null;
+                    }
                 }
             }
 
-            return new Professor(fname, lname, utdID, netID, password);
+            return prof;
         }
 
         // Stores an existing Professor in the database; return the success status
         public bool CreateProfessor(Professor prof)
         {
-            string commandText = "INSERT INTO professors (id, username, password, first_name, last_name) VALUES (@id, @username, @password, @first_name, @last_name)";
-            using (var cmd = new MySqlCommand(commandText, SqlCon))
+            using (var con =new MySqlConnection(SqlCon))
             {
-                try
+                con.Open();
+
+                string commandText = "INSERT INTO professors (id, username, password, first_name, last_name) VALUES (@id, @username, @password, @first_name, @last_name)";
+
+                using (var cmd = new MySqlCommand(commandText, con))
                 {
-                    cmd.Parameters.AddWithValue("@id", prof.UtdID);
-                    cmd.Parameters.AddWithValue("@username", prof.NetID);
-                    cmd.Parameters.AddWithValue("@password", prof.Password);
-                    cmd.Parameters.AddWithValue("@first_name", prof.FirstName);
-                    cmd.Parameters.AddWithValue("@last_name", prof.LastName);
-                }
-                catch
-                {
-                    return false;
+                    try
+                    {
+                        cmd.Parameters.AddWithValue("@id", prof.UtdID);
+                        cmd.Parameters.AddWithValue("@username", prof.NetID);
+                        cmd.Parameters.AddWithValue("@password", prof.Password);
+                        cmd.Parameters.AddWithValue("@first_name", prof.FirstName);
+                        cmd.Parameters.AddWithValue("@last_name", prof.LastName);
+                    }
+                    catch
+                    {
+                        return false;
+                    }
                 }
             }
 
@@ -177,48 +220,44 @@ namespace G81_Library
             SqlCon = con;
         }
 
-        // Connection to the database entities will be added to
-        public MySqlConnection SqlCon { get; set; }
+        // Database address
+        MySqlConnection SqlCon { get; set; }
 
         // Create a PeerRevEntry intance and store in the database; return the created instance (empty ranks; no comments)
-        public PeerRevEntry? CreateReview(int pClass, int reviewer, int reviewee, DateTime start, DateTime end)
+        public PeerRevEntry? CreateReview(int reviewer, int reviewee, int pNum)
         {
-            string commandText = "INSERT INTO peer_review(id, reviewer_id, reviewee_id, start_date, end_date, qual_of_work_rating, timeliness_rating, teamwork_rating, eff_and_part_rating, communication_rating, comments) " +
-                "VALUES(@id, @reviewer_id, @reviewee_id, @start_date, @end_date, 0, 0, 0, 0, 0, '')";
+            string commandText = "INSERT INTO peer_review(period_number, reviewer_id, reviewee_id, qual_of_work_rating, timeliness_rating, teamwork_rating, eff_and_part_rating, communication_rating, comments) " +
+                "VALUES(@p_num, @reviewer_id, @reviewee_id, 0, 0, 0, 0, 0, '')";
 
             using (var cmd = new MySqlCommand(commandText, SqlCon))
             {
                 try
                 {
-                    cmd.Parameters.AddWithValue("@id", pClass);
+                    cmd.Parameters.AddWithValue("@p_num", pNum);
                     cmd.Parameters.AddWithValue("@reviewer_id", reviewer);
                     cmd.Parameters.AddWithValue("@reviewee_id", reviewee);
-                    cmd.Parameters.AddWithValue("@start_date", start);
-                    cmd.Parameters.AddWithValue("@end_date", end);
                 }
                 catch
                 {
                     return null;
                 }
             }
-            return new PeerRevEntry(pClass, reviewer, reviewee, "", start, end, [0, 0, 0, 0, 0]);
+            return new PeerRevEntry(reviewer, reviewee, "", pNum, [0, 0, 0, 0, 0]);
         }
 
         // Create a PeerRevEntry intance and store in the database; return the created instance (ranks; comments)
-        public PeerRevEntry? CreateReview(int pClass, int reviewer, int reviewee, DateTime start, DateTime end, int[] ranks, string comments)
+        public PeerRevEntry? CreateReview(int reviewer, int reviewee, int pNum, int[] ranks, string comments)
         {
-            string commandText = "INSERT INTO peer_review(id, reviewer_id, reviewee_id, start_date, end_date, qual_of_work_rating, timeliness_rating, teamwork_rating, eff_and_part_rating, communication_rating, comments) " +
-                "VALUES(@id, @reviewer_id, @reviewee_id, @start_date, @end_date, @qual, @timeliness, @teamwork, @eff, @communication, @comments)";
+            string commandText = "INSERT INTO peer_review(period_number, reviewer_id, reviewee_id, qual_of_work_rating, timeliness_rating, teamwork_rating, eff_and_part_rating, communication_rating, comments) " +
+                "VALUES(@p_num, @reviewer_id, @reviewee_id, @qual, @timeliness, @teamwork, @eff, @communication, @comments)";
 
             using (var cmd = new MySqlCommand(commandText, SqlCon))
             {
                 try
                 {
-                    cmd.Parameters.AddWithValue("@id", pClass);
+                    cmd.Parameters.AddWithValue("@p_num", pNum);
                     cmd.Parameters.AddWithValue("@reviewer_id", reviewer);
                     cmd.Parameters.AddWithValue("@reviewee_id", reviewee);
-                    cmd.Parameters.AddWithValue("@start_date", start);
-                    cmd.Parameters.AddWithValue("@end_date", end);
                     cmd.Parameters.AddWithValue("@qual", ranks[0]);
                     cmd.Parameters.AddWithValue("@timeliness", ranks[1]);
                     cmd.Parameters.AddWithValue("@teamwork", ranks[2]);
@@ -231,24 +270,22 @@ namespace G81_Library
                     return null;
                 }
             }
-            return new PeerRevEntry(pClass, reviewer, reviewee, comments, start, end, ranks);
+            return new PeerRevEntry(reviewer, reviewee, comments, pNum, ranks);
         }
 
         // Store an existing PeerReviewEntry in the database; return the success state
         public bool CreateReview(PeerRevEntry review)
         {
-            string commandText = "INSERT INTO peer_review(id, reviewer_id, reviewee_id, start_date, end_date, qual_of_work_rating, timeliness_rating, teamwork_rating, eff_and_part_rating, communication_rating, comments) " +
-                "VALUES(@id, @reviewer_id, @reviewee_id, @start_date, @end_date, @qual, @timeliness, @teamwork, @eff, @communication, @comments)";
+            string commandText = "INSERT INTO peer_review(period_number, reviewer_id, reviewee_id, qual_of_work_rating, timeliness_rating, teamwork_rating, eff_and_part_rating, communication_rating, comments) " +
+                "VALUES(@p_num, @reviewer_id, @reviewee_id, @qual, @timeliness, @teamwork, @eff, @communication, @comments)";
 
             using (var cmd = new MySqlCommand(commandText, SqlCon))
             {
                 try
                 {
-                    cmd.Parameters.AddWithValue("@id", review.CID);
+                    cmd.Parameters.AddWithValue("@p_num", review.PeriodNumber);
                     cmd.Parameters.AddWithValue("@reviewer_id", review.Reviewer);
                     cmd.Parameters.AddWithValue("@reviewee_id", review.Reviewee);
-                    cmd.Parameters.AddWithValue("@start_date", review.PeriodStart);
-                    cmd.Parameters.AddWithValue("@end_date", review.PeriodEnd);
                     cmd.Parameters.AddWithValue("@qual", review.QualRating);
                     cmd.Parameters.AddWithValue("@timeliness", review.TimelinessRating);
                     cmd.Parameters.AddWithValue("@teamwork", review.TeamworkRating);
@@ -274,7 +311,8 @@ namespace G81_Library
             SqlCon = con;
         }
 
-        public MySqlConnection SqlCon { get; set; }
+        // Database address
+        MySqlConnection SqlCon { get; set; }
 
         // Create TimeEntry instance and store in the database; return the created instance
         public TimeEntry? CreateTime(int stu, decimal time, DateTime date, string comm)
@@ -330,7 +368,8 @@ namespace G81_Library
             SqlCon = con;
         }
 
-        public MySqlConnection SqlCon { get; set; }
+        //Database address
+        MySqlConnection SqlCon { get; set; }
 
         // Creates PClass instances and stores them in the database; return the PClass instance
         public PClass? CreatePClass(int cID, int prof, string name, string semester, int year)
