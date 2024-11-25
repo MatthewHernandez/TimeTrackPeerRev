@@ -1,11 +1,11 @@
 ﻿/* Factory contains classes and functions for creating/updating Student, Professor, PeerReviewEntry, and TimeEntry
  * entities and adding them to the database given to them 
  * Author:  Jesus Barrera-Gilabert III
- * Date:    11/21/2024
+ * Date:    11/24/2024
  * Class:   Computer Science Project CS 4485.0W1
  * Net ID:  jxb171030
  * UTD ID:  2021348532
- * Version: 0.5
+ * Version: 0.6
  */
 
 using MySql.Data.MySqlClient;
@@ -29,16 +29,20 @@ namespace G81_Library
         // Creates a Student entity and stores it in the database; return the created instance (new Student)
         public Student? CreateStudent(int utdID, string netID, string fname, string lname)
         {
-            var student = new Student(fname, lname, utdID, netID);
+            var student = new Student(fname, lname, utdID, netID); // Student with given data
 
+            // Create and use MySqlConnection to the database using the provided address
             using (var con = new MySqlConnection(SqlCon))
             {
                 con.Open();
 
+                // SQL insert query (default values: team_id = 0, class_id = 0, password = id)
                 string commandText = "INSERT INTO students (id, username, password, team_id, first_name, last_name, class_id) VALUES (@id, @username, @password, 0, @first_name, @last_name, 0)";
 
+                // Create and use MySqlCommand using con and the insert query 
                 using (var cmd = new MySqlCommand(commandText, con))
                 {
+                    // Add available parameters to the query
                     try
                     {
                         cmd.Parameters.AddWithValue("@id", student.UtdID);
@@ -46,7 +50,15 @@ namespace G81_Library
                         cmd.Parameters.AddWithValue("@password", student.Password);
                         cmd.Parameters.AddWithValue("@first_name", student.FirstName);
                         cmd.Parameters.AddWithValue("@last_name", student.LastName);
+
+                        // Check if any rows were affected; change student to null if <= 0
+                        if(0 >= cmd.ExecuteNonQuery())
+                        {
+                            student = null;
+                        }
                     }
+
+                    // Adding/Executing Query failed, so set student to null
                     catch
                     {
                         student = null;
@@ -54,52 +66,40 @@ namespace G81_Library
                 }
             }
 
-            return student;
+            return student; //returns null if task failed
         }
 
         // Creates a Student entity and stores it in the database; return the created instance (existing Student)
         public Student? CreateStudent(int utdID, string netID, string password, int group, string fname, string lname, int cID)
         {
-            var student = new Student(fname, lname, utdID, netID, cID, group, password);
+            var student = new Student(fname, lname, utdID, netID, cID, group, password); // Student with given data
 
-            using (var con = new MySqlConnection(SqlCon))
+            // Pass created Student entity to CreateStudent(Student student)
+            if (CreateStudent(student))
             {
-                con.Open();
-
-                string commandText = "INSERT INTO students (id, username, password, team_id, first_name, last_name, class_id) VALUES (@id, @username, @password, @team_id, @first_name, @last_name, @class_id)";
-
-                using (var cmd = new MySqlCommand(commandText, con))
-                {
-                    try
-                    {
-                        cmd.Parameters.AddWithValue("@id", student.UtdID);
-                        cmd.Parameters.AddWithValue("@username", student.NetID);
-                        cmd.Parameters.AddWithValue("@password", student.Password);
-                        cmd.Parameters.AddWithValue("@team_id", student.Group);
-                        cmd.Parameters.AddWithValue("@first_name", student.FirstName);
-                        cmd.Parameters.AddWithValue("@last_name", student.LastName);
-                        cmd.Parameters.AddWithValue("@class_id", student.CID);
-                    }
-                    catch
-                    {
-                        student = null;
-                    }
-                }
+                return student; // Success
             }
-
-            return student;
+            else
+            {
+                return null; // Failure
+            }
         }
 
         // Stores an existing Student in the database; return the success status
         public bool CreateStudent(Student student)
         {
+            // Create and use MySqlConnection to the database using the provided address
             using (var con = new MySqlConnection(SqlCon))
             {
                 con.Open();
 
+                // SQL insert query
                 string commandText = "INSERT INTO students (id, username, password, team_id, first_name, last_name, class_id) VALUES (@id, @username, @password, @team_id, @first_name, @last_name, @class_id)";
+
+                // Create and use MySqlCommand using con and the insert query
                 using (var cmd = new MySqlCommand(commandText, con))
                 {
+                    // Add available parameters to the query
                     try
                     {
                         cmd.Parameters.AddWithValue("@id", student.UtdID);
@@ -109,7 +109,15 @@ namespace G81_Library
                         cmd.Parameters.AddWithValue("@first_name", student.FirstName);
                         cmd.Parameters.AddWithValue("@last_name", student.LastName);
                         cmd.Parameters.AddWithValue("@class_id", student.CID);
+
+                        // Check if any rows were affected; return false if <= 0
+                        if (0 >= cmd.ExecuteNonQuery())
+                        {
+                            return false;
+                        }
                     }
+
+                    // Adding/Executing Query failed, so return false
                     catch
                     {
                         return false;
@@ -117,22 +125,26 @@ namespace G81_Library
                 }
             }
 
-            return true;
+            return true; 
         }
 
         // Creates a Professor entity and stores it in the database; return the created instance (no password)
         public Professor? CreateProfessor(int utdID, string netID, string fname, string lname)
         {
-            var prof = new Professor(fname, lname, utdID, netID);
+            var prof = new Professor(fname, lname, utdID, netID); // Professor with given data
 
+            // Create and use MySqlConnection to the database using the provided address
             using (var con = new MySqlConnection(SqlCon))
             {
                 con.Open();
-                
-                string commandText = "INSERT INTO professors (id, username, password, first_name, last_name) VALUES (@id, @username, @password, @first_name, @last_name)";
 
+                // SQL insert query
+                string commandText = "INSERT INTO professors (id, username, password, first_name, last_name) VALUES (@id, @username, @password, @first_name, @last_name)";
+                
+                // Create and use MySqlCommand using con and the insert query
                 using (var cmd = new MySqlCommand(commandText, con))
                 {
+                    // Add available parameters to the query
                     try
                     {
                         cmd.Parameters.AddWithValue("@id", prof.UtdID);
@@ -140,7 +152,15 @@ namespace G81_Library
                         cmd.Parameters.AddWithValue("@password", prof.Password);
                         cmd.Parameters.AddWithValue("@first_name", prof.FirstName);
                         cmd.Parameters.AddWithValue("@last_name", prof.LastName);
+
+                        // Check if any rows were affected; set prof to null if <= 0
+                        if (0 >= cmd.ExecuteNonQuery())
+                        {
+                            prof = null;
+                        }
                     }
+
+                    // Adding/Executing Query failed, so set prof to null
                     catch
                     {
                         prof = null;
@@ -148,50 +168,40 @@ namespace G81_Library
                 }
             }
 
-            return prof;
+            return prof; //returns null if task failed
         }
 
         // Creates a Professor entity and stores it in the database; return the created instance (password)
         public Professor? CreateProfessor(int utdID, string netID, string password, string fname, string lname)
         {
-            var prof = new Professor(fname, lname, utdID, netID, password);
-            using (var con = new MySqlConnection(SqlCon))
+            var prof = new Professor(fname, lname, utdID, netID, password); // Professor with given data
+
+            // Pass prof to CreateProfessor(Professor prof)
+            if (CreateProfessor(prof))
             {
-                con.Open();
-                
-                string commandText = "INSERT INTO professors (id, username, password, first_name, last_name) VALUES (@id, @username, @password, @first_name, @last_name)";
-
-                using (var cmd = new MySqlCommand(commandText, con))
-                {
-                    try
-                    {
-                        cmd.Parameters.AddWithValue("@id", prof.UtdID);
-                        cmd.Parameters.AddWithValue("@username", prof.NetID);
-                        cmd.Parameters.AddWithValue("@password", prof.Password);
-                        cmd.Parameters.AddWithValue("@first_name", prof.FirstName);
-                        cmd.Parameters.AddWithValue("@last_name", prof.LastName);
-                    }
-                    catch
-                    {
-                        prof = null;
-                    }
-                }
+                return prof; // Success
             }
-
-            return prof;
+            else
+            {
+                return null; // Failure
+            }
         }
 
         // Stores an existing Professor in the database; return the success status
         public bool CreateProfessor(Professor prof)
         {
+            // Create and use MySqlConnection to the database using the provided address
             using (var con =new MySqlConnection(SqlCon))
             {
                 con.Open();
 
+                // SQL insert query
                 string commandText = "INSERT INTO professors (id, username, password, first_name, last_name) VALUES (@id, @username, @password, @first_name, @last_name)";
 
+                // Create and use MySqlCommand using con and the insert query
                 using (var cmd = new MySqlCommand(commandText, con))
                 {
+                    // Add available parameters to the query
                     try
                     {
                         cmd.Parameters.AddWithValue("@id", prof.UtdID);
@@ -199,7 +209,15 @@ namespace G81_Library
                         cmd.Parameters.AddWithValue("@password", prof.Password);
                         cmd.Parameters.AddWithValue("@first_name", prof.FirstName);
                         cmd.Parameters.AddWithValue("@last_name", prof.LastName);
+
+                        // Check if any rows were affected; return false if <= 0
+                        if (0 >= cmd.ExecuteNonQuery())
+                        {
+                            return false;
+                        }
                     }
+
+                    // Adding/Executing Query failed, so return false
                     catch
                     {
                         return false;
