@@ -1,16 +1,17 @@
 ﻿/* Factory contains classes and functions for creating/updating Student, Professor, PeerReviewEntry, and TimeEntry
  * entities and adding them to the database given to them 
  * Author:  Jesus Barrera-Gilabert III
- * Date:    11/25/2024
+ * Date:    11/26/2024
  * Class:   Computer Science Project CS 4485.0W1
  * Net ID:  jxb171030
  * UTD ID:  2021348532
- * Version: 0.7
+ * Version: 0.8
  */
 
 using MySql.Data.MySqlClient;
 using Mysqlx.Crud;
 using System.Xml.Linq;
+using static Mysqlx.Expect.Open.Types.Condition.Types;
 
 namespace G81_Library
 {
@@ -30,74 +31,80 @@ namespace G81_Library
         // Return the created instance (new Student)
         public Student? CreateStudent(int id, string username, string fname, string lname)
         {
-            var student = new Student(fname, lname, id, username); // Student with given data
-
-            // Create and use MySqlConnection to the database using the provided address
-            using (var con = new MySqlConnection(SqlCon))
+            // Create a student with given parameters
+            try
             {
-                con.Open();
+                var student = new Student(fname, lname, id, username);
 
-                // SQL insert query (default values: team_id = 0, class_id = 0, password = id)
-                string commandText = "INSERT INTO students (id, username, password, team_id, first_name, last_name, class_id) VALUES (@id, @username, @password, 0, @first_name, @last_name, 0)";
-
-                // Create and use MySqlCommand using con and the insert query 
-                using (var cmd = new MySqlCommand(commandText, con))
+                // Create and use MySqlConnection to the database using the provided address
+                using (var con = new MySqlConnection(SqlCon))
                 {
-                    // Add available parameters to the query
-                    try
-                    {
-                        cmd.Parameters.AddWithValue("@id", student.ID);
-                        cmd.Parameters.AddWithValue("@username", student.Username);
-                        cmd.Parameters.AddWithValue("@password", student.Password);
-                        cmd.Parameters.AddWithValue("@first_name", student.FirstName);
-                        cmd.Parameters.AddWithValue("@last_name", student.LastName);
+                    con.Open();
 
-                        // Check if any rows were affected; change student to null if <= 0
-                        if(0 >= cmd.ExecuteNonQuery())
+                    // SQL insert query with duplicate handeling (don't update)
+                    string commandText = "INSERT IGNORE INTO students (id, username, first_name, last_name, password, class_id, team_id) VALUES (@id, @username, @first_name, @last_name, @password, @class_id, @team_id) ";
+
+                    // Create and use MySqlCommand using con and the insert query 
+                    using (var cmd = new MySqlCommand(commandText, con))
+                    {
+                        // Add available parameters to the query
+                        try
+                        {
+                            cmd.Parameters.AddWithValue("@id", student.ID);
+                            cmd.Parameters.AddWithValue("@username", student.Username);
+                            cmd.Parameters.AddWithValue("@password", student.Password);
+                            cmd.Parameters.AddWithValue("@first_name", student.FirstName);
+                            cmd.Parameters.AddWithValue("@last_name", student.LastName);
+
+                            // Check if any rows were affected; change student to null if <= 0
+                            if (0 >= cmd.ExecuteNonQuery())
+                            {
+                                student = null;
+                            }
+                        }
+
+                        // Adding/Executing Query failed, so set student to null
+                        catch
                         {
                             student = null;
                         }
                     }
-
-                    // Adding/Executing Query failed, so set student to null
-                    catch
-                    {
-                        student = null;
-                    }
                 }
+
+                return student; //returns null if task failed
             }
 
-            return student; //returns null if task failed
-        }
-
-        // Creates a Student entity and stores it in the database
-        // Return the created instance (existing Student)
-        public Student? CreateStudent(int id, string username, string password, int group, string fname, string lname, int cID)
-        {
-            var student = new Student(fname, lname, id, username, cID, group, password); // Student with given data
-
-            // Pass created Student entity to CreateStudent(Student student)
-            if (CreateStudent(student))
+            // Create failed
+            catch
             {
-                return student; // Success
-            }
-            else
-            {
-                return null; // Failure
+                return null;
             }
         }
 
         // Stores an existing Student in the database
         // Return the success status
-        public bool CreateStudent(Student student)
+        public bool CreateStudent(Student stu)
         {
+            // Check if student is null
+            if (stu == null)
+            {
+                return false;    // Invalid student
+            }
+
             // Create and use MySqlConnection to the database using the provided address
             using (var con = new MySqlConnection(SqlCon))
             {
                 con.Open();
 
-                // SQL insert query
-                string commandText = "INSERT INTO students (id, username, password, team_id, first_name, last_name, class_id) VALUES (@id, @username, @password, @team_id, @first_name, @last_name, @class_id)";
+                // SQL insert query with duplicate handeling (update)
+                string commandText = "INSERT INTO students (id, username, first_name, last_name, password, class_id, team_id) VALUES (@id, @username, @first_name, @last_name, @password, @class_id, @team_id) " +
+                    "ON DUPLICATE KEY UPDATE " +
+                    "username = VALUES (@username), " +
+                    "first_name = VALUES (@first_name), " +
+                    "last_name = VAlUES (@last_name), " +
+                    "password = VALUES (@password), " +
+                    "class_id = VALUES (@class_id), " +
+                    "team_id = VALUES (@team_id);";
 
                 // Create and use MySqlCommand using con and the insert query
                 using (var cmd = new MySqlCommand(commandText, con))
@@ -105,13 +112,13 @@ namespace G81_Library
                     // Add available parameters to the query
                     try
                     {
-                        cmd.Parameters.AddWithValue("@id", student.ID);
-                        cmd.Parameters.AddWithValue("@username", student.Username);
-                        cmd.Parameters.AddWithValue("@password", student.Password);
-                        cmd.Parameters.AddWithValue("@team_id", student.TeamID);
-                        cmd.Parameters.AddWithValue("@first_name", student.FirstName);
-                        cmd.Parameters.AddWithValue("@last_name", student.LastName);
-                        cmd.Parameters.AddWithValue("@class_id", student.CID);
+                        cmd.Parameters.AddWithValue("@id", stu.ID);
+                        cmd.Parameters.AddWithValue("@username", stu.Username);
+                        cmd.Parameters.AddWithValue("@password", stu.Password);
+                        cmd.Parameters.AddWithValue("@team_id", stu.TeamID);
+                        cmd.Parameters.AddWithValue("@first_name", stu.FirstName);
+                        cmd.Parameters.AddWithValue("@last_name", stu.LastName);
+                        cmd.Parameters.AddWithValue("@class_id", stu.CID);
 
                         // Check if any rows were affected; return false if <= 0
                         if (0 >= cmd.ExecuteNonQuery())
@@ -135,60 +142,53 @@ namespace G81_Library
         // Return the created instance (no password)
         public Professor? CreateProfessor(int id, string username, string fname, string lname)
         {
-            var prof = new Professor(fname, lname, id, username); // Professor with given data
-
-            // Create and use MySqlConnection to the database using the provided address
-            using (var con = new MySqlConnection(SqlCon))
+            // Create a professor with given parameters
+            try
             {
-                con.Open();
+                var prof = new Professor(fname, lname, id, username);
 
-                // SQL insert query
-                string commandText = "INSERT INTO professors (id, username, password, first_name, last_name) VALUES (@id, @username, @password, @first_name, @last_name)";
-                
-                // Create and use MySqlCommand using con and the insert query
-                using (var cmd = new MySqlCommand(commandText, con))
+                // Create and use MySqlConnection to the database using the provided address
+                using (var con = new MySqlConnection(SqlCon))
                 {
-                    // Add available parameters to the query
-                    try
-                    {
-                        cmd.Parameters.AddWithValue("@id", prof.ID);
-                        cmd.Parameters.AddWithValue("@username", prof.Username);
-                        cmd.Parameters.AddWithValue("@password", prof.Password);
-                        cmd.Parameters.AddWithValue("@first_name", prof.FirstName);
-                        cmd.Parameters.AddWithValue("@last_name", prof.LastName);
+                    con.Open();
 
-                        // Check if any rows were affected; set prof to null if <= 0
-                        if (0 >= cmd.ExecuteNonQuery())
+                    // SQL insert query with duplicate handeling (don't update)
+                    string commandText = "INSERT IGNORE INTO professors (id, username, first_name, last_name, password) VALUES (@id, @username, @first_name, @last_name, @password)";
+
+                    // Create and use MySqlCommand using con and the insert query
+                    using (var cmd = new MySqlCommand(commandText, con))
+                    {
+                        // Add available parameters to the query
+                        try
+                        {
+                            cmd.Parameters.AddWithValue("@id", prof.ID);
+                            cmd.Parameters.AddWithValue("@username", prof.Username);
+                            cmd.Parameters.AddWithValue("@password", prof.Password);
+                            cmd.Parameters.AddWithValue("@first_name", prof.FirstName);
+                            cmd.Parameters.AddWithValue("@last_name", prof.LastName);
+
+                            // Check if any rows were affected; set prof to null if <= 0
+                            if (0 >= cmd.ExecuteNonQuery())
+                            {
+                                prof = null;
+                            }
+                        }
+
+                        // Adding/Executing Query failed, so set prof to null
+                        catch
                         {
                             prof = null;
                         }
                     }
-
-                    // Adding/Executing Query failed, so set prof to null
-                    catch
-                    {
-                        prof = null;
-                    }
                 }
+
+                return prof; //returns null if task failed
             }
 
-            return prof; //returns null if task failed
-        }
-
-        // Creates a Professor entity and stores it in the database
-        // Return the created instance (password)
-        public Professor? CreateProfessor(int id, string username, string password, string fname, string lname)
-        {
-            var prof = new Professor(fname, lname, id, username, password); // Professor with given data
-
-            // Pass prof to CreateProfessor(Professor prof)
-            if (CreateProfessor(prof))
+            // Create failed
+            catch
             {
-                return prof; // Success
-            }
-            else
-            {
-                return null; // Failure
+                return null;
             }
         }
 
@@ -196,13 +196,23 @@ namespace G81_Library
         // Return the success status
         public bool CreateProfessor(Professor prof)
         {
+            // Check if professor is null
+            if (prof == null)
+            {
+                return false;    // Invalid professor
+            }
             // Create and use MySqlConnection to the database using the provided address
             using (var con =new MySqlConnection(SqlCon))
             {
                 con.Open();
 
-                // SQL insert query
-                string commandText = "INSERT INTO professors (id, username, password, first_name, last_name) VALUES (@id, @username, @password, @first_name, @last_name)";
+                // SQL insert query with duplicate handeling (update)
+                string commandText = "INSERT INTO professors (id, username, first_name, last_name, password) VALUES (@id, @username, @first_name, @last_name, @password)" +
+                    "ON DUPLICATE KEY UPDATE " +
+                    "username = VALUES (@username), " +
+                    "first_name = VALUES (@first_name), " +
+                    "last_name = VALUES (@last_name), " +
+                    "password = VALUES (@password);";
 
                 // Create and use MySqlCommand using con and the insert query
                 using (var cmd = new MySqlCommand(commandText, con))
