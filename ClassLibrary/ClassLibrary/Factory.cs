@@ -1,11 +1,11 @@
 ﻿/* Factory contains classes and functions for creating/updating Student, Professor, PeerReviewEntry, and TimeEntry
  * entities and adding them to the database given to them 
  * Author:  Jesus Barrera-Gilabert III
- * Date:    11/24/2024
+ * Date:    11/25/2024
  * Class:   Computer Science Project CS 4485.0W1
  * Net ID:  jxb171030
  * UTD ID:  2021348532
- * Version: 0.6
+ * Version: 0.7
  */
 
 using MySql.Data.MySqlClient;
@@ -26,10 +26,11 @@ namespace G81_Library
         // Database address
         string SqlCon { get; set; }
 
-        // Creates a Student entity and stores it in the database; return the created instance (new Student)
-        public Student? CreateStudent(int utdID, string netID, string fname, string lname)
+        // Creates a Student entity and stores it in the database
+        // Return the created instance (new Student)
+        public Student? CreateStudent(int id, string username, string fname, string lname)
         {
-            var student = new Student(fname, lname, utdID, netID); // Student with given data
+            var student = new Student(fname, lname, id, username); // Student with given data
 
             // Create and use MySqlConnection to the database using the provided address
             using (var con = new MySqlConnection(SqlCon))
@@ -45,8 +46,8 @@ namespace G81_Library
                     // Add available parameters to the query
                     try
                     {
-                        cmd.Parameters.AddWithValue("@id", student.UtdID);
-                        cmd.Parameters.AddWithValue("@username", student.NetID);
+                        cmd.Parameters.AddWithValue("@id", student.ID);
+                        cmd.Parameters.AddWithValue("@username", student.Username);
                         cmd.Parameters.AddWithValue("@password", student.Password);
                         cmd.Parameters.AddWithValue("@first_name", student.FirstName);
                         cmd.Parameters.AddWithValue("@last_name", student.LastName);
@@ -69,10 +70,11 @@ namespace G81_Library
             return student; //returns null if task failed
         }
 
-        // Creates a Student entity and stores it in the database; return the created instance (existing Student)
-        public Student? CreateStudent(int utdID, string netID, string password, int group, string fname, string lname, int cID)
+        // Creates a Student entity and stores it in the database
+        // Return the created instance (existing Student)
+        public Student? CreateStudent(int id, string username, string password, int group, string fname, string lname, int cID)
         {
-            var student = new Student(fname, lname, utdID, netID, cID, group, password); // Student with given data
+            var student = new Student(fname, lname, id, username, cID, group, password); // Student with given data
 
             // Pass created Student entity to CreateStudent(Student student)
             if (CreateStudent(student))
@@ -85,7 +87,8 @@ namespace G81_Library
             }
         }
 
-        // Stores an existing Student in the database; return the success status
+        // Stores an existing Student in the database
+        // Return the success status
         public bool CreateStudent(Student student)
         {
             // Create and use MySqlConnection to the database using the provided address
@@ -102,10 +105,10 @@ namespace G81_Library
                     // Add available parameters to the query
                     try
                     {
-                        cmd.Parameters.AddWithValue("@id", student.UtdID);
-                        cmd.Parameters.AddWithValue("@username", student.NetID);
+                        cmd.Parameters.AddWithValue("@id", student.ID);
+                        cmd.Parameters.AddWithValue("@username", student.Username);
                         cmd.Parameters.AddWithValue("@password", student.Password);
-                        cmd.Parameters.AddWithValue("@team_id", student.Group);
+                        cmd.Parameters.AddWithValue("@team_id", student.TeamID);
                         cmd.Parameters.AddWithValue("@first_name", student.FirstName);
                         cmd.Parameters.AddWithValue("@last_name", student.LastName);
                         cmd.Parameters.AddWithValue("@class_id", student.CID);
@@ -128,10 +131,11 @@ namespace G81_Library
             return true; 
         }
 
-        // Creates a Professor entity and stores it in the database; return the created instance (no password)
-        public Professor? CreateProfessor(int utdID, string netID, string fname, string lname)
+        // Creates a Professor entity and stores it in the database
+        // Return the created instance (no password)
+        public Professor? CreateProfessor(int id, string username, string fname, string lname)
         {
-            var prof = new Professor(fname, lname, utdID, netID); // Professor with given data
+            var prof = new Professor(fname, lname, id, username); // Professor with given data
 
             // Create and use MySqlConnection to the database using the provided address
             using (var con = new MySqlConnection(SqlCon))
@@ -147,8 +151,8 @@ namespace G81_Library
                     // Add available parameters to the query
                     try
                     {
-                        cmd.Parameters.AddWithValue("@id", prof.UtdID);
-                        cmd.Parameters.AddWithValue("@username", prof.NetID);
+                        cmd.Parameters.AddWithValue("@id", prof.ID);
+                        cmd.Parameters.AddWithValue("@username", prof.Username);
                         cmd.Parameters.AddWithValue("@password", prof.Password);
                         cmd.Parameters.AddWithValue("@first_name", prof.FirstName);
                         cmd.Parameters.AddWithValue("@last_name", prof.LastName);
@@ -171,10 +175,11 @@ namespace G81_Library
             return prof; //returns null if task failed
         }
 
-        // Creates a Professor entity and stores it in the database; return the created instance (password)
-        public Professor? CreateProfessor(int utdID, string netID, string password, string fname, string lname)
+        // Creates a Professor entity and stores it in the database
+        // Return the created instance (password)
+        public Professor? CreateProfessor(int id, string username, string password, string fname, string lname)
         {
-            var prof = new Professor(fname, lname, utdID, netID, password); // Professor with given data
+            var prof = new Professor(fname, lname, id, username, password); // Professor with given data
 
             // Pass prof to CreateProfessor(Professor prof)
             if (CreateProfessor(prof))
@@ -187,7 +192,8 @@ namespace G81_Library
             }
         }
 
-        // Stores an existing Professor in the database; return the success status
+        // Stores an existing Professor in the database
+        // Return the success status
         public bool CreateProfessor(Professor prof)
         {
             // Create and use MySqlConnection to the database using the provided address
@@ -204,8 +210,8 @@ namespace G81_Library
                     // Add available parameters to the query
                     try
                     {
-                        cmd.Parameters.AddWithValue("@id", prof.UtdID);
-                        cmd.Parameters.AddWithValue("@username", prof.NetID);
+                        cmd.Parameters.AddWithValue("@id", prof.ID);
+                        cmd.Parameters.AddWithValue("@username", prof.Username);
                         cmd.Parameters.AddWithValue("@password", prof.Password);
                         cmd.Parameters.AddWithValue("@first_name", prof.FirstName);
                         cmd.Parameters.AddWithValue("@last_name", prof.LastName);
@@ -301,7 +307,7 @@ namespace G81_Library
             {
                 try
                 {
-                    cmd.Parameters.AddWithValue("@p_num", review.PeriodNumber);
+                    cmd.Parameters.AddWithValue("@p_num", review.PeriodID);
                     cmd.Parameters.AddWithValue("@reviewer_id", review.Reviewer);
                     cmd.Parameters.AddWithValue("@reviewee_id", review.Reviewee);
                     cmd.Parameters.AddWithValue("@qual", review.QualRating);
@@ -422,7 +428,7 @@ namespace G81_Library
                 try
                 {
                     cmd.Parameters.AddWithValue("@id", pClass.ID);
-                    cmd.Parameters.AddWithValue("@prof", pClass.Professor);
+                    cmd.Parameters.AddWithValue("@prof", pClass.ProfessorID);
                     cmd.Parameters.AddWithValue("@name", pClass.Name);
                     cmd.Parameters.AddWithValue("@semester", pClass.Semester);
                     cmd.Parameters.AddWithValue("@year", pClass.Year);

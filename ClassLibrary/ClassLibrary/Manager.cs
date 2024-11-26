@@ -1,14 +1,15 @@
 ﻿/* Manager implements functionallity from other classes to provide the simplified add and modify funcionts 
  * between predefined entities and a database accross multiple manager classes
  * Author:  Jesus Barrera-Gilabert III
- * Date:    11/21/2024
+ * Date:    11/25/2024
  * Class:   Computer Science Project CS 4485.0W1
  * Net ID:  jxb171030
  * UTD ID:  2021348532
- * Version: 0.1
+ * Version: 0.2
  */
 
 using MySql.Data.MySqlClient;
+using System.Security.Cryptography;
 
 namespace G81_Library
 {
@@ -24,22 +25,49 @@ namespace G81_Library
         // Database address
         public string ConnStr { get; set; }
 
-        // Adds a student entity to the database; returns success status
-        public bool AddStudent(Student stu)
+        // Add/Update a student/professor into the database
+        // Returns success status
+        public bool AddUpdate(IPerson person)
         {
             var fac = new PersonFactory(ConnStr);
-            return fac.CreateStudent(stu);
+
+            if(person.GetType() == typeof(Student))
+            {
+                try
+                {
+                    Student stu = (Student)person;
+                    return fac.CreateStudent(stu);
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                try
+                {
+                    Professor prof = (Professor)person;
+                    return fac.CreateProfessor(prof);
+                }
+                catch
+                {
+                    return false;
+                }
+            }
         }
 
-        // Creates and adds student entities to the database; returns indexes of student info that failed to get added
-        public List<int> AddStudents(string filePath)
+        // Creates new Student/Professor entities from a csv file
+        // person = Student ('s')/Professor ('p'); Default value: person = Student
+        // Returns the list of lines that failed to be added
+        public List<int>? AddFromFile(string filePath, char person = 's')
         {
             var factory = new PersonFactory(ConnStr);
-            List<int> failed = new List<int>(); // List of indexes that failed to get added (empty if complete success)
+            var failed = new List<int>(); // List of indexes that failed to get added (empty if total success)
 
             using (var rd = new StreamReader(filePath))
             {
-                string line;
+                var line = "";
                 int index = 0;  // Index on the file
 
                 // Reads the file line-by-line 
@@ -55,10 +83,25 @@ namespace G81_Library
                         continue;
                     }
 
-                    // Create student and verify that it was added successfully (failed if not)
-                    if (factory.CreateStudent(Convert.ToInt32(l[3]), l[2], l[1], l[0]) == null)
+                    switch (person)
                     {
-                        failed.Add(index);
+                        case 's':
+                            // Create student and verify that it was added successfully (failed if not)
+                            if (factory.CreateStudent(Convert.ToInt32(l[3]), l[2], l[1], l[0]) == null)
+                            {
+                                failed.Add(index);
+                            }
+                            break;
+
+                        case 'p':
+                            // Create student and verify that it was added successfully (failed if not)
+                            if (factory.CreateProfessor(Convert.ToInt32(l[3]), l[2], l[1], l[0]) == null)
+                            {
+                                failed.Add(index);
+                            }
+                            break;
+                        default:
+                            return null;    // Return null if invalid Person type
                     }
                     index++;    // Increment index
                 }

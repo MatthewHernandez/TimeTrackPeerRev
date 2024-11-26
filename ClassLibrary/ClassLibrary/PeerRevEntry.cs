@@ -2,6 +2,7 @@
  * Each entry is created by a student who will input also provide all relevant
  * into. This includes the Ranking, commenting, date and reviewer/reveiwee information.
  * Author:  Matthew Louis Hernandez
+ * Editor:  Jesus Barrera-Gilabert III
  * Date:    11/21/2024
  * Class:   Computer Science Project CS 4485.0W1
  * Net ID:  mlh190006
@@ -13,15 +14,16 @@ using System.Runtime.InteropServices;
 
 namespace G81_Library
 {
+    // Represents data for Peer Review Entries
     public class PeerRevEntry
     {
-        //Constructor
+        // Constructor
         public PeerRevEntry(int reviewer, int reviewee, string comment, int pNum, int[] ranks)
         {
             Reviewer = reviewer;
             Reviewee = reviewee;
             Comment = comment;
-            PeriodNumber = pNum;
+            PeriodID = pNum;
             QualRating = ranks[0];
             TimelinessRating = ranks[1];
             TeamworkRating = ranks[2];
@@ -39,7 +41,7 @@ namespace G81_Library
         public string Comment { get; set; }
 
         // Start of review period
-        public int PeriodNumber { get; set; }
+        public int PeriodID { get; set; }
 
         // quality_of_work_rating
         public int QualRating {  get; set; }

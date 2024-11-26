@@ -5,27 +5,28 @@
  * methods. Passwords can be set but can't be retrieved; a password must be provided in order to check that it matches the Person's
  * password. Professor contains methods for adding class(es), removing class(es), retrieving classes, and checking if a certain
  * class is already in their class list.
- * Authors:  Jesus Barrera-Gilabert III, Matthew Hernandez
- * Date:    11/18/2024
+ * Author:  Jesus Barrera-Gilabert III
+ * Editor:  Matthew Hernandez
+ * Date:    11/25/2024
  * Class:   Computer Science Project CS 4485.0W1
  * Net ID:  jxb171030
  * UTD ID:  2021348532
- * Version: 0.6
+ * Version: 0.7
  */
 
 namespace G81_Library
 {
     //Interface used by Student and Professor
-    interface IPerson
+    public interface IPerson
     {
         string FirstName { get; set; }
         string LastName { get; set; }
-        int UtdID { get; set; }
-        string NetID { get; set; }
+        int ID { get; set; }
+        string Username { get; set; }
         string Password { get; set; }
     }
 
-    //Represents the data of a student with operations for retrieving or editing it
+    //Represents the data of a student
     public class Student : IPerson
     {
         //Constructor (new student)
@@ -33,10 +34,10 @@ namespace G81_Library
         {
             FirstName = fname;
             LastName = lname;
-            UtdID = utdID;
-            NetID = netID;
+            ID = utdID;
+            Username = netID;
             CID = 0;
-            Group = 0;
+            TeamID = 0;
             Password = Convert.ToString(utdID);
         }
 
@@ -45,10 +46,10 @@ namespace G81_Library
         {
             FirstName = fname;
             LastName = lname;
-            UtdID = utdID;
-            NetID = netID;
+            ID = utdID;
+            Username = netID;
             CID = cID;
-            Group = group;
+            TeamID = group;
             Password = password;
         }
 
@@ -59,22 +60,22 @@ namespace G81_Library
         public string LastName { get; set; }
 
         //UTD ID property; read only 
-        public int UtdID { get; set; }
+        public int ID { get; set; }
 
         //Net ID property; read only
-        public string NetID { get; set; }    
+        public string Username { get; set; }    
 
         //Class name property; read only
         public int CID { get; set; }
 
         //Group Number property; read only
-        public int Group { get; set; }
+        public int TeamID { get; set; }
 
         //Password property; read only
         public string Password { get; set; }
     }
 
-    //Represents the data of a professor with operations for retrieving, adding, and editing it
+    //Represents the data of a professor
     public class Professor : IPerson
     {
         //Constructor (new professor)
@@ -82,8 +83,8 @@ namespace G81_Library
         {
             FirstName = fname;
             LastName = lname;
-            UtdID = utdID;
-            NetID = netID;
+            ID = utdID;
+            Username = netID;
             Password = Convert.ToString(utdID);
         }
 
@@ -92,8 +93,8 @@ namespace G81_Library
         {
             FirstName = fname;
             LastName = lname;
-            UtdID = utdID;
-            NetID = netID;
+            ID = utdID;
+            Username = netID;
             Password = password;
         }
 
@@ -104,10 +105,10 @@ namespace G81_Library
         public string LastName { get; set; }
 
         //UTD ID property; read only
-        public int UtdID { get; set; }
+        public int ID { get; set; }
 
         //Net ID property; read only
-        public string NetID { get; set; }
+        public string Username { get; set; }
 
         //Password Property; read only
         public string Password { get; set; }
@@ -120,21 +121,26 @@ namespace G81_Library
         //Constructor
         public PClass(int prof, int id, string name, string semester, int year)
         {
-            Professor = prof;
+            ProfessorID = prof;
             ID = id;
             Name = name;
             Semester = semester;
             Year = year;
         }
 
-        public int Professor { get; set; }
+        // Class's Professor
+        public int ProfessorID { get; set; }
 
+        // Class ID number
         public int ID { get; set; }
 
+        // Class name
         public string Name { get; set; }
 
+        // Class semester
         public string Semester { get; set; }
 
+        // Class year
         public int Year { get; set; }
     }
 }
