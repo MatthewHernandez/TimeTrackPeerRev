@@ -1,3 +1,53 @@
+/*
+
+Professors Classes, Timetracking and Peer Review program
+
+This program relays relevant data based on Professor who logged in and what he clicks;
+
+*Assume Professor logs in
+
+*Professor may click from a list of classes where he is designated as a Professor in DB
+
+*This click will retrieve a list of students relevant to said class
+
+*Clicking a student will retrieve certain data;
+*List of Time Entries relevant to student
+*Peer reviews relevant to student
+
+*Professor has the option to modify contents of student's time entries then clicking update info button
+
+*Professor has the option to click a possible peer review where;
+*A list of relevant peer review "targets" are shown and clickable
+
+*Clicking a "target" will bring up a peer review entry relevant to peer reviewer and the reviewee (target)
+*Professor has ability to modify the review itself or even the entirety of the peer review period's date
+
+*Assume Professor modifies the dates, we will scan for the relevant peer review period to change the associated date, which all relevant peer reviews are using
+*Assume Professor modifies comments or rating, this will change only the relevant review.
+
+*Also the Professor has the ability to Import students with .CSV file or Instantiate/Delete a peer review period (and all relevant reviews therein) within their respective sequences.
+
+*Ensure you follow the DB Schema closely to ensure functionality--this includes mimicing DB table for students when importing a .CSV
+
+Entirety of program written by William LaFoy for CS4485 Project, UT Dallas, 10/9/2024-11/29/2024. NetID wel190000
+
+        Base framework for listing out classes, listing out associated students and cummulative hours
+         and specific dates with those hours along with peer reviews and their associated details.
+
+        10/18 now allows you to select cells with ease and modify the date hour etc.
+
+        10/25 now displays peer reviews, button to make a new peer review exists, but functionality will depend on sql calls.
+         
+         10/30 features backend connectivity with mysql, with gxk220025 Gwangmo Kim's help to upstart this. now displays db info
+
+        11/8-10 features add/modify/deletion and reflection to the connected db
+
+        11/29 polished and tweaked. UI is fluid and reactive based on how and what you click, also other QOL things, will be looking to merge DBs with web app side (different structures and variable names are the issue)
+        
+ */
+
+
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,24 +63,26 @@ namespace DesktopApp
 {
     public partial class ClassesAndTimeTracking : ContentPage
     {
-        //written by William LaFoy for CS4485, Project, 10/9/2024-11/10/2024. NetID wel190000
+        //Program written by William LaFoy for CS4485, Project, 10/9/2024-11/29/2024. NetID wel190000
         /*
          Base framework for listing out classes, listing out associated students and cummulative hours
-         and specific dates with those hours.
+         and specific dates with those hours along with peer reviews and their associated details.
 
         10/18 now allows you to select cells with ease and modify the date hour etc.
 
         10/25 now displays peer reviews, button to make a new peer review exists, but functionality will depend on sql calls.
          
-         10/30 features backend connectivity with mysql, used gwangmo's code and critical info to do this. displays db info
+         10/30 features backend connectivity with mysql, used Gwangmo Kim's code and helpful critical info to upstart this. now displays db info
 
         11/8-10 features add/modify/deletion and reflection to the connected db
+
+        11/29 polished and tweaked. UI is fluid and reactive based on how and what you click, also other QOL things, will be looking to merge DBs with web app side (different structures and variable names are the issue)
          */
 
         
 
-
-        private int professorId; // Store the professor ID
+        //Variables to hold critical and relevant data.
+        private int professorId; 
         private int classId;
         private int currentStudentId;
         private int currentRevieweeStudentId;
@@ -46,10 +98,10 @@ namespace DesktopApp
         private DateTime EndDate;
         private int ReviewId;
 
-        // Declare a private field to hold student hour details
+        // Private field to hold all student hour details for current student id
         private List<StudentHourDetail> _studentHourDetails = new List<StudentHourDetail>();
 
-        // Constructor that takes professorId as a parameter
+        // Constructor that takes professorId as a parameter, given from login page
         public ClassesAndTimeTracking(int professorId)
         {
             InitializeComponent();
@@ -65,7 +117,7 @@ namespace DesktopApp
             ClassPicker.ItemsSource = classes;
         }
 
-        // Get classes from the database
+        // Get classes from the database relevant to ProfessorId
         private List<ClassInfo> GetClassesForProfessor(int professorId)
         {
             var classes = new List<ClassInfo>();
@@ -100,7 +152,7 @@ namespace DesktopApp
                 }
             }
 
-            return classes; // Return the list of class info
+            return classes; // Return list of class info
         }
 
 
@@ -110,17 +162,25 @@ namespace DesktopApp
             public int ClassId { get; set; }
             public string ClassName { get; set; }
 
-            public override string ToString() => ClassName; // This makes the ClassPicker display class names
+            public override string ToString() => ClassName; // Allows ClassPicker display class names
         }
 
 
-        // Event handler when the class is selected
+        // Event handler when a class is selected
         private void ClassPicker_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (ClassPicker.SelectedItem is ClassInfo selectedClass)
             {
                 this.classId = selectedClass.ClassId;
                 LoadStudentHours(selectedClass.ClassId);
+                StudentHoursCollectionView.IsVisible = true;
+                StudentHoursHeader.IsVisible = true;
+                ImportStudentsButton.IsVisible = true;
+
+                StudentDetailStack.IsVisible = false;
+                PeerReviewStack.IsVisible = false;
+                PeerReviewDetailsStack.IsVisible = false;
+
             }
         }
 
@@ -129,7 +189,7 @@ namespace DesktopApp
 
 
 
-        //data structure for student hours
+        //Data structure for student hours
         public class StudentHour
         {
             public string StudentName { get; set; }
@@ -144,7 +204,7 @@ namespace DesktopApp
         }
 
 
-        // Method to load student hours based on selected class
+        // Method to load student hours based on selected class, this function retrieves all students relevant to classId
         private void LoadStudentHours(int classId)
         {
             var studentHours = new List<StudentHour>();
@@ -195,7 +255,7 @@ namespace DesktopApp
             }
 
             // Bind to CollectionView
-            StudentHoursCollectionView.ItemsSource = studentHours.OrderBy(sh => sh.TeamNumber).ThenBy(sh => sh.StudentName).ToList(); // Sorting by team number and name
+            StudentHoursCollectionView.ItemsSource = studentHours.OrderBy(sh => sh.TeamNumber).ThenBy(sh => sh.StudentName).ToList(); // Sorting by team number and name of student
         }
 
 
@@ -228,7 +288,7 @@ namespace DesktopApp
                     {
                         var columns = line.Split(',');
 
-                        // CSV file has columns that match id, team_id, first_name, last_name, email, class_id
+                        // CSV file has columns that match the DB Schema id, team_id, first_name, last_name, email, class_id
                         if (columns.Length >= 6)
                         {
                             studentsData.Add(columns);
@@ -262,7 +322,7 @@ namespace DesktopApp
 
                     foreach (var student in studentsData)
                     {
-                        // Insert student
+                        // Insert student with given non null data.
                         var commandText = "INSERT INTO students (id, team_id, first_name, last_name, email, class_id) VALUES (@id, @team_id, @first_name, @last_name, @email, @class_id)";
                         using (var command = new MySqlCommand(commandText, connection))
                         {
@@ -294,7 +354,7 @@ namespace DesktopApp
 
 
         /// 
-        /// student details section, hours date what was done
+        /// Student details section, hours date what was done
         /// 
 
 
@@ -305,13 +365,17 @@ namespace DesktopApp
             {
                 this.currentStudentId = selectedHour.StudentId;
                 LoadStudentDetails(selectedHour.StudentId, selectedHour.ClassId);
+                StudentDetailStack.IsVisible = true;
                 LoadPeerReviews(selectedHour.StudentId, selectedHour.ClassId); // Load peer reviews for the selected student
+                PeerReviewStack.IsVisible = true;
+
+                PeerReviewDetailsStack.IsVisible = false;
             }
         }
 
 
 
-        // Updated StudentHourDetail with INotifyPropertyChanged
+        // StudentHourDetail, date, hours, Comments along with initial vars for those entries. Ended up not using propertychanged due to bugs
         public class StudentHourDetail : INotifyPropertyChanged
         {
             private DateTime _date;
@@ -414,7 +478,7 @@ namespace DesktopApp
         }
 
 
-        // Method to load details for the selected student
+        // Method to load student details for the selected student, time entries.
         private void LoadStudentDetails(int studentId, int classId)
         {
             _studentHourDetails.Clear(); // Clear any existing data before loading new details
@@ -470,6 +534,7 @@ namespace DesktopApp
             PeerReviewStack.IsVisible = true; // Show the peer review stack
         }
 
+        // Update Student hours entries to DB, scan through all entries.
         private async void StudentDetailsOnUpdateInformationClicked(object sender, EventArgs e)
         {
             string connectionString = "server=localhost;uid=root;pwd=kotori1430;database=test_schema";
@@ -509,55 +574,7 @@ namespace DesktopApp
 
 
 
-                        /*
-                         // Check if Date has changed
-                        if (detail.CurrentDate != detail.Date)
-                        {
-                            Console.WriteLine("Date has changed");
-
-                            // Update date in database
-                            string updateDateQuery = @"
-                        UPDATE student_hours
-                        SET date = @newDate
-                        WHERE student_id = @studentId AND date = @currentDate";
-
-                            using (var cmd = new MySqlCommand(updateDateQuery, connection))
-                            {
-                                cmd.Parameters.AddWithValue("@newDate", detail.Date);
-                                cmd.Parameters.AddWithValue("@studentId", this.currentStudentId);
-                                cmd.Parameters.AddWithValue("@currentDate", detail.CurrentDate);
-                                await cmd.ExecuteNonQueryAsync();
-                            }
-
-                            detail.CurrentDate = detail.Date; // Update the local current value
-                        }
-
-
-
-                        // Check if Comments (studentinfo) has changed
-                        if (detail.Currentstudentinfo != detail.studentinfo)
-                        {
-                            Console.WriteLine("Comments have changed");
-
-                            // Update comments in database
-                            string updateCommentsQuery = @"
-                        UPDATE student_hours
-                        SET comments = @newComments
-                        WHERE student_id = @studentId AND date = @currentDate";
-
-                            using (var cmd = new MySqlCommand(updateCommentsQuery, connection))
-                            {
-                                cmd.Parameters.AddWithValue("@newComments", detail.studentinfo);
-                                cmd.Parameters.AddWithValue("@studentId", this.currentStudentId);
-                                cmd.Parameters.AddWithValue("@currentDate", detail.CurrentDate);
-                                await cmd.ExecuteNonQueryAsync();
-                            }
-
-                            detail.Currentstudentinfo = detail.studentinfo; // Update the local current value
-                        }
-
-                         */
-
+                       
                     }
                 }
                 catch (Exception ex)
@@ -587,7 +604,7 @@ namespace DesktopApp
 
 
 
-
+        //Peer review details, ended up not using propertychanged due to bugs
         public class TeamMemberComment : INotifyPropertyChanged
         {
             private int _qualityOfWork;
@@ -734,7 +751,7 @@ namespace DesktopApp
 
 
 
-        //need to edit class_id should not exist in peer_review directly.
+       
 
         // Loading peer reviews for a student
         private void LoadPeerReviews(int studentId, int classId)
@@ -808,7 +825,7 @@ ORDER BY
                                 existingPeerReview.TeamMemberComments.Add(new TeamMemberComment
                                 {
                                     // Use the reviewer's name as the TeammateName
-                                    TeammateName = $"{reader.GetString("ReviewerFirstName")} {reader.GetString("ReviewerLastName")}",
+                                    TeammateName = $"{reader.GetString("RevieweeFirstName")} {reader.GetString("RevieweeLastName")}",
                                     Comment = reader.GetString("ReviewComments"),
                                     QualityOfWork = reader.GetInt32("QualityOfWork"),
                                     Timeliness = reader.GetInt32("Timeliness"),
@@ -910,7 +927,12 @@ ORDER BY
                     // Call the method to generate peer reviews for the specified class
                     await GeneratePeerReviewsForClass(connection, this.classId);
 
-                    await DisplayAlert("Success", "Peer reviews generated successfully for the selected class.", "OK");
+                    LoadPeerReviews(this.currentStudentId, this.classId); // Load peer reviews for the selected student
+                    PeerReviewDetailsStack.IsVisible = false;
+
+                    //await DisplayAlert("Success", "Peer reviews generated successfully for the selected class.", "OK");
+
+                    
                 }
                 catch (Exception ex)
                 {
@@ -981,13 +1003,22 @@ ORDER BY
             DateTime startDate = optionalStartDate ?? DateTime.Today;
             DateTime endDate = optionalEndDate ?? DateTime.Today;
 
+            // Initialize rating variables
+            int qualOfWorkRating = 0;
+            int timelinessRating = 0;
+            int teamworkRating = 0;
+            int effAndPartRating = 0;
+            int communicationRating = 0;
+            string comments = "";
+
             // Insert the new peer review with the specified or defaulted start and end dates
             var insertPeerReviewCommandText = @"
 INSERT INTO peer_review (reviewer_id, reviewee_id, start_date, end_date, 
                          qual_of_work_rating, timeliness_rating, teamwork_rating, 
                          eff_and_part_rating, communication_rating, comments)
 VALUES (@reviewer_id, @reviewee_id, @start_date, @end_date, 
-        0, 0, 0, 0, 0, '')";
+        @qual_of_work_rating, @timeliness_rating, @teamwork_rating, 
+        @eff_and_part_rating, @communication_rating, @comments)";
 
             using (var insertCommand = new MySqlCommand(insertPeerReviewCommandText, connection))
             {
@@ -995,6 +1026,12 @@ VALUES (@reviewer_id, @reviewee_id, @start_date, @end_date,
                 insertCommand.Parameters.AddWithValue("@reviewee_id", revieweeId);
                 insertCommand.Parameters.AddWithValue("@start_date", startDate);
                 insertCommand.Parameters.AddWithValue("@end_date", endDate);
+                insertCommand.Parameters.AddWithValue("@qual_of_work_rating", qualOfWorkRating);
+                insertCommand.Parameters.AddWithValue("@timeliness_rating", timelinessRating);
+                insertCommand.Parameters.AddWithValue("@teamwork_rating", teamworkRating);
+                insertCommand.Parameters.AddWithValue("@eff_and_part_rating", effAndPartRating);
+                insertCommand.Parameters.AddWithValue("@communication_rating", communicationRating);
+                insertCommand.Parameters.AddWithValue("@comments", comments);
 
                 await insertCommand.ExecuteNonQueryAsync();
             }
@@ -1052,8 +1089,12 @@ VALUES (@reviewer_id, @reviewee_id, @start_date, @end_date,
 
                         int rowsAffected = await cmd.ExecuteNonQueryAsync();
 
+                        LoadPeerReviews(this.currentStudentId, this.classId); // Load peer reviews for the selected student
+                        PeerReviewDetailsStack.IsVisible = false;
                         // Notify how many records were deleted
                         await DisplayAlert("Success", $"{rowsAffected} peer review record(s) deleted.", "OK");
+
+
                     }
                 }
             }
@@ -1159,7 +1200,7 @@ VALUES (@reviewer_id, @reviewee_id, @start_date, @end_date,
                     this.StartDate = updatedStartDate;
                     this.EndDate = updatedEndDate;  
                 }
-
+                await DisplayAlert("Success", "Peer Review(s) updated!", "OK");
             }
             else
             {
@@ -1167,6 +1208,8 @@ VALUES (@reviewer_id, @reviewee_id, @start_date, @end_date,
             }
         }
 
+
+        //Updates all relevant peer reviews within same class and same date becomes modified
         private void UpdateDatabaseOnPropertyChangedDate(DateTime newStartDate, DateTime newEndDate)
         {
             string connectionString = "server=localhost;uid=root;pwd=kotori1430;database=test_schema";
@@ -1178,20 +1221,34 @@ VALUES (@reviewer_id, @reviewee_id, @start_date, @end_date,
                 {
                     cmd.Connection = connection;
 
-                    // Update both start_date and end_date based on class_id
+                    // Validate and update only if the old start_date and end_date match
                     cmd.CommandText = @"
-                UPDATE peer_review
-                SET start_date = @newStartDate, end_date = @newEndDate
-                WHERE class_id = @classId";
+                UPDATE peer_review pr
+                INNER JOIN student s ON pr.reviewer_id = s.student_id
+                SET pr.start_date = @newStartDate, pr.end_date = @newEndDate
+                WHERE pr.reviewer_id = @currentReviewerId
+                  AND s.class_id = @classId
+                  AND pr.start_date = @oldStartDate
+                  AND pr.end_date = @oldEndDate";
 
                     cmd.Parameters.AddWithValue("@newStartDate", newStartDate);
                     cmd.Parameters.AddWithValue("@newEndDate", newEndDate);
+                    cmd.Parameters.AddWithValue("@currentReviewerId", this.currentStudentId);
                     cmd.Parameters.AddWithValue("@classId", this.classId);
+                    cmd.Parameters.AddWithValue("@oldStartDate", this.StartDate);
+                    cmd.Parameters.AddWithValue("@oldEndDate", this.EndDate);
 
-                    cmd.ExecuteNonQuery();
+                    int rowsAffected = cmd.ExecuteNonQuery();
+
+                    // Optionally, log or inform if no rows were updated
+                    if (rowsAffected == 0)
+                    {
+                        Console.WriteLine("No rows updated. Ensure the old start and end dates match.");
+                    }
                 }
             }
         }
+
 
         private void UpdateDatabaseOnPropertyChanged(string propertyName, object propertyvalue)
         {

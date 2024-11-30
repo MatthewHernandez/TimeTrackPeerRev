@@ -1,4 +1,15 @@
-﻿using Microsoft.Maui.Controls;
+﻿/*
+ 
+Basic Professor Login program
+
+This program allows or prevents entry into the ClassesAndTimeTracking portion of the Desktop App for professors
+
+Simply input Username and Password, and we then authenticate entry request.
+
+Entirety of program written by William LaFoy for CS4485, Project, started 9/25/2024. NetID wel190000
+ */
+
+using Microsoft.Maui.Controls;
 using MySql.Data.MySqlClient;//Mysql
 
 namespace DesktopApp;
@@ -12,7 +23,7 @@ public partial class Login : ContentPage
         InitializeComponent();
     }
 
-    //written by William LaFoy for CS4485, Project, started 9/25/2024. NetID wel190000
+    //Program written by William LaFoy for CS4485, Project, started 9/25/2024. NetID wel190000
     /*
          Base framework for logging in
     */
@@ -40,7 +51,7 @@ public partial class Login : ContentPage
 
                     if (reader.HasRows && reader.Read())
                     {
-                        // Get the professor ID
+                        // Ready the professor ID to pass into ClassesAndTimeTracking
                         int professorId = reader.GetInt32(0);
 
                         LoginStatusLabel.TextColor = Colors.Green;
