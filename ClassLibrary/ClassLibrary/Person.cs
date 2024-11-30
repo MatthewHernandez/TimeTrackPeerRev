@@ -5,105 +5,87 @@
  * methods. Passwords can be set but can't be retrieved; a password must be provided in order to check that it matches the Person's
  * password. Professor contains methods for adding class(es), removing class(es), retrieving classes, and checking if a certain
  * class is already in their class list.
- * Authors:  Jesus Barrera-Gilabert III, Matthew Hernandez
- * Date:    11/06/2024
+ * Author:  Jesus Barrera-Gilabert III
+ * Editor:  Matthew Hernandez
+ * Date:    11/25/2024
  * Class:   Computer Science Project CS 4485.0W1
  * Net ID:  jxb171030
  * UTD ID:  2021348532
- * Version: 0.5
+ * Version: 0.7
  */
 
 namespace G81_Library
 {
     //Interface used by Student and Professor
-    interface IPerson
+    public interface IPerson
     {
         string FirstName { get; set; }
         string LastName { get; set; }
-        int UtdID { get; set; }
-        string NetID { get; set; }
-
-        //Change password to pass
-        void ChangePassword(string pass);
-        //Check if pass matches Password; return true if it does
-        bool CheckPassword(string pass);
+        int ID { get; set; }
+        string Username { get; set; }
+        string Password { get; set; }
     }
 
-    //Represents the data of a student with operations for retrieving or editing it
-    class Student : IPerson
+    //Represents the data of a student
+    public class Student : IPerson
     {
-        private string _password;
-
         //Constructor (new student)
-        public Student(string fname, string lname, int utdID, string netID, float cID, int group)
+        public Student(string fname, string lname, int utdID, string netID)
         {
             FirstName = fname;
             LastName = lname;
-            UtdID = utdID;
-            NetID = netID;
-            _password = Convert.ToString(utdID);
-            CID = cID;
-            Group = group;
+            ID = utdID;
+            Username = netID;
+            CID = 0;
+            TeamID = 0;
+            Password = Convert.ToString(utdID);
         }
 
         //Alt-Constructor (existing student)
-        public Student(string fname, string lname, int utdID, string netID, float cID, int group, string password)
+        public Student(string fname, string lname, int utdID, string netID, int cID, int group, string password)
         {
             FirstName = fname;
             LastName = lname;
-            UtdID = utdID;
-            NetID = netID;
-            _password = Convert.ToString(utdID);
+            ID = utdID;
+            Username = netID;
             CID = cID;
-            Group = group;
-            _password = password;
+            TeamID = group;
+            Password = password;
         }
 
-        //Name property; readable and writeable
+        //Name property; read only
         public string FirstName { get; set; }
 
-        //Last Name property; readable and writeable
+        //Last Name property; read only
         public string LastName { get; set; }
 
-        //UTD ID property; readable and writeable 
-        public int UtdID { get; set; }
+        //UTD ID property; read only 
+        public int ID { get; set; }
 
-        //Net ID property; readable and writeable
-        public string NetID { get; set; }    
+        //Net ID property; read only
+        public string Username { get; set; }    
 
-        //Class name property; readable and writeable
-        public float CID { get; set; }
+        //Class name property; read only
+        public int CID { get; set; }
 
-        //Group Number property; readable and writeable
-        public int Group { get; set; }
+        //Group Number property; read only
+        public int TeamID { get; set; }
 
-        //Change _password to pass
-        public void ChangePassword(string pass)
-        {
-            _password = pass;
-        }
-
-        //Check if pass matches Password; return true if it does
-        public bool CheckPassword(string pass)
-        {
-            return pass.Equals(_password);
-        }
+        //Password property; read only
+        public string Password { get; set; }
     }
 
-    //Represents the data of a professor with operations for retrieving, adding, and editing it
-    class Professor : IPerson
+    //Represents the data of a professor
+    public class Professor : IPerson
     {
-        private string _password;
-
         //Constructor (new professor)
         public Professor(string fname, string lname, int utdID, string netID)
         {
             FirstName = fname;
             LastName = lname;
-            UtdID = utdID;
-            NetID = netID;
-            _password = Convert.ToString(utdID);
-            //Projects = new List<CSProject>();
+            ID = utdID;
+            Username = netID;
+            Password = Convert.ToString(utdID);
         }
 
         //Alt-Constructor (existing professor)
@@ -111,76 +93,54 @@ namespace G81_Library
         {
             FirstName = fname;
             LastName = lname;
-            UtdID = utdID;
-            NetID = netID;
-            _password = password;
-            //Projects = new List<CSProject>();
+            ID = utdID;
+            Username = netID;
+            Password = password;
         }
 
-        //First Name property; readable and writeable
+        //First Name property; read only
         public string FirstName { get; set; }
 
-        //Last Name property; readable and writeable
+        //Last Name property; read only
         public string LastName { get; set; }
 
-        //UTD ID property; readable and writeable
-        public int UtdID { get; set; }
+        //UTD ID property; read only
+        public int ID { get; set; }
 
-        //Net ID property; readable and writeable
-        public string NetID { get; set; }
+        //Net ID property; read only
+        public string Username { get; set; }
 
-        //Project property; readable and writeable
-        //public List<CSProject> Projects { get; set; }
+        //Password Property; read only
+        public string Password { get; set; }
+    }
 
-        //Change _password to pass
-        public void ChangePassword(string pass)
-        {
-            _password = pass;
-        }
     
-        //Check if pass matches Password; return true if it does
-        public bool CheckPassword(string pass)
-        {
-            return pass.Equals(_password);
-        }
-    }
-
-    /*
     //Represents the classes a Professor is in charge of and Students are a part of
-    class CSClass
+    public class PClass
     {
-        public Professor prof;
-        public string name;
-        public string semester;
-        public int year;
-        public CSClass(Professor prof, string name, string semester, int year)
+        //Constructor
+        public PClass(int prof, int id, string name, string semester, int year)
         {
-            this.prof = prof;
-            this.name = name;
-            this.semester = semester;
-            this.year = year;
+            ProfessorID = prof;
+            ID = id;
+            Name = name;
+            Semester = semester;
+            Year = year;
         }
+
+        // Class's Professor
+        public int ProfessorID { get; set; }
+
+        // Class ID number
+        public int ID { get; set; }
+
+        // Class name
+        public string Name { get; set; }
+
+        // Class semester
+        public string Semester { get; set; }
+
+        // Class year
+        public int Year { get; set; }
     }
-
-
-
-    // Represents the projects what will be in managed by Professors and assigned to Students
-    class CSProject
-    {
-        public int projectNumber;   
-        public string type;
-        public int teamCount;
-        public string company;
-        public string title;
-
-        public CSProject(int projectNumber, string type, int teamCount, string company, string title)
-        {
-            this.projectNumber = projectNumber;
-            this.type = type;
-            this.teamCount = teamCount;
-            this.company = company;
-            this.title = title;
-        }
-    }
-    */
 }

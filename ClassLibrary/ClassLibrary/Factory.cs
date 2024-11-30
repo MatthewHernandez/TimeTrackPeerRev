@@ -1,227 +1,454 @@
-﻿/* Factory contains functions for creating and destroying Student and Professor entities and propagating
- * those functions onto the database.
+﻿/* Factory contains classes and functions for creating/updating Student, Professor, PeerReviewEntry, and TimeEntry
+ * entities and adding them to the database given to them 
  * Author:  Jesus Barrera-Gilabert III
- * Date:    11/07/2024
+ * Date:    11/26/2024
  * Class:   Computer Science Project CS 4485.0W1
  * Net ID:  jxb171030
  * UTD ID:  2021348532
- * Version: 0.3
+ * Version: 0.8
  */
 
-using Microsoft.Data.SqlClient;
+using MySql.Data.MySqlClient;
+using Mysqlx.Crud;
+using System.Xml.Linq;
+using static Mysqlx.Expect.Open.Types.Condition.Types;
 
 namespace G81_Library
 {
     // Creates and stores instances of Students and Professors in the database
     class PersonFactory
     {
-        private string _SqlCon;
-        private string _StudentDB;
-        private string _ProfessorDB;
-
-        //Constructor
-        public PersonFactory(string sqlCon, string studentDB, string professorDB)
+        // Constructor
+        public PersonFactory(string con)
         {
-            _SqlCon = sqlCon;
-            _StudentDB = studentDB;
-            _ProfessorDB = professorDB;
+            SqlCon = con;
         }
 
-        // Creates a Student entity and stores it in the database; return the created instance
-        Student? CreateStudent(string fname, string lname, string netID, int utdID, float cID, int group)
+        // Database address
+        string SqlCon { get; set; }
+
+        // Creates a Student entity and stores it in the database
+        // Return the created instance (new Student)
+        public Student? CreateStudent(int id, string username, string fname, string lname)
         {
-            string sCom = "INSERT INTO" + _StudentDB + "([FirstName], [LastName], [NetID], [UTDID], [Password], [CID], [Group]) VALUES(@first, @last, @net, @utd, @pass, @c, @group)";
-
-            using (SqlConnection cnn = new SqlConnection(_SqlCon))
+            // Create a student with given parameters
+            try
             {
-                try
-                {
-                    cnn.Open();
+                var student = new Student(fname, lname, id, username);
 
-                    using (SqlCommand cmd = new SqlCommand(sCom))
+                // Create and use MySqlConnection to the database using the provided address
+                using (var con = new MySqlConnection(SqlCon))
+                {
+                    con.Open();
+
+                    // SQL insert query with duplicate handeling (don't update)
+                    string commandText = "INSERT IGNORE INTO students (id, username, first_name, last_name, password, class_id, team_id) VALUES (@id, @username, @first_name, @last_name, @password, @class_id, @team_id) ";
+
+                    // Create and use MySqlCommand using con and the insert query 
+                    using (var cmd = new MySqlCommand(commandText, con))
                     {
+                        // Add available parameters to the query
                         try
                         {
-                            cmd.Parameters.AddWithValue("@first", fname);
-                            cmd.Parameters.AddWithValue("@last", lname);
-                            cmd.Parameters.AddWithValue("@net", netID);
-                            cmd.Parameters.AddWithValue("@utd", utdID);
-                            cmd.Parameters.AddWithValue("@pass", Convert.ToString(utdID));
-                            cmd.Parameters.AddWithValue("@c", cID);
-                            cmd.Parameters.AddWithValue("@group", group);
+                            cmd.Parameters.AddWithValue("@id", student.ID);
+                            cmd.Parameters.AddWithValue("@username", student.Username);
+                            cmd.Parameters.AddWithValue("@password", student.Password);
+                            cmd.Parameters.AddWithValue("@first_name", student.FirstName);
+                            cmd.Parameters.AddWithValue("@last_name", student.LastName);
 
-                            if(cmd.ExecuteNonQuery() <= 0)
+                            // Check if any rows were affected; change student to null if <= 0
+                            if (0 >= cmd.ExecuteNonQuery())
                             {
-                                return null;
+                                student = null;
                             }
                         }
+
+                        // Adding/Executing Query failed, so set student to null
                         catch
                         {
-                            throw new Exception("CreateStudent: Failed to Create SqlCommand Object");
+                            student = null;
                         }
                     }
                 }
-                catch
-                {
-                    throw new Exception("CreateStudent: Failed to Create SqlConnection Object");
-                }
+
+                return student; //returns null if task failed
             }
 
-                return new Student(fname, lname, utdID, netID, cID, group);
+            // Create failed
+            catch
+            {
+                return null;
+            }
         }
 
-        // Creates a Professor entity and stores it in the database; return the created instance
-        Professor? CreateProfessor(string fname, string lname, string netID, int utdID)
+        // Stores an existing Student in the database
+        // Return the success status
+        public bool CreateStudent(Student stu)
         {
-            string pCom = "INSERT INTO" + _ProfessorDB + "([FirstName], [LastName], [NetID], [UTDID], [Password]) VALUES(@first, @last, @net, @utd, @pass)";
-
-            using (SqlConnection cnn = new SqlConnection(_SqlCon))
+            // Check if student is null
+            if (stu == null)
             {
-                try
-                {
-                    cnn.Open();
+                return false;    // Invalid student
+            }
 
-                    using (SqlCommand cmd = new SqlCommand(pCom))
-                    {
-                        try
-                        {
-                            cmd.Parameters.AddWithValue("@first", fname);
-                            cmd.Parameters.AddWithValue("@last", lname);
-                            cmd.Parameters.AddWithValue("@net", netID);
-                            cmd.Parameters.AddWithValue("@utd", utdID);
-                            cmd.Parameters.AddWithValue("@pass", Convert.ToString(utdID));
-                            
-                            if(cmd.ExecuteNonQuery() <= 0)
-                            {
-                                return null;
-                            }
-                        }
-                        catch
-                        {
-                            throw new Exception("CreateProfessor: Failed to Create SqlCommand Object");
-                        }
-                        
-                    }
-                }
-                catch
+            // Create and use MySqlConnection to the database using the provided address
+            using (var con = new MySqlConnection(SqlCon))
+            {
+                con.Open();
+
+                // SQL insert query with duplicate handeling (update)
+                string commandText = "INSERT INTO students (id, username, first_name, last_name, password, class_id, team_id) VALUES (@id, @username, @first_name, @last_name, @password, @class_id, @team_id) " +
+                    "ON DUPLICATE KEY UPDATE " +
+                    "username = VALUES (@username), " +
+                    "first_name = VALUES (@first_name), " +
+                    "last_name = VAlUES (@last_name), " +
+                    "password = VALUES (@password), " +
+                    "class_id = VALUES (@class_id), " +
+                    "team_id = VALUES (@team_id);";
+
+                // Create and use MySqlCommand using con and the insert query
+                using (var cmd = new MySqlCommand(commandText, con))
                 {
-                    throw new Exception("CreateProfessor: Failed to Create SqlConnection Object");
+                    // Add available parameters to the query
+                    try
+                    {
+                        cmd.Parameters.AddWithValue("@id", stu.ID);
+                        cmd.Parameters.AddWithValue("@username", stu.Username);
+                        cmd.Parameters.AddWithValue("@password", stu.Password);
+                        cmd.Parameters.AddWithValue("@team_id", stu.TeamID);
+                        cmd.Parameters.AddWithValue("@first_name", stu.FirstName);
+                        cmd.Parameters.AddWithValue("@last_name", stu.LastName);
+                        cmd.Parameters.AddWithValue("@class_id", stu.CID);
+
+                        // Check if any rows were affected; return false if <= 0
+                        if (0 >= cmd.ExecuteNonQuery())
+                        {
+                            return false;
+                        }
+                    }
+
+                    // Adding/Executing Query failed, so return false
+                    catch
+                    {
+                        return false;
+                    }
                 }
             }
 
-            return new Professor(fname, lname, utdID, netID);
+            return true; 
+        }
+
+        // Creates a Professor entity and stores it in the database
+        // Return the created instance (no password)
+        public Professor? CreateProfessor(int id, string username, string fname, string lname)
+        {
+            // Create a professor with given parameters
+            try
+            {
+                var prof = new Professor(fname, lname, id, username);
+
+                // Create and use MySqlConnection to the database using the provided address
+                using (var con = new MySqlConnection(SqlCon))
+                {
+                    con.Open();
+
+                    // SQL insert query with duplicate handeling (don't update)
+                    string commandText = "INSERT IGNORE INTO professors (id, username, first_name, last_name, password) VALUES (@id, @username, @first_name, @last_name, @password)";
+
+                    // Create and use MySqlCommand using con and the insert query
+                    using (var cmd = new MySqlCommand(commandText, con))
+                    {
+                        // Add available parameters to the query
+                        try
+                        {
+                            cmd.Parameters.AddWithValue("@id", prof.ID);
+                            cmd.Parameters.AddWithValue("@username", prof.Username);
+                            cmd.Parameters.AddWithValue("@password", prof.Password);
+                            cmd.Parameters.AddWithValue("@first_name", prof.FirstName);
+                            cmd.Parameters.AddWithValue("@last_name", prof.LastName);
+
+                            // Check if any rows were affected; set prof to null if <= 0
+                            if (0 >= cmd.ExecuteNonQuery())
+                            {
+                                prof = null;
+                            }
+                        }
+
+                        // Adding/Executing Query failed, so set prof to null
+                        catch
+                        {
+                            prof = null;
+                        }
+                    }
+                }
+
+                return prof; //returns null if task failed
+            }
+
+            // Create failed
+            catch
+            {
+                return null;
+            }
+        }
+
+        // Stores an existing Professor in the database
+        // Return the success status
+        public bool CreateProfessor(Professor prof)
+        {
+            // Check if professor is null
+            if (prof == null)
+            {
+                return false;    // Invalid professor
+            }
+            // Create and use MySqlConnection to the database using the provided address
+            using (var con =new MySqlConnection(SqlCon))
+            {
+                con.Open();
+
+                // SQL insert query with duplicate handeling (update)
+                string commandText = "INSERT INTO professors (id, username, first_name, last_name, password) VALUES (@id, @username, @first_name, @last_name, @password)" +
+                    "ON DUPLICATE KEY UPDATE " +
+                    "username = VALUES (@username), " +
+                    "first_name = VALUES (@first_name), " +
+                    "last_name = VALUES (@last_name), " +
+                    "password = VALUES (@password);";
+
+                // Create and use MySqlCommand using con and the insert query
+                using (var cmd = new MySqlCommand(commandText, con))
+                {
+                    // Add available parameters to the query
+                    try
+                    {
+                        cmd.Parameters.AddWithValue("@id", prof.ID);
+                        cmd.Parameters.AddWithValue("@username", prof.Username);
+                        cmd.Parameters.AddWithValue("@password", prof.Password);
+                        cmd.Parameters.AddWithValue("@first_name", prof.FirstName);
+                        cmd.Parameters.AddWithValue("@last_name", prof.LastName);
+
+                        // Check if any rows were affected; return false if <= 0
+                        if (0 >= cmd.ExecuteNonQuery())
+                        {
+                            return false;
+                        }
+                    }
+
+                    // Adding/Executing Query failed, so return false
+                    catch
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
         }
     }
 
     // Create and store instances of PeerRevEntry in the database
     class PeerFactory
     {
-        private string _sqlCon;
-        private string _peerDB;
-
         // Constructor
-        public PeerFactory(string sqlCon, string peerDB)
+        public PeerFactory(MySqlConnection con)
         {
-            _sqlCon = sqlCon;
-            _peerDB = peerDB;
+            SqlCon = con;
         }
 
-        // Create a PeerRevEntry intance and store in the database; return the created instance
-        PeerRevEntry? CreateReview(Student reviewer, Student reviewee, string comment, DateOnly start, DateOnly end, int rank)
-        {
-            string pCom = "INSERT INTO" + _peerDB + "([ReviewerID], [RevieweeID], [Comment], [Start], [End], [Rank]) VALUE(@rr, @re, @com, @s, @e, @rank)";
+        // Database address
+        MySqlConnection SqlCon { get; set; }
 
-            using (SqlConnection cnn = new SqlConnection(_sqlCon))
+        // Create a PeerRevEntry intance and store in the database; return the created instance (empty ranks; no comments)
+        public PeerRevEntry? CreateReview(int reviewer, int reviewee, int pNum)
+        {
+            string commandText = "INSERT INTO peer_review(period_number, reviewer_id, reviewee_id, qual_of_work_rating, timeliness_rating, teamwork_rating, eff_and_part_rating, communication_rating, comments) " +
+                "VALUES(@p_num, @reviewer_id, @reviewee_id, 0, 0, 0, 0, 0, '')";
+
+            using (var cmd = new MySqlCommand(commandText, SqlCon))
             {
                 try
                 {
-                    cnn.Open();
-
-                    using (SqlCommand cmd = new SqlCommand(pCom))
-                    {
-                        try
-                        {
-                            cmd.Parameters.AddWithValue("@rr", reviewer.UtdID);
-                            cmd.Parameters.AddWithValue("@re", reviewee.UtdID);
-                            cmd.Parameters.AddWithValue("@com", comment);
-                            cmd.Parameters.AddWithValue("@s", start);
-                            cmd.Parameters.AddWithValue("@e", end);
-                            cmd.Parameters.AddWithValue("@rank", rank);
-
-                            if (cmd.ExecuteNonQuery() <= 0)
-                            {
-                                return null;
-                            }
-                        }
-                        catch
-                        {
-                            throw new Exception("CreateReview: Failed to Create SqlCommand Object");
-                        }
-                    }
+                    cmd.Parameters.AddWithValue("@p_num", pNum);
+                    cmd.Parameters.AddWithValue("@reviewer_id", reviewer);
+                    cmd.Parameters.AddWithValue("@reviewee_id", reviewee);
                 }
                 catch
                 {
-                    throw new Exception("CreateReview: Failed to Create SqlConnection Object");
+                    return null;
                 }
             }
+            return new PeerRevEntry(reviewer, reviewee, "", pNum, [0, 0, 0, 0, 0]);
+        }
 
-            return new PeerRevEntry(reviewer, reviewee, rank, comment, start, end);
+        // Create a PeerRevEntry intance and store in the database; return the created instance (ranks; comments)
+        public PeerRevEntry? CreateReview(int reviewer, int reviewee, int pNum, int[] ranks, string comments)
+        {
+            string commandText = "INSERT INTO peer_review(period_number, reviewer_id, reviewee_id, qual_of_work_rating, timeliness_rating, teamwork_rating, eff_and_part_rating, communication_rating, comments) " +
+                "VALUES(@p_num, @reviewer_id, @reviewee_id, @qual, @timeliness, @teamwork, @eff, @communication, @comments)";
+
+            using (var cmd = new MySqlCommand(commandText, SqlCon))
+            {
+                try
+                {
+                    cmd.Parameters.AddWithValue("@p_num", pNum);
+                    cmd.Parameters.AddWithValue("@reviewer_id", reviewer);
+                    cmd.Parameters.AddWithValue("@reviewee_id", reviewee);
+                    cmd.Parameters.AddWithValue("@qual", ranks[0]);
+                    cmd.Parameters.AddWithValue("@timeliness", ranks[1]);
+                    cmd.Parameters.AddWithValue("@teamwork", ranks[2]);
+                    cmd.Parameters.AddWithValue("@eff", ranks[3]);
+                    cmd.Parameters.AddWithValue("@communication", ranks[4]);
+                    cmd.Parameters.AddWithValue("@comments", comments);
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+            return new PeerRevEntry(reviewer, reviewee, comments, pNum, ranks);
+        }
+
+        // Store an existing PeerReviewEntry in the database; return the success state
+        public bool CreateReview(PeerRevEntry review)
+        {
+            string commandText = "INSERT INTO peer_review(period_number, reviewer_id, reviewee_id, qual_of_work_rating, timeliness_rating, teamwork_rating, eff_and_part_rating, communication_rating, comments) " +
+                "VALUES(@p_num, @reviewer_id, @reviewee_id, @qual, @timeliness, @teamwork, @eff, @communication, @comments)";
+
+            using (var cmd = new MySqlCommand(commandText, SqlCon))
+            {
+                try
+                {
+                    cmd.Parameters.AddWithValue("@p_num", review.PeriodID);
+                    cmd.Parameters.AddWithValue("@reviewer_id", review.Reviewer);
+                    cmd.Parameters.AddWithValue("@reviewee_id", review.Reviewee);
+                    cmd.Parameters.AddWithValue("@qual", review.QualRating);
+                    cmd.Parameters.AddWithValue("@timeliness", review.TimelinessRating);
+                    cmd.Parameters.AddWithValue("@teamwork", review.TeamworkRating);
+                    cmd.Parameters.AddWithValue("@eff", review.EffRating);
+                    cmd.Parameters.AddWithValue("@communication", review.CommRating);
+                    cmd.Parameters.AddWithValue("@comments", review.Comment);
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 
     // Create and store instances of TimeEntry in the database
     class TimeFactory
     {
-        private string _sqlCon;
-        private string _timeDB;
-
         // Constructor 
-        public TimeFactory(string sqlCon, string timeDB)
+        public TimeFactory(MySqlConnection con)
         {
-            _sqlCon = sqlCon;
-            _timeDB = timeDB;
+            SqlCon = con;
         }
 
-        // Create TimeEntry instance and store in the database; return the created instance
-        TimeEntry? CreateTime(Student stu, TimeSpan time, DateOnly date, string prob, string plan, string acc)
-        {
-            string tCom = "INSERT INTO" + _timeDB + "([StudentID], [Time], [Date], [Problems], [Plan], [Accomplished]) VALUES(@stu, @time, @date, @prob, @plan, @acc)";
+        // Database address
+        MySqlConnection SqlCon { get; set; }
 
-            using (SqlConnection cnn = new SqlConnection(_sqlCon))
+        // Create TimeEntry instance and store in the database; return the created instance
+        public TimeEntry? CreateTime(int stu, decimal time, DateTime date, string comm)
+        {
+            string commandText = "INSERT INTO student_hours(student_id, date, hours, comments) VALUES(@id, @date, @hours, @comments)";
+
+            using (var cmd = new MySqlCommand(commandText, SqlCon))
             {
                 try
                 {
-                    cnn.Open();
-
-                    using (SqlCommand cmd = new SqlCommand(tCom))
-                    {
-                        try
-                        {
-                            cmd.Parameters.AddWithValue("@stu", stu.UtdID);
-                            cmd.Parameters.AddWithValue("@time", time);
-                            cmd.Parameters.AddWithValue("@date", date);
-                            cmd.Parameters.AddWithValue("@prob", prob);
-                            cmd.Parameters.AddWithValue("@plan", plan);
-                            cmd.Parameters.AddWithValue("@acc", acc);
-
-                            if(cmd.Parameters.Count <= 0)
-                            {
-                                return null;
-                            }
-                        }
-                        catch
-                        {
-                            throw new Exception("CreateTime: Failed to Create SqlCommand Object");
-                        }
-                    }
+                    cmd.Parameters.AddWithValue("@id", stu);
+                    cmd.Parameters.AddWithValue("@date", date);
+                    cmd.Parameters.AddWithValue("@hours", time);
+                    cmd.Parameters.AddWithValue("@comments", comm);
                 }
                 catch
                 {
-                    throw new Exception("CreateTime: Failed to Create SqlConnection Object");
+                    return null;
                 }
             }
+            return new TimeEntry(stu, time, date, comm);
+        }
 
-            return new TimeEntry(stu, time, date, prob, plan, acc);
+        // Store an existing TimeEntry in the database; return the success state
+        public bool CreateTime(TimeEntry entry)
+        {
+            string commandText = "INSERT INTO student_hours(student_id, date, hours, comments) VALUES(@id, @date, @hours, @comments)";
+
+            using (var cmd = new MySqlCommand(commandText, SqlCon))
+            {
+                try
+                {
+                    cmd.Parameters.AddWithValue("@id", entry.Stu);
+                    cmd.Parameters.AddWithValue("@date", entry.Date);
+                    cmd.Parameters.AddWithValue("@hours", entry.Time);
+                    cmd.Parameters.AddWithValue("@comments", entry.Comments);
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+     
+    // Create instances of PClass
+    class ClassFactory
+    {
+        // Constructor
+        public ClassFactory(MySqlConnection con)
+        {
+            SqlCon = con;
+        }
+
+        //Database address
+        MySqlConnection SqlCon { get; set; }
+
+        // Creates PClass instances and stores them in the database; return the PClass instance
+        public PClass? CreatePClass(int cID, int prof, string name, string semester, int year)
+        {
+            string commandText = "INSERT INTO class(id, professor_id, class_name, semester, year) VALUES(@id, @prof, @name, @semester, @year)";
+
+            using (var cmd = new MySqlCommand(commandText, SqlCon))
+            {
+                try
+                {
+                    cmd.Parameters.AddWithValue("@id", cID);
+                    cmd.Parameters.AddWithValue("@prof", prof);
+                    cmd.Parameters.AddWithValue("@name", name);
+                    cmd.Parameters.AddWithValue("@semester", semester);
+                    cmd.Parameters.AddWithValue("@year", year);
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+            return new PClass(prof, cID, name, semester, year);
+        }
+
+        // Stores them in the database; returns the success status
+        public bool CreatePClass(PClass pClass)
+        {
+            string commandText = "INSERT INTO class(id, professor_id, class_name, semester, year) VALUES(@id, @prof, @name, @semester, @year)";
+
+            using (var cmd = new MySqlCommand(commandText, SqlCon))
+            {
+                try
+                {
+                    cmd.Parameters.AddWithValue("@id", pClass.ID);
+                    cmd.Parameters.AddWithValue("@prof", pClass.ProfessorID);
+                    cmd.Parameters.AddWithValue("@name", pClass.Name);
+                    cmd.Parameters.AddWithValue("@semester", pClass.Semester);
+                    cmd.Parameters.AddWithValue("@year", pClass.Year);
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }
