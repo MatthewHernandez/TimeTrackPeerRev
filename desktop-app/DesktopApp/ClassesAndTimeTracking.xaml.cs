@@ -368,7 +368,7 @@ namespace DesktopApp
                 StudentDetailStack.IsVisible = true;
                 LoadPeerReviews(selectedHour.StudentId, selectedHour.ClassId); // Load peer reviews for the selected student
                 PeerReviewStack.IsVisible = true;
-
+                TeammatesCollectionView.IsVisible = false;
                 PeerReviewDetailsStack.IsVisible = false;
             }
         }
@@ -863,6 +863,7 @@ ORDER BY
                 TeammatesCollectionView.ItemsSource = selectedReview.TeamMemberComments;
                 PeerReviewDetailsStack.BindingContext = selectedReview;
                 PeerReviewDetailsStack.IsVisible = false; // Hide details until teammate is selected
+                TeammatesCollectionView.IsVisible = true;
             }
         }
 
