@@ -3,12 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\rlarh\\source\\repos\\CS_Project\\TimeTrackPeerRev\\desktop-app\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{EFE3BD3A-6895-48DB-A2E0-0C9A7AAF2A98}|Desktop_App_For_Professor\\Desktop_App_For_Professor.csproj|C:\\Users\\rlarh\\source\\repos\\CS_Project\\TimeTrackPeerRev\\desktop-app\\desktop_app_for_professor\\form_main.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{EFE3BD3A-6895-48DB-A2E0-0C9A7AAF2A98}|Desktop_App_For_Professor\\Desktop_App_For_Professor.csproj|solutionrelative:desktop_app_for_professor\\form_main.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{EFE3BD3A-6895-48DB-A2E0-0C9A7AAF2A98}|Desktop_App_For_Professor\\Desktop_App_For_Professor.csproj|C:\\Users\\rlarh\\source\\repos\\CS_Project\\TimeTrackPeerRev\\desktop-app\\desktop_app_for_professor\\form_main.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{EFE3BD3A-6895-48DB-A2E0-0C9A7AAF2A98}|Desktop_App_For_Professor\\Desktop_App_For_Professor.csproj|solutionrelative:desktop_app_for_professor\\form_main.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EFE3BD3A-6895-48DB-A2E0-0C9A7AAF2A98}|Desktop_App_For_Professor\\Desktop_App_For_Professor.csproj|c:\\users\\rlarh\\source\\repos\\cs_project\\timetrackpeerrev\\desktop-app\\desktop_app_for_professor\\my_db.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EFE3BD3A-6895-48DB-A2E0-0C9A7AAF2A98}|Desktop_App_For_Professor\\Desktop_App_For_Professor.csproj|solutionrelative:desktop_app_for_professor\\my_db.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EFE3BD3A-6895-48DB-A2E0-0C9A7AAF2A98}|Desktop_App_For_Professor\\Desktop_App_For_Professor.csproj|C:\\Users\\rlarh\\source\\repos\\CS_Project\\TimeTrackPeerRev\\desktop-app\\desktop_app_for_professor\\student.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EFE3BD3A-6895-48DB-A2E0-0C9A7AAF2A98}|Desktop_App_For_Professor\\Desktop_App_For_Professor.csproj|solutionrelative:desktop_app_for_professor\\student.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EFE3BD3A-6895-48DB-A2E0-0C9A7AAF2A98}|Desktop_App_For_Professor\\Desktop_App_For_Professor.csproj|C:\\Users\\rlarh\\source\\repos\\CS_Project\\TimeTrackPeerRev\\desktop-app\\desktop_app_for_professor\\form_main.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{EFE3BD3A-6895-48DB-A2E0-0C9A7AAF2A98}|Desktop_App_For_Professor\\Desktop_App_For_Professor.csproj|solutionrelative:desktop_app_for_professor\\form_main.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
       "AbsoluteMoniker": "D:0:0:{EFE3BD3A-6895-48DB-A2E0-0C9A7AAF2A98}|Desktop_App_For_Professor\\Desktop_App_For_Professor.csproj|C:\\Users\\rlarh\\source\\repos\\CS_Project\\TimeTrackPeerRev\\desktop-app\\desktop_app_for_professor\\form_login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -19,16 +27,8 @@
       "RelativeMoniker": "D:0:0:{EFE3BD3A-6895-48DB-A2E0-0C9A7AAF2A98}|Desktop_App_For_Professor\\Desktop_App_For_Professor.csproj|solutionrelative:desktop_app_for_professor\\form_login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EFE3BD3A-6895-48DB-A2E0-0C9A7AAF2A98}|Desktop_App_For_Professor\\Desktop_App_For_Professor.csproj|C:\\Users\\rlarh\\source\\repos\\CS_Project\\TimeTrackPeerRev\\desktop-app\\desktop_app_for_professor\\my_db.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EFE3BD3A-6895-48DB-A2E0-0C9A7AAF2A98}|Desktop_App_For_Professor\\Desktop_App_For_Professor.csproj|solutionrelative:desktop_app_for_professor\\my_db.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{EFE3BD3A-6895-48DB-A2E0-0C9A7AAF2A98}|Desktop_App_For_Professor\\Desktop_App_For_Professor.csproj|C:\\Users\\rlarh\\source\\repos\\CS_Project\\TimeTrackPeerRev\\desktop-app\\desktop_app_for_professor\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{EFE3BD3A-6895-48DB-A2E0-0C9A7AAF2A98}|Desktop_App_For_Professor\\Desktop_App_For_Professor.csproj|solutionrelative:desktop_app_for_professor\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EFE3BD3A-6895-48DB-A2E0-0C9A7AAF2A98}|Desktop_App_For_Professor\\Desktop_App_For_Professor.csproj|C:\\Users\\rlarh\\source\\repos\\CS_Project\\TimeTrackPeerRev\\desktop-app\\desktop_app_for_professor\\student.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EFE3BD3A-6895-48DB-A2E0-0C9A7AAF2A98}|Desktop_App_For_Professor\\Desktop_App_For_Professor.csproj|solutionrelative:desktop_app_for_professor\\student.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{EFE3BD3A-6895-48DB-A2E0-0C9A7AAF2A98}|Desktop_App_For_Professor\\Desktop_App_For_Professor.csproj|C:\\Users\\rlarh\\source\\repos\\CS_Project\\TimeTrackPeerRev\\desktop-app\\desktop_app_for_professor\\form_std_work_edit.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
@@ -75,7 +75,7 @@
       "RelativeMoniker": "D:0:0:{EFE3BD3A-6895-48DB-A2E0-0C9A7AAF2A98}|Desktop_App_For_Professor\\Desktop_App_For_Professor.csproj|solutionrelative:desktop_app_for_professor\\form_std_add.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EFE3BD3A-6895-48DB-A2E0-0C9A7AAF2A98}|Desktop_App_For_Professor\\Desktop_App_For_Professor.csproj|c:\\users\\rlarh\\source\\repos\\cs_project\\timetrackpeerrev\\desktop-app\\desktop_app_for_professor\\form_std_edit.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{EFE3BD3A-6895-48DB-A2E0-0C9A7AAF2A98}|Desktop_App_For_Professor\\Desktop_App_For_Professor.csproj|C:\\Users\\rlarh\\source\\repos\\CS_Project\\TimeTrackPeerRev\\desktop-app\\desktop_app_for_professor\\form_std_edit.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{EFE3BD3A-6895-48DB-A2E0-0C9A7AAF2A98}|Desktop_App_For_Professor\\Desktop_App_For_Professor.csproj|solutionrelative:desktop_app_for_professor\\form_std_edit.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -83,7 +83,7 @@
       "RelativeMoniker": "D:0:0:{EFE3BD3A-6895-48DB-A2E0-0C9A7AAF2A98}|Desktop_App_For_Professor\\Desktop_App_For_Professor.csproj|solutionrelative:desktop_app_for_professor\\form_std_edit.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EFE3BD3A-6895-48DB-A2E0-0C9A7AAF2A98}|Desktop_App_For_Professor\\Desktop_App_For_Professor.csproj|c:\\users\\rlarh\\source\\repos\\cs_project\\timetrackpeerrev\\desktop-app\\desktop_app_for_professor\\form_std_work.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{EFE3BD3A-6895-48DB-A2E0-0C9A7AAF2A98}|Desktop_App_For_Professor\\Desktop_App_For_Professor.csproj|C:\\Users\\rlarh\\source\\repos\\CS_Project\\TimeTrackPeerRev\\desktop-app\\desktop_app_for_professor\\form_std_work.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{EFE3BD3A-6895-48DB-A2E0-0C9A7AAF2A98}|Desktop_App_For_Professor\\Desktop_App_For_Professor.csproj|solutionrelative:desktop_app_for_professor\\form_std_work.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -99,7 +99,7 @@
       "RelativeMoniker": "D:0:0:{EFE3BD3A-6895-48DB-A2E0-0C9A7AAF2A98}|Desktop_App_For_Professor\\Desktop_App_For_Professor.csproj|solutionrelative:desktop_app_for_professor\\professorsession.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EFE3BD3A-6895-48DB-A2E0-0C9A7AAF2A98}|Desktop_App_For_Professor\\Desktop_App_For_Professor.csproj|c:\\users\\rlarh\\source\\repos\\cs_project\\timetrackpeerrev\\desktop-app\\desktop_app_for_professor\\form_std_work_edit.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{EFE3BD3A-6895-48DB-A2E0-0C9A7AAF2A98}|Desktop_App_For_Professor\\Desktop_App_For_Professor.csproj|C:\\Users\\rlarh\\source\\repos\\CS_Project\\TimeTrackPeerRev\\desktop-app\\desktop_app_for_professor\\form_std_work_edit.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{EFE3BD3A-6895-48DB-A2E0-0C9A7AAF2A98}|Desktop_App_For_Professor\\Desktop_App_For_Professor.csproj|solutionrelative:desktop_app_for_professor\\form_std_work_edit.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -138,11 +138,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 8,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "Form_login.cs",
               "DocumentMoniker": "C:\\Users\\rlarh\\source\\repos\\CS_Project\\TimeTrackPeerRev\\desktop-app\\Desktop_App_For_Professor\\Form_login.cs",
               "RelativeDocumentMoniker": "Desktop_App_For_Professor\\Form_login.cs",
@@ -151,8 +151,7 @@
               "ViewState": "AgIAABwAAAAAAAAAAADwvw0AAAAPAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-10T03:20:14.347Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Bookmark",
@@ -168,6 +167,19 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MY_DB.cs",
+              "DocumentMoniker": "C:\\Users\\rlarh\\source\\repos\\CS_Project\\TimeTrackPeerRev\\desktop-app\\Desktop_App_For_Professor\\MY_DB.cs",
+              "RelativeDocumentMoniker": "Desktop_App_For_Professor\\MY_DB.cs",
+              "ToolTip": "C:\\Users\\rlarh\\source\\repos\\CS_Project\\TimeTrackPeerRev\\desktop-app\\Desktop_App_For_Professor\\MY_DB.cs",
+              "RelativeToolTip": "Desktop_App_For_Professor\\MY_DB.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAABcAAABhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-10T03:27:03.555Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 8,
               "Title": "Form_spsh_add.cs",
               "DocumentMoniker": "C:\\Users\\rlarh\\source\\repos\\CS_Project\\TimeTrackPeerRev\\desktop-app\\Desktop_App_For_Professor\\Form_spsh_add.cs",
@@ -176,12 +188,11 @@
               "RelativeToolTip": "Desktop_App_For_Professor\\Form_spsh_add.cs",
               "ViewState": "AgIAACcAAAAAAAAAAAApwDMAAABbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-05T16:49:39.381Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-05T16:49:39.381Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 2,
               "Title": "STUDENT.cs",
               "DocumentMoniker": "C:\\Users\\rlarh\\source\\repos\\CS_Project\\TimeTrackPeerRev\\desktop-app\\Desktop_App_For_Professor\\STUDENT.cs",
               "RelativeDocumentMoniker": "Desktop_App_For_Professor\\STUDENT.cs",
@@ -189,25 +200,11 @@
               "RelativeToolTip": "Desktop_App_For_Professor\\STUDENT.cs",
               "ViewState": "AgIAABgAAAAAAAAAAAAiwEIAAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-10T03:26:19.111Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-10T03:26:19.111Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "MY_DB.cs",
-              "DocumentMoniker": "C:\\Users\\rlarh\\source\\repos\\CS_Project\\TimeTrackPeerRev\\desktop-app\\Desktop_App_For_Professor\\MY_DB.cs",
-              "RelativeDocumentMoniker": "Desktop_App_For_Professor\\MY_DB.cs",
-              "ToolTip": "C:\\Users\\rlarh\\source\\repos\\CS_Project\\TimeTrackPeerRev\\desktop-app\\Desktop_App_For_Professor\\MY_DB.cs",
-              "RelativeToolTip": "Desktop_App_For_Professor\\MY_DB.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAAABcAAAAIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-10T03:27:03.555Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "Form_main.cs [Design]",
               "DocumentMoniker": "C:\\Users\\rlarh\\source\\repos\\CS_Project\\TimeTrackPeerRev\\desktop-app\\Desktop_App_For_Professor\\Form_main.cs",
               "RelativeDocumentMoniker": "Desktop_App_For_Professor\\Form_main.cs",
@@ -219,13 +216,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "Form_main.cs",
               "DocumentMoniker": "C:\\Users\\rlarh\\source\\repos\\CS_Project\\TimeTrackPeerRev\\desktop-app\\Desktop_App_For_Professor\\Form_main.cs",
               "RelativeDocumentMoniker": "Desktop_App_For_Professor\\Form_main.cs",
               "ToolTip": "C:\\Users\\rlarh\\source\\repos\\CS_Project\\TimeTrackPeerRev\\desktop-app\\Desktop_App_For_Professor\\Form_main.cs",
               "RelativeToolTip": "Desktop_App_For_Professor\\Form_main.cs",
-              "ViewState": "AgIAALUEAAAAAAAAAAAcwJkEAAAZAAAAAAAAAA==",
+              "ViewState": "AgIAAPMAAAAAAAAAAAAIwDEBAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-10T15:24:15.375Z",
               "EditorCaption": ""
@@ -236,15 +233,14 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "Form_login.cs [Design]",
               "DocumentMoniker": "C:\\Users\\rlarh\\source\\repos\\CS_Project\\TimeTrackPeerRev\\desktop-app\\Desktop_App_For_Professor\\Form_login.cs",
               "RelativeDocumentMoniker": "Desktop_App_For_Professor\\Form_login.cs",
               "ToolTip": "C:\\Users\\rlarh\\source\\repos\\CS_Project\\TimeTrackPeerRev\\desktop-app\\Desktop_App_For_Professor\\Form_login.cs [Design]",
               "RelativeToolTip": "Desktop_App_For_Professor\\Form_login.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-10T15:48:40.479Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2024-10-10T15:48:40.479Z"
             },
             {
               "$type": "Document",
@@ -255,12 +251,11 @@
               "ToolTip": "C:\\Users\\rlarh\\source\\repos\\CS_Project\\TimeTrackPeerRev\\desktop-app\\Desktop_App_For_Professor\\Form_std_work_edit.cs [Design]",
               "RelativeToolTip": "Desktop_App_For_Professor\\Form_std_work_edit.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-31T15:12:30.478Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2024-10-31T15:12:30.478Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\rlarh\\source\\repos\\CS_Project\\TimeTrackPeerRev\\desktop-app\\Desktop_App_For_Professor\\Program.cs",
               "RelativeDocumentMoniker": "Desktop_App_For_Professor\\Program.cs",
@@ -268,8 +263,7 @@
               "RelativeToolTip": "Desktop_App_For_Professor\\Program.cs",
               "ViewState": "AgIAAAYAAAAAAAAAAAAAABMAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-10T23:17:39.194Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-10T23:17:39.194Z"
             },
             {
               "$type": "Document",
@@ -281,8 +275,7 @@
               "RelativeToolTip": "Desktop_App_For_Professor\\Form_spsh.cs",
               "ViewState": "AgIAAKEBAAAAAAAAAAAYwKcBAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-05T16:07:03.294Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-05T16:07:03.294Z"
             },
             {
               "$type": "Document",
@@ -293,8 +286,7 @@
               "ToolTip": "C:\\Users\\rlarh\\source\\repos\\CS_Project\\TimeTrackPeerRev\\desktop-app\\Desktop_App_For_Professor\\Form_spsh.cs [Design]",
               "RelativeToolTip": "Desktop_App_For_Professor\\Form_spsh.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-05T15:54:56.865Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2024-11-05T15:54:56.865Z"
             },
             {
               "$type": "Document",
@@ -305,8 +297,7 @@
               "ToolTip": "C:\\Users\\rlarh\\source\\repos\\CS_Project\\TimeTrackPeerRev\\desktop-app\\Desktop_App_For_Professor\\Form_spsh_add.cs [Design]",
               "RelativeToolTip": "Desktop_App_For_Professor\\Form_spsh_add.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-05T16:41:14.237Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2024-11-05T16:41:14.237Z"
             },
             {
               "$type": "Document",
@@ -318,8 +309,7 @@
               "RelativeToolTip": "Desktop_App_For_Professor\\Form_spsh_ch.cs",
               "ViewState": "AgIAAA0AAAAAAAAAAAAqwC0AAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-07T16:14:49.539Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-07T16:14:49.539Z"
             },
             {
               "$type": "Document",
@@ -330,8 +320,7 @@
               "ToolTip": "C:\\Users\\rlarh\\source\\repos\\CS_Project\\TimeTrackPeerRev\\desktop-app\\Desktop_App_For_Professor\\Form_spsh_ch.cs [Design]",
               "RelativeToolTip": "Desktop_App_For_Professor\\Form_spsh_ch.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-07T16:05:44.243Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2024-11-07T16:05:44.243Z"
             },
             {
               "$type": "Document",
@@ -343,8 +332,7 @@
               "RelativeToolTip": "Desktop_App_For_Professor\\Form_spsh_enroll.cs",
               "ViewState": "AgIAABMAAAAAAAAAAAAYwBQAAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-19T18:01:33.156Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-19T18:01:33.156Z"
             },
             {
               "$type": "Document",
@@ -355,8 +343,7 @@
               "ToolTip": "C:\\Users\\rlarh\\source\\repos\\CS_Project\\TimeTrackPeerRev\\desktop-app\\Desktop_App_For_Professor\\Form_spsh_enroll.cs [Design]",
               "RelativeToolTip": "Desktop_App_For_Professor\\Form_spsh_enroll.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-19T17:56:06.154Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2024-11-19T17:56:06.154Z"
             },
             {
               "$type": "Document",
@@ -368,8 +355,7 @@
               "RelativeToolTip": "Desktop_App_For_Professor\\Form_std_add.cs",
               "ViewState": "AgIAAEcAAAAAAAAAAAAAwFEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-10T15:59:06.36Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-10T15:59:06.36Z"
             },
             {
               "$type": "Document",
@@ -380,8 +366,7 @@
               "ToolTip": "C:\\Users\\rlarh\\source\\repos\\CS_Project\\TimeTrackPeerRev\\desktop-app\\Desktop_App_For_Professor\\Form_std_add.cs [Design]",
               "RelativeToolTip": "Desktop_App_For_Professor\\Form_std_add.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-10T15:59:03.34Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2024-10-10T15:59:03.34Z"
             },
             {
               "$type": "Document",
@@ -393,8 +378,7 @@
               "RelativeToolTip": "Desktop_App_For_Professor\\Form_std_edit.cs",
               "ViewState": "AgIAAAwAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-02T03:29:40.863Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-02T03:29:40.863Z"
             },
             {
               "$type": "Document",
@@ -405,8 +389,7 @@
               "ToolTip": "C:\\Users\\rlarh\\source\\repos\\CS_Project\\TimeTrackPeerRev\\desktop-app\\Desktop_App_For_Professor\\Form_std_edit.cs [Design]",
               "RelativeToolTip": "Desktop_App_For_Professor\\Form_std_edit.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-31T14:54:32.799Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2024-10-31T14:54:32.799Z"
             },
             {
               "$type": "Document",
@@ -418,8 +401,7 @@
               "RelativeToolTip": "Desktop_App_For_Professor\\Form_std_work.cs",
               "ViewState": "AgIAADAAAAAAAAAAAAAQwDsAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-24T16:32:27.116Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-24T16:32:27.116Z"
             },
             {
               "$type": "Document",
@@ -430,8 +412,7 @@
               "ToolTip": "C:\\Users\\rlarh\\source\\repos\\CS_Project\\TimeTrackPeerRev\\desktop-app\\Desktop_App_For_Professor\\Form_std_work.cs [Design]",
               "RelativeToolTip": "Desktop_App_For_Professor\\Form_std_work.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-24T15:42:58.064Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2024-10-24T15:42:58.064Z"
             },
             {
               "$type": "Document",
@@ -443,8 +424,7 @@
               "RelativeToolTip": "Desktop_App_For_Professor\\Form_std_work_edit.cs",
               "ViewState": "AgIAABIAAAAAAAAAAAAAwBwAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-31T15:44:28.676Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-31T15:44:28.676Z"
             },
             {
               "$type": "Document",
@@ -456,8 +436,7 @@
               "RelativeToolTip": "Desktop_App_For_Professor\\ProfessorSession.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAPAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-11T00:59:06.65Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-11T00:59:06.65Z"
             },
             {
               "$type": "Document",
@@ -469,8 +448,7 @@
               "RelativeToolTip": "Desktop_App_For_Professor\\Form_std_work_edit.Designer.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-02T03:18:21.08Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-02T03:18:21.08Z"
             },
             {
               "$type": "Document",
@@ -494,8 +472,7 @@
               "RelativeToolTip": "Desktop_App_For_Professor\\Form_spsh_enroll.Designer.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-19T18:03:43.529Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-19T18:03:43.529Z"
             },
             {
               "$type": "Document",
@@ -507,8 +484,7 @@
               "RelativeToolTip": "Desktop_App_For_Professor\\Form_spsh.Designer.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-19T16:18:16.845Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-19T16:18:16.845Z"
             },
             {
               "$type": "Document",
@@ -520,8 +496,7 @@
               "RelativeToolTip": "Desktop_App_For_Professor\\Form_login.Designer.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-10T15:48:44.195Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-10T15:48:44.195Z"
             },
             {
               "$type": "Document",
@@ -558,8 +533,7 @@
               "RelativeToolTip": "Desktop_App_For_Professor\\Form_std_add.Designer.cs",
               "ViewState": "AgIAABAAAAAAAAAAAAAQwFsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-10T16:13:41.783Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-10T16:13:41.783Z"
             }
           ]
         }

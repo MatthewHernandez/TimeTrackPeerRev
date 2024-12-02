@@ -264,24 +264,31 @@ namespace Desktop_App_For_Professor
         {
 
         }
-       
+
         //gxk220025
         //Cell Double Click Event
         private void dataGridViewStudents_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            
             // Ensure the row is valid (not a header or an empty row)
             if (e.RowIndex >= 0)
             {
                 // Get the selected row
                 DataGridViewRow selectedRow = dataGridViewStudents.Rows[e.RowIndex];
 
-                // Retrieve the student data from the selected row
-                int studentId = Convert.ToInt32(selectedRow.Cells["Student ID"].Value);         
-                string firstName = selectedRow.Cells["First Name"].Value.ToString();   
-                string lastName = selectedRow.Cells["Last Name"].Value.ToString();     
-                string username = selectedRow.Cells["Username"].Value.ToString();           
-                
+                // Safely retrieve the student data from the selected row
+                int studentId = selectedRow.Cells["Student ID"].Value != DBNull.Value
+                                ? Convert.ToInt32(selectedRow.Cells["Student ID"].Value)
+                                : 0; // Default or error value
+                string firstName = selectedRow.Cells["First Name"].Value != DBNull.Value
+                                   ? selectedRow.Cells["First Name"].Value.ToString()
+                                   : string.Empty;
+                string lastName = selectedRow.Cells["Last Name"].Value != DBNull.Value
+                                  ? selectedRow.Cells["Last Name"].Value.ToString()
+                                  : string.Empty;
+                string username = selectedRow.Cells["Username"].Value != DBNull.Value
+                                  ? selectedRow.Cells["Username"].Value.ToString()
+                                  : string.Empty;
+
                 // Store the retrieved data in the STUDENT class
                 STUDENT.Id = studentId;
                 STUDENT.FirstName = firstName;
@@ -296,7 +303,8 @@ namespace Desktop_App_For_Professor
                 workStdInfo.Show(this);
             }
         }
-        
+
+
         //gxk220025
         private void button_stdlist_Click(object sender, EventArgs e)
         {

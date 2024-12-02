@@ -1,0 +1,40 @@
+INSERT INTO professor (id, username, first_name, last_name, password) VALUES
+(1, 'jdoe123', 'John', 'Doe', 'u123456'),
+(2, 'abc', 'ab', 'c', '123');
+
+
+
+INSERT INTO class (id, professor_id, class_name, semester, year) VALUES
+(1, 1, 'Computer Science 101', 'Fall', 2024),
+(2, 1, 'Computer Science 102', 'Fall', 2024);
+
+
+
+INSERT INTO student (id, username, first_name, last_name, password, class_id, team_id) VALUES
+(1, 'asdas', 'Jane', 'Doe', 'asdasd', 1, 1),
+(2, 'asdsada', 'Alex', 'Doe', 'asdasd', 1, 1),
+(3, 'asdas', 'Alan', 'Mendoza', 'asdasd', 2, 2);
+
+
+
+INSERT INTO time_entry (student_id, date, hours, comments) VALUES
+(1, '2024-10-30', 3.55, 'did x y z'),
+(2, '2024-10-29', 3.00, 'did y z'),
+(3, '2024-10-28', 2.00, 'did x');
+
+
+
+INSERT INTO review_period (review_id, class_id, start_date, end_date) VALUES
+(1, 1, '2024-10-29', '2024-10-31');
+
+
+
+
+INSERT INTO peer_review (
+    review_period_id, reviewer_id, reviewee_id, qual_of_work_rating, timeliness_rating, 
+    teamwork_rating, eff_and_part_rating, communication_rating, comments
+) VALUES
+(1, 1, 1, 1, 2, 3, 4, 5, 'good job'),
+(1, 1, 2, 1, 1, 1, 1, 1, '1'),
+(1, 2, 1, 1, 1, 1, 1, 1, '1'),
+(1, 2, 2, 1, 1, 1, 1, 1, '0');

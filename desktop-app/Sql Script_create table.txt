@@ -1,0 +1,58 @@
+CREATE TABLE professor (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255) NOT NULL,
+    first_name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL
+);
+
+
+CREATE TABLE class (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    professor_id INT NOT NULL,
+    class_name VARCHAR(255) NOT NULL,
+    semester VARCHAR(50) NOT NULL,
+    year INT NOT NULL
+);
+
+
+CREATE TABLE student (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255) NOT NULL,
+    first_name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    class_id INT NOT NULL,
+    team_id INT NOT NULL
+);
+
+
+CREATE TABLE time_entry (
+    student_id INT NOT NULL,
+    date DATE NOT NULL,
+    hours DECIMAL(5, 2) NOT NULL,
+    comments VARCHAR(255),
+    PRIMARY KEY (student_id, date)
+);
+
+
+CREATE TABLE review_period (
+    review_id INT AUTO_INCREMENT PRIMARY KEY,
+    class_id INT NOT NULL,
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL
+);
+
+
+CREATE TABLE peer_review (
+    review_period_id INT NOT NULL,
+    reviewer_id INT NOT NULL,
+    reviewee_id INT NOT NULL,
+    qual_of_work_rating INT NOT NULL DEFAULT 0,
+    timeliness_rating INT NOT NULL DEFAULT 0,
+    teamwork_rating INT NOT NULL DEFAULT 0,
+    eff_and_part_rating INT NOT NULL DEFAULT 0,
+    communication_rating INT NOT NULL DEFAULT 0,
+    comments VARCHAR(255) DEFAULT ''
+    
+);
