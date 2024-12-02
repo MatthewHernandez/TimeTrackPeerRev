@@ -38,6 +38,7 @@
             this.Name = "Form_std_edit";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form_std_edit";
+            this.Load += new System.EventHandler(this.Form_std_edit_Load);
             this.ResumeLayout(false);
 
         }

@@ -11,6 +11,7 @@ using System.Windows.Forms;
 
 namespace Desktop_App_For_Professor
 {
+    //gxk220025
     public partial class Form_std_work_edit : Form
     {
         // Define a delegate and event for notifying the parent form
@@ -22,6 +23,7 @@ namespace Desktop_App_For_Professor
             InitializeComponent();
         }
 
+        //gxk220025
         private void Form_std_work_edit_Load(object sender, EventArgs e)
         {
             // Display information in labels or read-only text boxes
@@ -39,6 +41,7 @@ namespace Desktop_App_For_Professor
             textBoxWorkDescription.Text = STUDENT.workDescrip;
         }
 
+        //gxk220025
         private void buttonConfirm_Click(object sender, EventArgs e)
         {
             MY_DB db = new MY_DB();
@@ -48,17 +51,17 @@ namespace Desktop_App_For_Professor
 
                 // SQL query to update the selected work record in the database
                 string query = @"
-            UPDATE student_hours
-            SET date = @date, hours = @hours, description = @description
-            WHERE work_id = @work_id AND student_id = @student_id";
+            UPDATE time_entry
+            SET date = @date, hours = @hours, comments = @comments
+            WHERE student_id = @student_id"; //work_id = @work_id AND
 
                 MySqlCommand command = new MySqlCommand(query, db.getConnection);
 
                 // Update with new values from the form
                 command.Parameters.AddWithValue("@date", dateTimePickerWorkDate.Value);
                 command.Parameters.AddWithValue("@hours", Convert.ToDecimal(textBoxWorkHour.Text));
-                command.Parameters.AddWithValue("@description", textBoxWorkDescription.Text);
-                command.Parameters.AddWithValue("@work_id", STUDENT.workId);
+                command.Parameters.AddWithValue("@comment", textBoxWorkDescription.Text);
+                //command.Parameters.AddWithValue("@work_id", STUDENT.workId);
                 command.Parameters.AddWithValue("@student_id", STUDENT.Id);
 
                 // Execute the update command

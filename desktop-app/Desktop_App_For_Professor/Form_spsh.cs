@@ -13,6 +13,7 @@ using MySql.Data.MySqlClient;
 
 namespace Desktop_App_For_Professor
 {
+    //gxk220025
     public partial class Form_spsh : Form
     {
         private string csvFilePath; // Track the CSV file path for saving
@@ -28,6 +29,7 @@ namespace Desktop_App_For_Professor
 
         }
 
+        //gxk220025
         // Method to import data from an Excel file
         private void ImportFromCsv(string filePath)
         {
@@ -127,8 +129,9 @@ namespace Desktop_App_For_Professor
             addForm.ShowDialog();
         }
 
+        //gxk20025
         // Method to append a new row to the CSV file
-        private void AppendToCsv(string filePath, long id, string firstName, string lastName, string userName)
+        private void AppendToCsv(string filePath, int id, string firstName, string lastName, string userName)
         {
             try
             {
@@ -145,6 +148,7 @@ namespace Desktop_App_For_Professor
             }
         }
 
+        //gxk220025
         private void SaveToCsv(string filePath, DataTable dataTable)
         {
             try
@@ -171,8 +175,9 @@ namespace Desktop_App_For_Professor
             }
         }
 
+        //gxk220025
         //method to added information into MySql
-        private bool AddStudentToMySQL(long id, string firstName, string lastName, string userName)
+        private bool AddStudentToMySQL(int id, string firstName, string lastName, string userName)
         {
             MY_DB db = new MY_DB();
             bool isAdded = false;
@@ -195,10 +200,11 @@ namespace Desktop_App_For_Professor
                     }
                 }
 
+                //12/1 2024 no email
                 // Define the INSERT query with parameters
                 string insertQuery = @"
-            INSERT INTO student (last_name, first_name, username, id, email)
-            VALUES (@lastName, @firstName, @userName, @id, @Email)";
+            INSERT INTO student (last_name, first_name, username, id)
+            VALUES (@lastName, @firstName, @userName, @id)";
 
                 using (MySqlCommand insertCmd = new MySqlCommand(insertQuery, db.getConnection))
                 {
@@ -207,7 +213,7 @@ namespace Desktop_App_For_Professor
                     insertCmd.Parameters.AddWithValue("@firstName", firstName);
                     insertCmd.Parameters.AddWithValue("@userName", userName);
                     insertCmd.Parameters.AddWithValue("@id", id);
-                    insertCmd.Parameters.AddWithValue("@Email", $"{userName}@utdallas.edu");
+                    //insertCmd.Parameters.AddWithValue("@Email", $"{userName}@utdallas.edu");
 
                     // Execute the insertion
                     insertCmd.ExecuteNonQuery();
@@ -226,6 +232,7 @@ namespace Desktop_App_For_Professor
             return isAdded;
         }
 
+        //gxk220025
         private void button_delete_Click(object sender, EventArgs e)
         {
             if (dataGridViewStudents.SelectedCells.Count > 0)
@@ -249,7 +256,7 @@ namespace Desktop_App_For_Professor
                 deletedRowsStack.Push(deletedRow); // Push the backup data onto the stack
 
                 // Delete from MySQL
-                long studentId = Convert.ToInt64(deletedRow["Student ID"]);
+                int studentId = Convert.ToInt32(deletedRow["Student ID"]);
                 bool isDeletedFromMySQL = DeleteFromMySQL(studentId);
 
                 // Only update DataGridView if successfully deleted from MySQL
@@ -277,46 +284,17 @@ namespace Desktop_App_For_Professor
             }
         }
 
-
-        private bool DeleteFromMySQL(long studentId)
+        //gxk220025
+        private bool DeleteFromMySQL(int studentId)
         {
-            /*
+            
             MY_DB db = new MY_DB();
             bool isDeleted = false;
 
             try
             {
                 db.openConnection();
-
-                // Define the DELETE query with a parameter
-                string deleteQuery = "DELETE FROM student WHERE id = @id";
-                using (MySqlCommand deleteCmd = new MySqlCommand(deleteQuery, db.getConnection))
-                {
-                    deleteCmd.Parameters.AddWithValue("@id", studentId);
-                    int rowsAffected = deleteCmd.ExecuteNonQuery();
-
-                    // Check if a row was actually deleted
-                    isDeleted = rowsAffected > 0;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error deleting student from MySQL: " + ex.Message, "Delete Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                db.closeConnection();
-            }
-
-            return isDeleted;
-            */
-            MY_DB db = new MY_DB();
-            bool isDeleted = false;
-
-            try
-            {
-                db.openConnection();
-
+                /*
                 // Check for dependencies in student_class_enrolled
                 string checkClassEnrolledQuery = "SELECT COUNT(*) FROM student_class_enrolled WHERE student_id = @studentId";
                 using (MySqlCommand checkCmd1 = new MySqlCommand(checkClassEnrolledQuery, db.getConnection))
@@ -348,7 +326,7 @@ namespace Desktop_App_For_Professor
                         return false;
                     }
                 }
-
+                */
                 // Proceed with deletion if no dependencies are found
                 string deleteQuery = "DELETE FROM student WHERE id = @id";
                 using (MySqlCommand deleteCmd = new MySqlCommand(deleteQuery, db.getConnection))
@@ -372,6 +350,7 @@ namespace Desktop_App_For_Professor
             return isDeleted;
         }
 
+        //gxk220025
         private void button_change_Click(object sender, EventArgs e)
         {
             if (dataGridViewStudents.SelectedCells.Count > 0)
@@ -441,7 +420,8 @@ namespace Desktop_App_For_Professor
             }
         }
 
-        private bool UpdateStudentInMySQL(long id, string firstName, string lastName, string userName)
+        //gxk220025
+        private bool UpdateStudentInMySQL(int id, string firstName, string lastName, string userName)
         {
             MY_DB db = new MY_DB();
             bool isUpdated = false;
@@ -453,7 +433,7 @@ namespace Desktop_App_For_Professor
                 // Define the UPDATE query with parameters
                 string updateQuery = @"
             UPDATE student 
-            SET last_name = @lastName, first_name = @firstName, username = @userName, email = @Email
+            SET last_name = @lastName, first_name = @firstName, username = @userName
             WHERE id = @id";
 
                 using (MySqlCommand updateCmd = new MySqlCommand(updateQuery, db.getConnection))
@@ -462,7 +442,7 @@ namespace Desktop_App_For_Professor
                     updateCmd.Parameters.AddWithValue("@lastName", lastName);
                     updateCmd.Parameters.AddWithValue("@firstName", firstName);
                     updateCmd.Parameters.AddWithValue("@userName", userName);
-                    updateCmd.Parameters.AddWithValue("@Email", $"{userName}@utdallas.edu");
+                    //updateCmd.Parameters.AddWithValue("@Email", $"{userName}@utdallas.edu");
                     updateCmd.Parameters.AddWithValue("@id", id);
 
                     // Execute the update
@@ -487,6 +467,7 @@ namespace Desktop_App_For_Professor
 
         }
 
+        //gxk220025
         private void button_intoserver_Click(object sender, EventArgs e)
         {
             // Initialize MY_DB to handle the database connection
@@ -504,8 +485,8 @@ namespace Desktop_App_For_Professor
                         string lastName = row.Cells["Last Name"].Value?.ToString() ?? "";
                         string firstName = row.Cells["First Name"].Value?.ToString() ?? "";
                         string userName = row.Cells["Username"].Value?.ToString() ?? "";
-                        string email = $"{userName}@utdallas.edu";
-                        long studentId = Convert.ToInt64(row.Cells["Student ID"].Value);
+                        //string email = $"{userName}@utdallas.edu";
+                        int studentId = Convert.ToInt32(row.Cells["Student ID"].Value);
 
                         // Check if the student ID already exists in the database
                         string checkQuery = "SELECT COUNT(*) FROM student WHERE id = @id";
@@ -523,8 +504,8 @@ namespace Desktop_App_For_Professor
 
                         // Define the INSERT query with parameters
                         string insertQuery = @"
-                    INSERT INTO student (last_name, first_name, username, id, email)
-                    VALUES (@lastName, @firstName, @userName, @id, @Email)";
+                    INSERT INTO student (last_name, first_name, username, id)
+                    VALUES (@lastName, @firstName, @userName, @id";
 
                         using (MySqlCommand insertCmd = new MySqlCommand(insertQuery, db.getConnection))
                         {
@@ -533,7 +514,7 @@ namespace Desktop_App_For_Professor
                             insertCmd.Parameters.AddWithValue("@firstName", firstName);
                             insertCmd.Parameters.AddWithValue("@userName", userName);
                             insertCmd.Parameters.AddWithValue("@id", studentId);
-                            insertCmd.Parameters.AddWithValue("@Email", email);
+                            //insertCmd.Parameters.AddWithValue("@Email", email);
 
                             // Execute the insertion
                             insertCmd.ExecuteNonQuery();
@@ -553,6 +534,8 @@ namespace Desktop_App_For_Professor
             }
         }
 
+        //gxk220025
+        //not use now
         private void button_recovery_Click(object sender, EventArgs e)
         {
             if (deletedRowsStack.Count > 0)
@@ -566,7 +549,7 @@ namespace Desktop_App_For_Professor
                 dataTable.AcceptChanges(); // Commit the addition to the DataTable
 
                 // Restore the row in MySQL
-                long studentId = Convert.ToInt64(restoredRow["Student ID"]);
+                int studentId = Convert.ToInt32(restoredRow["Student ID"]);
                 string firstName = restoredRow["First Name"].ToString();
                 string lastName = restoredRow["Last Name"].ToString();
                 string userName = restoredRow["Username"].ToString();

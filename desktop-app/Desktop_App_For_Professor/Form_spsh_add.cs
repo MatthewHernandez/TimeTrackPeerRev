@@ -12,9 +12,9 @@ namespace Desktop_App_For_Professor
 {
     public partial class Form_spsh_add : Form
     {
-
+        //gxk220025
         // Delegate for passing data back to Form_spsh
-        public delegate void AddStudentHandler(string firstName, string lastName, long id, string userName);
+        public delegate void AddStudentHandler(string firstName, string lastName, int id, string userName);
         public event AddStudentHandler StudentAdded;
 
         public Form_spsh_add()
@@ -28,10 +28,10 @@ namespace Desktop_App_For_Professor
         }
 
 
-
+        //gxk220025
         bool verif()
         {
-            if (long.TryParse(textBox_id.Text, out long studentId) &&
+            if (int.TryParse(textBox_id.Text, out int studentId) &&
             !string.IsNullOrWhiteSpace(textBox_first.Text) &&
             !string.IsNullOrWhiteSpace(textBox_last.Text) &&
             !string.IsNullOrWhiteSpace(textBox_user.Text))
@@ -43,12 +43,13 @@ namespace Desktop_App_For_Professor
             return false;
         }
 
+        //gxk220025
         private void button_add_Click(object sender, EventArgs e)
         {
             if (verif())
             {
                 // Pass data back to Form_spsh
-                StudentAdded?.Invoke(textBox_first.Text, textBox_last.Text, Convert.ToInt64(textBox_id.Text), textBox_user.Text);
+                StudentAdded?.Invoke(textBox_first.Text, textBox_last.Text, Convert.ToInt32(textBox_id.Text), textBox_user.Text);
                 // Close this form after adding
                 this.Close();
             }
@@ -60,6 +61,7 @@ namespace Desktop_App_For_Professor
             }
         }
 
+        //gxk220025
         private void button_cancel_Click(object sender, EventArgs e)
         {
             this.Close();

@@ -14,11 +14,11 @@ namespace Desktop_App_For_Professor
     public partial class Form_spsh_enroll : Form
     {
         public event Action<int> EnrollConfirmed; // Event to notify the parent form
-        private long studentId;
+        private int studentId;
         private string firstName;
         private string lastName;
         private string userName;
-        public Form_spsh_enroll(long studentId, string firstName, string lastName, string userName)
+        public Form_spsh_enroll(int studentId, string firstName, string lastName, string userName)
         {
             InitializeComponent();
 

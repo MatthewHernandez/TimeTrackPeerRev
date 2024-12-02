@@ -18,14 +18,10 @@ namespace Desktop_App_For_Professor
          * connect login form to mysql database
          * 
          */
-        //public static string server_name = "localhost";
-        //public static string database_name = "myDB";
-        //public static string server_username = "root";//default without password
-        //public static string server_password = "";//no password for root
-       //public static int port_num = 3306;
 
-        static string connect_info = "server=localhost;uid=root;pwd=kotori1430;database=mydb";//@"Server=localhost;Database=mydb;User ID=root;Password=;SslMode=None;";//= "datasource=" + server_name + ";" + "port=" + port_num + ";" + "username=" + server_username + ";" + "password=" + server_password + ";" + "database=" + database_name;
-
+        //change server info for presentation
+        //static string connect_info = "server=localhost;uid=root;pwd=kotori1430;database=mydb";//@"Server=localhost;Database=mydb;User ID=root;Password=;SslMode=None;";//= "datasource=" + server_name + ";" + "port=" + port_num + ";" + "username=" + server_username + ";" + "password=" + server_password + ";" + "database=" + database_name;
+        static string connect_info = "server=localhost;uid=root;pwd=kotori1430;database=project";
         //the connection
         private MySqlConnection con = new MySqlConnection(connect_info); //con to connect
 

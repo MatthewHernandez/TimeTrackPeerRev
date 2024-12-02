@@ -6,17 +6,16 @@ using System.Windows.Forms;
 
 namespace Desktop_App_For_Professor
 {
+    //gxk220025
     internal static class Program
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
+        
         [STAThread]
         static void Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new Form_login());
+            
 
             //start page is login form
             Form_login fLogin = new Form_login();

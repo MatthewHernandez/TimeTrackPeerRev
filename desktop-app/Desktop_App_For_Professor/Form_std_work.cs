@@ -14,6 +14,7 @@ namespace Desktop_App_For_Professor
     public partial class Form_std_work : Form
     {
 
+        //gxk220025
         public Form_std_work()
         {
             InitializeComponent();
@@ -29,16 +30,17 @@ namespace Desktop_App_For_Professor
 
             //version 10/31/2024
             // Ensure the row is valid (not a header or empty)
+            //12/12024 work_id removed, so change or remove it
             if (e.RowIndex >= 0)
             {
                 // Get the selected row
                 DataGridViewRow selectedRow = dataGridView_stdwork.Rows[e.RowIndex];
 
                 // Retrieve the selected work hour data from the row
-                STUDENT.workId = Convert.ToInt32(selectedRow.Cells["work_id"].Value);          // Assuming "work_id" is the column name
-                STUDENT.workDate = Convert.ToDateTime(selectedRow.Cells["date"].Value);        // Assuming "date" is the column name
-                STUDENT.workHour = Convert.ToDecimal(selectedRow.Cells["hours"].Value);        // Assuming "hours" is the column name
-                STUDENT.workDescrip = selectedRow.Cells["description"].Value.ToString();       // Assuming "description" is the column name
+                //STUDENT.workId = Convert.ToInt32(selectedRow.Cells["work_id"].Value);          
+                STUDENT.workDate = Convert.ToDateTime(selectedRow.Cells["date"].Value);       
+                STUDENT.workHour = Convert.ToDecimal(selectedRow.Cells["hours"].Value);       
+                STUDENT.workDescrip = selectedRow.Cells["comments"].Value.ToString();       
                 
 
                 // Open the edit form
@@ -52,6 +54,7 @@ namespace Desktop_App_For_Professor
             }
         }
 
+        //gxk220025
         private void Form_std_work_Load(object sender, EventArgs e)
         {
             //gxk220025 display logged in user
@@ -80,9 +83,9 @@ namespace Desktop_App_For_Professor
 
                 // SQL query to retrieve work hours for the selected student and class
                 string query = @"
-                    SELECT work_id, date, hours, description
-                    FROM student_hours
-                    WHERE student_id = @student_id AND class_id = @class_id";
+                    SELECT date, hours, comments
+                    FROM time_entry
+                    WHERE student_id = @student_id"; // AND class_id = @class_id
 
                 MySqlCommand command = new MySqlCommand(query, db.getConnection);
 

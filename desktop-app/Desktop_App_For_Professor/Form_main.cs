@@ -12,6 +12,7 @@ using System.Windows.Forms;
 
 namespace Desktop_App_For_Professor
 {
+    //gxk220025
     public partial class Form_main : Form
     {
         private string csvFilePath; // Track the CSV file path for saving
@@ -45,6 +46,8 @@ namespace Desktop_App_For_Professor
             }
         }
 
+        //gxk220025
+        //initialising class information
         private void LoadProfessorClasses()
         {
             // Call MY_DB to connect to the database
@@ -81,7 +84,7 @@ namespace Desktop_App_For_Professor
         }
 
        
-        
+        //gxk220025
         // Load the students enrolled in the selected class
         //10/22 not user now
         private void LoadEnrolledStudents()
@@ -159,6 +162,7 @@ namespace Desktop_App_For_Professor
         {
             
         }
+        //gxk220025
         private void comboBoxClasses_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Ensure a valid selection
@@ -214,11 +218,17 @@ namespace Desktop_App_For_Professor
 
                         // Query to get the students enrolled in the selected class
                         string query = @"
-                    SELECT s.last_name AS 'Last Name', s.first_name AS 'First Name', s.username AS 'Username', s.id AS 'Student ID'
-                    FROM student_class_enrolled sc
-                    JOIN student s ON sc.student_id = s.id
-                    JOIN class c ON sc.class_id = c.id
-                    WHERE c.class_name = @class_name AND c.professor_id = @prof_id";
+                        SELECT s.last_name AS 'Last Name', s.first_name AS 'First Name', s.username AS 'Username', s.id AS 'Student ID'
+                        FROM student s
+                        JOIN class c ON s.class_id = c.id
+                        WHERE c.class_name = @class_name AND c.professor_id = @prof_id";
+                        /*string query = @"
+                        SELECT s.last_name AS 'Last Name', s.first_name AS 'First Name', s.username AS 'Username', s.id AS 'Student ID'
+                        FROM student_class_enrolled sc
+                        JOIN student s ON sc.student_id = s.id
+                        JOIN class c ON sc.class_id = c.id
+                        WHERE c.class_name = @class_name AND c.professor_id = @prof_id";
+                        */
 
                         MySqlCommand command = new MySqlCommand(query, db.getConnection);
                         command.Parameters.AddWithValue("@class_name", selectedClass);
@@ -255,6 +265,7 @@ namespace Desktop_App_For_Professor
 
         }
        
+        //gxk220025
         //Cell Double Click Event
         private void dataGridViewStudents_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -266,10 +277,10 @@ namespace Desktop_App_For_Professor
                 DataGridViewRow selectedRow = dataGridViewStudents.Rows[e.RowIndex];
 
                 // Retrieve the student data from the selected row
-                int studentId = Convert.ToInt32(selectedRow.Cells["Student ID"].Value);         // Assuming "id" is the name of the column
-                string firstName = selectedRow.Cells["First Name"].Value.ToString();   // Assuming "first_name" is the column name
-                string lastName = selectedRow.Cells["Last Name"].Value.ToString();     // Assuming "last_name" is the column name
-                string username = selectedRow.Cells["Username"].Value.ToString();            // Assuming "username" is the column name
+                int studentId = Convert.ToInt32(selectedRow.Cells["Student ID"].Value);         
+                string firstName = selectedRow.Cells["First Name"].Value.ToString();   
+                string lastName = selectedRow.Cells["Last Name"].Value.ToString();     
+                string username = selectedRow.Cells["Username"].Value.ToString();           
                 
                 // Store the retrieved data in the STUDENT class
                 STUDENT.Id = studentId;
@@ -286,6 +297,7 @@ namespace Desktop_App_For_Professor
             }
         }
         
+        //gxk220025
         private void button_stdlist_Click(object sender, EventArgs e)
         {
             MY_DB db = new MY_DB();
@@ -336,11 +348,17 @@ namespace Desktop_App_For_Professor
 
                             // Query to get the students enrolled in the selected class
                             string query = @"
-                        SELECT s.last_name AS 'Last Name', s.first_name AS 'First Name', s.username AS 'Username', s.id AS 'Student ID'
-                        FROM student_class_enrolled sc
-                        JOIN student s ON sc.student_id = s.id
-                        JOIN class c ON sc.class_id = c.id
-                        WHERE c.class_name = @class_name AND c.professor_id = @prof_id";
+                            SELECT s.last_name AS 'Last Name', s.first_name AS 'First Name', s.username AS 'Username', s.id AS 'Student ID'
+                            FROM student s
+                            JOIN class c ON s.class_id = c.id
+                            WHERE c.class_name = @class_name AND c.professor_id = @prof_id";
+                            /*string query = @"
+                            SELECT s.last_name AS 'Last Name', s.first_name AS 'First Name', s.username AS 'Username', s.id AS 'Student ID'
+                            FROM student_class_enrolled sc
+                            JOIN student s ON sc.student_id = s.id
+                            JOIN class c ON sc.class_id = c.id
+                            WHERE c.class_name = @class_name AND c.professor_id = @prof_id";
+                            */
 
                             MySqlCommand command = new MySqlCommand(query, db.getConnection);
                             command.Parameters.AddWithValue("@class_name", selectedClass);
@@ -400,6 +418,7 @@ namespace Desktop_App_For_Professor
             spsheet.Show(this);
         }
 
+        //gxk220025
         private void button_save_Click(object sender, EventArgs e)
         {
             // Use SaveFileDialog to specify where to save the CSV file
@@ -520,6 +539,8 @@ namespace Desktop_App_For_Professor
             }
         }
 
+        //gxk220025
+        //mtehod to imported student information into Sql server
         private void SaveToServer(DataGridView dataGridView)
         {
             // Initialize MY_DB to handle the database connection
@@ -537,8 +558,7 @@ namespace Desktop_App_For_Professor
                         string lastName = row.Cells["Last Name"].Value?.ToString() ?? "";
                         string firstName = row.Cells["First Name"].Value?.ToString() ?? "";
                         string userName = row.Cells["Username"].Value?.ToString() ?? "";
-                        string email = $"{userName}@utdallas.edu";
-                        long studentId = Convert.ToInt64(row.Cells["Student ID"].Value);
+                        int studentId = Convert.ToInt32(row.Cells["Student ID"].Value);
 
                         // Check if the student ID already exists in the database
                         string checkQuery = "SELECT COUNT(*) FROM student WHERE id = @id";
@@ -554,10 +574,10 @@ namespace Desktop_App_For_Professor
                             }
                         }
 
-                        // Define the INSERT query with parameters
+                        // Define the INSERT query with parameters, initializing class_id, team_id, and password
                         string insertQuery = @"
-                    INSERT INTO student (last_name, first_name, username, id, email)
-                    VALUES (@lastName, @firstName, @userName, @id, @Email)";
+                INSERT INTO student (last_name, first_name, username, id, class_id, team_id, password)
+                VALUES (@lastName, @firstName, @userName, @id, @classId, @teamId, @password)";
 
                         using (MySqlCommand insertCmd = new MySqlCommand(insertQuery, db.getConnection))
                         {
@@ -566,7 +586,9 @@ namespace Desktop_App_For_Professor
                             insertCmd.Parameters.AddWithValue("@firstName", firstName);
                             insertCmd.Parameters.AddWithValue("@userName", userName);
                             insertCmd.Parameters.AddWithValue("@id", studentId);
-                            insertCmd.Parameters.AddWithValue("@Email", email);
+                            insertCmd.Parameters.AddWithValue("@classId", -1); // Initial value for class_id
+                            insertCmd.Parameters.AddWithValue("@teamId", -1);  // Initial value for team_id
+                            insertCmd.Parameters.AddWithValue("@password", studentId.ToString()); // Set password as student ID
 
                             // Execute the insertion
                             insertCmd.ExecuteNonQuery();
@@ -586,7 +608,11 @@ namespace Desktop_App_For_Professor
             }
         }
 
-        private bool UpdateStudentInMySQL(long id, string firstName, string lastName, string userName)
+
+
+        //gxk220025
+        //update information
+        private bool UpdateStudentInMySQL(int id, string firstName, string lastName, string userName)
         {
             MY_DB db = new MY_DB();
             bool isUpdated = false;
@@ -598,7 +624,7 @@ namespace Desktop_App_For_Professor
                 // Define the UPDATE query with parameters
                 string updateQuery = @"
             UPDATE student 
-            SET last_name = @lastName, first_name = @firstName, username = @userName, email = @Email
+            SET last_name = @lastName, first_name = @firstName, username = @userName
             WHERE id = @id";
 
                 using (MySqlCommand updateCmd = new MySqlCommand(updateQuery, db.getConnection))
@@ -607,7 +633,7 @@ namespace Desktop_App_For_Professor
                     updateCmd.Parameters.AddWithValue("@lastName", lastName);
                     updateCmd.Parameters.AddWithValue("@firstName", firstName);
                     updateCmd.Parameters.AddWithValue("@userName", userName);
-                    updateCmd.Parameters.AddWithValue("@Email", $"{userName}@utdallas.edu");
+                    //updateCmd.Parameters.AddWithValue("@Email", $"{userName}@utdallas.edu");
                     updateCmd.Parameters.AddWithValue("@id", id);
 
                     // Execute the update
@@ -626,8 +652,10 @@ namespace Desktop_App_For_Professor
 
             return isUpdated;
         }
+
+        //gxk20025
         //method to added information into MySql
-        private bool AddStudentToMySQL(long id, string firstName, string lastName, string userName)
+        private bool AddStudentToMySQL(int id, string firstName, string lastName, string userName)
         {
             MY_DB db = new MY_DB();
             bool isAdded = false;
@@ -654,8 +682,8 @@ namespace Desktop_App_For_Professor
 
                 // Define the INSERT query with parameters
                 string insertQuery = @"
-            INSERT INTO student (last_name, first_name, username, id, email)
-            VALUES (@lastName, @firstName, @userName, @id, @Email)";
+                INSERT INTO student (last_name, first_name, username, id, class_id, team_id, password)
+                VALUES (@lastName, @firstName, @userName, @id, @classId, @teamId, @password)";
 
                 using (MySqlCommand insertCmd = new MySqlCommand(insertQuery, db.getConnection))
                 {
@@ -664,7 +692,9 @@ namespace Desktop_App_For_Professor
                     insertCmd.Parameters.AddWithValue("@firstName", firstName);
                     insertCmd.Parameters.AddWithValue("@userName", userName);
                     insertCmd.Parameters.AddWithValue("@id", id);
-                    insertCmd.Parameters.AddWithValue("@Email", $"{userName}@utdallas.edu");
+                    insertCmd.Parameters.AddWithValue("@classId", -1); // Initial value for class_id
+                    insertCmd.Parameters.AddWithValue("@teamId", -1);  // Initial value for team_id
+                    insertCmd.Parameters.AddWithValue("@password", id.ToString()); // Set password as student ID
 
                     // Execute the insertion
                     insertCmd.ExecuteNonQuery();
@@ -683,7 +713,10 @@ namespace Desktop_App_For_Professor
 
             return isAdded;
         }
-        private bool EnrollStudentInClass(long studentId, int classId)
+
+        //gxk220025
+        //to enroll student in class
+        private bool EnrollStudentInClass(int studentId, int classId)
         {
             MY_DB db = new MY_DB();
             bool isEnrolled = false;
@@ -692,22 +725,22 @@ namespace Desktop_App_For_Professor
             {
                 db.openConnection();
 
-                // Check if the student is already enrolled
-                string checkQuery = "SELECT COUNT(*) FROM student_class_enrolled WHERE student_id = @studentId AND class_id = @classId";
+                // Check if the student is already enrolled in any class
+                string checkQuery = "SELECT class_id FROM student WHERE id = @studentId";
                 using (MySqlCommand checkCmd = new MySqlCommand(checkQuery, db.getConnection))
                 {
                     checkCmd.Parameters.AddWithValue("@studentId", studentId);
-                    checkCmd.Parameters.AddWithValue("@classId", classId);
-                    int count = Convert.ToInt32(checkCmd.ExecuteScalar());
+                    object result = checkCmd.ExecuteScalar();
 
-                    if (count > 0)
+                    // If the student is already enrolled in this class, return false
+                    if (result != DBNull.Value && Convert.ToInt32(result) == classId)
                     {
-                        return false; // Already enrolled
+                        return false; // Already enrolled in the same class
                     }
                 }
 
-                // Enroll the student in the class
-                string enrollQuery = "INSERT INTO student_class_enrolled (student_id, class_id) VALUES (@studentId, @classId)";
+                // Enroll the student by updating their class_id
+                string enrollQuery = "UPDATE student SET class_id = @classId WHERE id = @studentId";
                 using (MySqlCommand enrollCmd = new MySqlCommand(enrollQuery, db.getConnection))
                 {
                     enrollCmd.Parameters.AddWithValue("@studentId", studentId);
@@ -727,6 +760,9 @@ namespace Desktop_App_For_Professor
 
             return isEnrolled;
         }
+
+        //gxk220025
+        //to add new student
         private void button_add_Click(object sender, EventArgs e)
         {
             // Create a new instance of Form_spsh_add
@@ -748,7 +784,7 @@ namespace Desktop_App_For_Professor
                     {
                         // Initialize a new DataTable with required columns
                         dataTable = new DataTable();
-                        dataTable.Columns.Add("Student ID", typeof(long));
+                        dataTable.Columns.Add("Student ID", typeof(int));
                         dataTable.Columns.Add("First Name", typeof(string));
                         dataTable.Columns.Add("Last Name", typeof(string));
                         dataTable.Columns.Add("Username", typeof(string));
@@ -785,7 +821,10 @@ namespace Desktop_App_For_Professor
             // Show the Form_spsh_add form as a modal dialog
             addForm.ShowDialog();
         }
-        private bool StudentExistsInDB(long studentId)
+
+        //gxk220025
+        //to check student exiest in server
+        private bool StudentExistsInDB(int studentId)
         {
             MY_DB db = new MY_DB();
             bool exists = false;
@@ -813,7 +852,10 @@ namespace Desktop_App_For_Professor
 
             return exists;
         }
-        private bool IsStudentEnrolledInClass(long studentId, int classId)
+
+        //gxk220025
+        //to check student enroll status
+        private bool IsStudentEnrolledInClass(int studentId, int classId)
         {
             MY_DB db = new MY_DB();
             bool isEnrolled = false;
@@ -822,13 +864,14 @@ namespace Desktop_App_For_Professor
             {
                 db.openConnection();
 
-                string query = "SELECT COUNT(*) FROM student_class_enrolled WHERE student_id = @studentId AND class_id = @classId";
+                // Query to check if the student's class_id matches the given classId
+                string query = "SELECT COUNT(*) FROM student WHERE id = @studentId AND class_id = @classId";
                 using (MySqlCommand cmd = new MySqlCommand(query, db.getConnection))
                 {
                     cmd.Parameters.AddWithValue("@studentId", studentId);
                     cmd.Parameters.AddWithValue("@classId", classId);
                     int count = Convert.ToInt32(cmd.ExecuteScalar());
-                    isEnrolled = count > 0;
+                    isEnrolled = count > 0; // Student is enrolled if count > 0
                 }
             }
             catch (Exception ex)
@@ -843,6 +886,9 @@ namespace Desktop_App_For_Professor
             return isEnrolled;
         }
 
+
+        //gxk220025
+        //fucntion to change student information
         private void button_change_Click(object sender, EventArgs e)
         {
             if (dataGridViewStudents.SelectedCells.Count > 0)
@@ -910,6 +956,8 @@ namespace Desktop_App_For_Professor
             }
         }
 
+        //gxk220025
+        //action to delete
         private void button_delete_Click(object sender, EventArgs e)
         {
             if (dataGridViewStudents.SelectedCells.Count > 0)
@@ -924,32 +972,52 @@ namespace Desktop_App_For_Professor
                     return;
                 }
 
-                // Proceed with deletion for non-placeholder rows
+                // Get the student ID and name for confirmation
                 DataTable dataTable = (DataTable)dataGridViewStudents.DataSource;
+                int studentId = Convert.ToInt32(dataTable.Rows[rowIndex]["Student ID"]);
+                string studentName = $"{dataTable.Rows[rowIndex]["First Name"]} {dataTable.Rows[rowIndex]["Last Name"]}";
 
-                // Back up the row data before deletion by pushing it onto the stack
-                DataRow deletedRow = dataTable.NewRow();
-                deletedRow.ItemArray = dataTable.Rows[rowIndex].ItemArray.Clone() as object[]; // Clone row data
-                
+                // Show a confirmation dialog
+                DialogResult result = MessageBox.Show(
+                    $"Are you sure you want to delete the information for student '{studentName}' (ID: {studentId})? This action cannot be undone.",
+                    "Confirm Deletion",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning
+                );
 
-                // Delete from MySQL
-                long studentId = Convert.ToInt64(deletedRow["Student ID"]);
-                bool isDeletedFromMySQL = DeleteFromMySQL(studentId);
-
-                // Only update DataGridView if successfully deleted from MySQL
-                if (isDeletedFromMySQL)
+                // If the user confirms, proceed with deletion
+                if (result == DialogResult.Yes)
                 {
-                    // Delete the row in the DataTable
-                    dataTable.Rows[rowIndex].Delete();
-                    dataTable.AcceptChanges(); // Commit the deletion to the DataTable
+                    // Delete from MySQL
+                    DeleteFromMySQL_review(studentId);
+                    DeleteFromMySQL_timeEntry(studentId);
+                    bool isDeletedFromMySQL = DeleteFromMySQL(studentId);
 
-                    // Refresh the DataGridView to reflect the deleted row
-                    dataGridViewStudents.DataSource = null;
-                    dataGridViewStudents.DataSource = dataTable;
+                    // Only update DataGridView if successfully deleted from MySQL
+                    if (isDeletedFromMySQL)
+                    {
+                        // Delete the row in the DataTable
+                        dataTable.Rows[rowIndex].Delete();
+                        dataTable.AcceptChanges(); // Commit the deletion to the DataTable
 
-                    // Show success message
-                    MessageBox.Show("Student data successfully deleted from MySQL and removed from the application.",
-                                    "Delete Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        // Refresh the DataGridView to reflect the deleted row
+                        dataGridViewStudents.DataSource = null;
+                        dataGridViewStudents.DataSource = dataTable;
+
+                        // Show success message
+                        MessageBox.Show("Student data successfully deleted from MySQL and removed from the application.",
+                                        "Delete Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to delete student data from MySQL. Please try again.",
+                                        "Delete Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                else
+                {
+                    // User canceled the deletion
+                    MessageBox.Show("Deletion canceled.", "Cancel", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             else
@@ -957,8 +1025,9 @@ namespace Desktop_App_For_Professor
                 MessageBox.Show("Please select a cell in the row you want to delete.", "Delete Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
-
-        private bool DeleteFromMySQL(long studentId)
+        //gxk220025
+        //method to delete from MySql
+        private bool DeleteFromMySQL(int studentId)
         {
             
             MY_DB db = new MY_DB();
@@ -990,7 +1059,76 @@ namespace Desktop_App_For_Professor
 
             return isDeleted;
         }
+        //gxk220025
+        //method to delete from MySql for child table peer review
+        private bool DeleteFromMySQL_review(int studentId)
+        {
+            MY_DB db = new MY_DB();
+            bool isDeleted = false;
 
+            try
+            {
+                db.openConnection();
+
+                // Delete records where studentId is reviewer_id or reviewee_id
+                string deleteQuery = "DELETE FROM peer_review WHERE reviewer_id = @studentId OR reviewee_id = @studentId";
+                using (MySqlCommand deleteCmd = new MySqlCommand(deleteQuery, db.getConnection))
+                {
+                    deleteCmd.Parameters.AddWithValue("@studentId", studentId);
+                    int rowsAffected = deleteCmd.ExecuteNonQuery();
+
+                    // If rows were affected or there was no data to delete, it's successful
+                    isDeleted = rowsAffected >= 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error deleting from peer_review: " + ex.Message, "Delete Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                db.closeConnection();
+            }
+
+            return isDeleted;
+        }
+        //gxk220025
+        //method to delete from MySql for child table time entry
+        private bool DeleteFromMySQL_timeEntry(int studentId)
+        {
+            MY_DB db = new MY_DB();
+            bool isDeleted = false;
+
+            try
+            {
+                db.openConnection();
+
+                // Delete records where studentId is student_id
+                string deleteQuery = "DELETE FROM time_entry WHERE student_id = @studentId";
+                using (MySqlCommand deleteCmd = new MySqlCommand(deleteQuery, db.getConnection))
+                {
+                    deleteCmd.Parameters.AddWithValue("@studentId", studentId);
+                    int rowsAffected = deleteCmd.ExecuteNonQuery();
+
+                    // If rows were affected or there was no data to delete, it's successful
+                    isDeleted = rowsAffected >= 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error deleting from time_entry: " + ex.Message, "Delete Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                db.closeConnection();
+            }
+
+            return isDeleted;
+        }
+
+
+        //gxk220025
+        //enroll student into class
         private void button_enroll_Click(object sender, EventArgs e)
         {
             // Ensure there is a displayed list in DataGridView
@@ -1011,7 +1149,7 @@ namespace Desktop_App_For_Professor
             int rowIndex = dataGridViewStudents.SelectedCells[0].RowIndex;
             DataGridViewRow selectedRow = dataGridViewStudents.Rows[rowIndex];
 
-            long studentId = Convert.ToInt64(selectedRow.Cells["Student ID"].Value);
+            int studentId = Convert.ToInt32(selectedRow.Cells["Student ID"].Value);
             string firstName = selectedRow.Cells["First Name"].Value.ToString();
             string lastName = selectedRow.Cells["Last Name"].Value.ToString();
             string userName = selectedRow.Cells["Username"].Value.ToString();
@@ -1035,5 +1173,43 @@ namespace Desktop_App_For_Professor
 
             enrollForm.ShowDialog();
         }
+
+        //gxk220025
+        //log out fuction
+        private void button_logout_Click(object sender, EventArgs e)
+        {
+            // Show a confirmation dialog
+            var result = MessageBox.Show(
+                "Are you sure you want to log out?",
+                "Confirm Log Out",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
+
+            if (result == DialogResult.Yes) // If user confirms logout
+            {
+                // Show the login form
+                Form_login loginForm = new Form_login();
+                this.Hide();  // Hide the current form (Form_main)
+
+                // Show the login form modally
+                if (loginForm.ShowDialog() == DialogResult.OK)
+                {
+                    // If login is successful again, reopen Form_main
+                    this.Show();
+                }
+                else
+                {
+                    // If login is cancelled or closed, close the application
+                    Application.Exit();
+                }
+            }
+            else
+            {
+                // If user cancels, do nothing
+                MessageBox.Show("Log out canceled.", "Cancel", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
     }
 }

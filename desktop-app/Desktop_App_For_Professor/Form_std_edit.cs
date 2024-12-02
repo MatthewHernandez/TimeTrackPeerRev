@@ -16,5 +16,10 @@ namespace Desktop_App_For_Professor
         {
             InitializeComponent();
         }
+
+        private void Form_std_edit_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -13,11 +13,13 @@ namespace Desktop_App_For_Professor
 {
     public partial class Form_spsh_ch : Form
     {
+        //gxk220025
         // Delegate for confirming changes and passing new data back
-        public delegate void ChangeConfirmedHandler(string firstName, string lastName, long id, string userName);
+        public delegate void ChangeConfirmedHandler(string firstName, string lastName, int id, string userName);
         public event ChangeConfirmedHandler ChangeConfirmed;
 
-        public Form_spsh_ch(long studentId, string firstName, string lastName, string userName)
+        //gxk220025
+        public Form_spsh_ch(int studentId, string firstName, string lastName, string userName)
         {
             InitializeComponent();
             // Set current values in text boxes to display
@@ -37,10 +39,11 @@ namespace Desktop_App_For_Professor
 
         }
 
+        //gxk220025
         private void button_confirm_Click(object sender, EventArgs e)
         {
             // Validate and collect updated data
-            if (long.TryParse(textBoxIDIn.Text, out long newId) &&
+            if (int.TryParse(textBoxIDIn.Text, out int newId) &&
                 !string.IsNullOrWhiteSpace(textBoxFirstNameIn.Text) &&
                 !string.IsNullOrWhiteSpace(textBoxLastNameIn.Text) &&
                 !string.IsNullOrWhiteSpace(textBoxUsernameIn.Text))
@@ -62,6 +65,7 @@ namespace Desktop_App_For_Professor
             this.Close();
         }
 
+        //gxk220025
         private void button_copy_Click(object sender, EventArgs e)
         {
             textBoxIDIn.Text = textBoxID.Text;
@@ -70,6 +74,7 @@ namespace Desktop_App_For_Professor
             textBoxUsernameIn.Text = textBoxUsername.Text;
         }
 
+        //gxk220025
         private void button_clean_Click(object sender, EventArgs e)
         {
             textBoxIDIn.Text = null;

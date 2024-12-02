@@ -119,7 +119,6 @@
             this.textBox_account.Name = "textBox_account";
             this.textBox_account.Size = new System.Drawing.Size(192, 32);
             this.textBox_account.TabIndex = 0;
-            this.textBox_account.Text = "admintest";
             this.textBox_account.TextChanged += new System.EventHandler(this.textBox_account_TextChanged);
             // 
             // textBox_password
@@ -129,7 +128,6 @@
             this.textBox_password.Name = "textBox_password";
             this.textBox_password.Size = new System.Drawing.Size(192, 32);
             this.textBox_password.TabIndex = 1;
-            this.textBox_password.Text = "1234";
             this.textBox_password.UseSystemPasswordChar = true;
             // 
             // button_login
