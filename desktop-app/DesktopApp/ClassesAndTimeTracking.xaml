@@ -24,7 +24,7 @@
             </StackLayout>
 
             <!-- CollectionView for Student Hours -->
-            <CollectionView x:Name="StudentHoursCollectionView" IsVisible="False" SelectionMode="Single" SelectionChanged="StudentHoursCollectionView_SelectionChanged">
+            <CollectionView x:Name="StudentHoursCollectionView" IsVisible="False" SelectionMode="Single" SelectionChanged="StudentHoursCollectionView_SelectionChanged" HeightRequest="300">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <StackLayout Orientation="Horizontal" Padding="5">
@@ -44,29 +44,31 @@
             
         </VerticalStackLayout>
 
-       
 
-        <!-- Middle section: Student Details -->
+
         <VerticalStackLayout x:Name="StudentDetailStack" IsVisible="False" WidthRequest="400" Margin="0,0,20,0">
-            <Label Text="Student Details" FontSize="Medium" FontAttributes="Bold"/>
-            <CollectionView x:Name="HoursCollectionView">
+            <Label Text="Student Details" FontSize="Medium" FontAttributes="Bold" />
+
+            <!-- Student Time Entries -->
+            <CollectionView x:Name="HoursCollectionView" HeightRequest="300">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <StackLayout Orientation="Horizontal" Padding="5">
-                            <DatePicker Date="{Binding Date, Mode=TwoWay}" Format="MM/dd/yyyy" WidthRequest="150"/>
-                            <Entry Text="{Binding Hours, Mode=TwoWay}" Keyboard="Numeric" WidthRequest="100"/>
-                            <Entry Text="{Binding studentinfo, Mode=TwoWay}" Keyboard="Text" WidthRequest="100"/>
+                            <DatePicker Date="{Binding Date, Mode=TwoWay}" Format="MM/dd/yyyy" WidthRequest="150" IsEnabled="False"/>
+                            <Entry Text="{Binding Hours, Mode=TwoWay}" Keyboard="Numeric" WidthRequest="100" />
+                            <Entry Text="{Binding studentinfo, Mode=TwoWay}" Keyboard="Text" WidthRequest="100" />
                         </StackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-            <!-- Update Information Button -->
-            <Button Text="Update Information" 
-HorizontalOptions="Center"
-Margin="0,20,0,0"
-Clicked="StudentDetailsOnUpdateInformationClicked"/>
-        </VerticalStackLayout>
 
+            <Button Text="Update Information"
+            HorizontalOptions="Center"
+            Margin="0,20,0,0"
+            Clicked="StudentDetailsOnUpdateInformationClicked" />
+        </VerticalStackLayout>
+        
+        
         <HorizontalStackLayout>
 
             <!-- Left Side: Peer Reviews and Teammates in Selected Review -->
@@ -121,14 +123,14 @@ Clicked="StudentDetailsOnUpdateInformationClicked"/>
             <VerticalStackLayout x:Name="PeerReviewDetailsStack" IsVisible="False" WidthRequest="400" Margin="20,0,0,0">
                 <Label Text="Peer Review Details" FontSize="Medium" FontAttributes="Bold" />
 
-                <!-- Header collumn -->
+                <!-- Header collumns -->
                 <StackLayout Orientation="Horizontal" Padding="5">
-                    <Label Text="Timestamp:" WidthRequest="150" FontAttributes="Bold"/>
+                    <Label Text="Start Date:" WidthRequest="150" FontAttributes="Bold"/>
                     <DatePicker Date="{Binding StartDate, Mode=TwoWay}" Format="MM/dd/yyyy" WidthRequest="150"/>
                 </StackLayout>
-                <!-- EndDate TimeStamp modification possible here -->
+                
                 <StackLayout Orientation="Horizontal" Padding="5">
-                    <Label Text="Timestamp:" WidthRequest="150" FontAttributes="Bold"/>
+                    <Label Text="End Date:" WidthRequest="150" FontAttributes="Bold"/>
                     <DatePicker Date="{Binding EndDate, Mode=TwoWay}" Format="MM/dd/yyyy" WidthRequest="150"/>
                 </StackLayout>
 
@@ -157,7 +159,7 @@ Clicked="StudentDetailsOnUpdateInformationClicked"/>
                     <Entry Text="{Binding EffortParticipation, Mode=TwoWay}" Keyboard="Numeric" WidthRequest="150"/>
                 </StackLayout>
 
-                <!-- Comments for selected team member -->
+                
                 <Label Text="Comment on Teammate" FontSize="Medium" FontAttributes="Bold" Margin="0,20,0,0"/>
                 
                 <StackLayout Orientation="Horizontal" Padding="5">

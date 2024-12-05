@@ -29,7 +29,7 @@ This program relays relevant data based on Professor who logged in and what he c
 
 *Ensure you follow the DB Schema closely to ensure functionality--this includes mimicing DB table for students when importing a .CSV
 
-Entirety of program written by William LaFoy for CS4485 Project, UT Dallas, 10/9/2024-11/29/2024. NetID wel190000
+program written by William LaFoy for CS4485 Project, UT Dallas, 10/9/2024-11/29/2024. NetID wel190000
 
         Base framework for listing out classes, listing out associated students and cummulative hours
          and specific dates with those hours along with peer reviews and their associated details.
@@ -38,11 +38,13 @@ Entirety of program written by William LaFoy for CS4485 Project, UT Dallas, 10/9
 
         10/25 now displays peer reviews, button to make a new peer review exists, but functionality will depend on sql calls.
          
-         10/30 features backend connectivity with mysql, with gxk220025 Gwangmo Kim's help to upstart this. now displays db info
+         10/30 features backend connectivity with mysql, with gxk220025 Gwangmo Kim's help and sample code to upstart this. now displays db info
 
         11/8-10 features add/modify/deletion and reflection to the connected db
 
         11/29 polished and tweaked. UI is fluid and reactive based on how and what you click, also other QOL things, will be looking to merge DBs with web app side (different structures and variable names are the issue)
+
+        12/1 Spent time debugging & merging into the comprehensive database that both web and desktop apps should be utilizing.
         
  */
 
@@ -117,11 +119,13 @@ namespace DesktopApp
             ClassPicker.ItemsSource = classes;
         }
 
+        
+
         // Get classes from the database relevant to ProfessorId
         private List<ClassInfo> GetClassesForProfessor(int professorId)
         {
             var classes = new List<ClassInfo>();
-            string connectionString = "server=localhost;uid=root;pwd=kotori1430;database=test_schema";
+            string connectionString = "server=localhost;uid=root;pwd=kotori1430;database=test_schema3";
 
             using (var connection = new MySqlConnection(connectionString))
             {
@@ -147,7 +151,7 @@ namespace DesktopApp
                 }
                 catch (Exception ex)
                 {
-                    // Handle exceptions (e.g., log them)
+                    // Handle exceptions
                     Console.WriteLine($"Error: {ex.Message}");
                 }
             }
@@ -204,11 +208,12 @@ namespace DesktopApp
         }
 
 
+        
         // Method to load student hours based on selected class, this function retrieves all students relevant to classId
         private void LoadStudentHours(int classId)
         {
             var studentHours = new List<StudentHour>();
-            string connectionString = "server=localhost;uid=root;pwd=kotori1430;database=test_schema";
+            string connectionString = "server=localhost;uid=root;pwd=kotori1430;database=test_schema3";
 
             using (var connection = new MySqlConnection(connectionString))
             {
@@ -222,7 +227,7 @@ namespace DesktopApp
                     s.last_name, 
                     s.team_id, 
                     SUM(sh.hours) AS TotalHours
-                FROM student_hours sh
+                FROM time_entry sh
                 JOIN student s ON sh.student_id = s.id
                 WHERE s.class_id = @classId
                 GROUP BY s.id, s.team_id
@@ -249,7 +254,7 @@ namespace DesktopApp
                 }
                 catch (Exception ex)
                 {
-                    // Handle exceptions (e.g., log them)
+                    // Handle exceptions
                     Console.WriteLine($"Error: {ex.Message}");
                 }
             }
@@ -288,8 +293,8 @@ namespace DesktopApp
                     {
                         var columns = line.Split(',');
 
-                        // CSV file has columns that match the DB Schema id, team_id, first_name, last_name, email, class_id
-                        if (columns.Length >= 6)
+                        // CSV file has columns that match the DB Schema id, username, first_name, last_name, password, class_id, team_id
+                        if (columns.Length >= 7)
                         {
                             studentsData.Add(columns);
                         }
@@ -312,7 +317,7 @@ namespace DesktopApp
         // Function to insert student records into MySQL database
         private async Task InsertStudentsIntoDatabase(List<string[]> studentsData)
         {
-            string connectionString = "server=localhost;uid=root;pwd=kotori1430;database=test_schema";
+            string connectionString = "server=localhost;uid=root;pwd=kotori1430;database=test_schema3";
 
             try
             {
@@ -323,15 +328,16 @@ namespace DesktopApp
                     foreach (var student in studentsData)
                     {
                         // Insert student with given non null data.
-                        var commandText = "INSERT INTO students (id, team_id, first_name, last_name, email, class_id) VALUES (@id, @team_id, @first_name, @last_name, @email, @class_id)";
+                        var commandText = "INSERT INTO students (id, username, first_name, last_name, password, class_id, team_id) VALUES (@id, @username, @first_name, @last_name, @password, @class_id, @team_id)";
                         using (var command = new MySqlCommand(commandText, connection))
                         {
                             command.Parameters.AddWithValue("@id", student[0]);
-                            command.Parameters.AddWithValue("@team_id", student[1]);
+                            command.Parameters.AddWithValue("@username", student[1]);
                             command.Parameters.AddWithValue("@first_name", student[2]);
                             command.Parameters.AddWithValue("@last_name", student[3]);
-                            command.Parameters.AddWithValue("@email", student[4]);
+                            command.Parameters.AddWithValue("@password", student[4]);
                             command.Parameters.AddWithValue("@class_id", student[5]);
+                            command.Parameters.AddWithValue("@team_id", student[6]);
 
                             await command.ExecuteNonQueryAsync();
                         }
@@ -339,6 +345,7 @@ namespace DesktopApp
                         
                     }
                 }
+
             }
             catch (Exception ex)
             {
@@ -366,9 +373,10 @@ namespace DesktopApp
                 this.currentStudentId = selectedHour.StudentId;
                 LoadStudentDetails(selectedHour.StudentId, selectedHour.ClassId);
                 StudentDetailStack.IsVisible = true;
+               
                 LoadPeerReviews(selectedHour.StudentId, selectedHour.ClassId); // Load peer reviews for the selected student
                 PeerReviewStack.IsVisible = true;
-
+                TeammatesCollectionView.IsVisible = false;
                 PeerReviewDetailsStack.IsVisible = false;
             }
         }
@@ -376,113 +384,27 @@ namespace DesktopApp
 
 
         // StudentHourDetail, date, hours, Comments along with initial vars for those entries. Ended up not using propertychanged due to bugs
-        public class StudentHourDetail : INotifyPropertyChanged
+        public class StudentHourDetail
         {
-            private DateTime _date;
-            
-            private decimal _hours;
-            private string _studentinfo;
-
-
-            private DateTime current_date;
-
-            private decimal current_hours;
-            private string current_studentinfo;
-
-            public DateTime Date
-            {
-                get => _date;
-                set
-                {
-                    if (_date != value)
-                    {
-                        _date = value;
-                        OnPropertyChanged(nameof(Date));
-                    }
-                }
-            }
-
-
-            public decimal Hours
-            {
-                get => _hours;
-                set
-                {
-                    if (_hours != value)
-                    {
-                        _hours = value;
-                        OnPropertyChanged(nameof(Hours));
-                    }
-                }
-            }
-
-            public string studentinfo
-            {
-                get => _studentinfo;
-                set
-                {
-                    if (_studentinfo != value)
-                    {
-                        _studentinfo = value;
-                        OnPropertyChanged(nameof(studentinfo));
-                    }
-                }
-            }
-
-            public DateTime CurrentDate
-            {
-                get => current_date;
-                set
-                {
-                    if (current_date != value)
-                    {
-                        current_date = value;
-                        OnPropertyChanged(nameof(current_date));
-                    }
-                }
-            }
-
-
-            public decimal CurrentHours
-            {
-                get => current_hours;
-                set
-                {
-                    if (current_hours != value)
-                    {
-                        current_hours = value;
-                        OnPropertyChanged(nameof(current_hours));
-                    }
-                }
-            }
-
-            public string Currentstudentinfo
-            {
-                get => current_studentinfo;
-                set
-                {
-                    if (current_studentinfo != value)
-                    {
-                        current_studentinfo = value;
-                        OnPropertyChanged(nameof(current_studentinfo));
-                    }
-                }
-            }
-
-            public event PropertyChangedEventHandler PropertyChanged;
-
-            protected void OnPropertyChanged(string propertyName)
-            {
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            }
+            public DateTime Date { get; set; }
+            public decimal Hours { get; set; }
+            public string studentinfo { get; set; }
+            public DateTime CurrentDate { get; set; }
+            public decimal CurrentHours { get; set; }
+            public string Currentstudentinfo { get; set; }
         }
-
 
         // Method to load student details for the selected student, time entries.
         private void LoadStudentDetails(int studentId, int classId)
         {
-            _studentHourDetails.Clear(); // Clear any existing data before loading new details
-            string connectionString = "server=localhost;uid=root;pwd=kotori1430;database=test_schema";
+            // Clear the student hour details list
+            _studentHourDetails.Clear();
+
+            // Refresh the CollectionView's binding
+            HoursCollectionView.ItemsSource = null; // Unbind first to ensure proper refresh
+            HoursCollectionView.ItemsSource = _studentHourDetails; // Rebind to the cleared list
+
+            string connectionString = "server=localhost;uid=root;pwd=kotori1430;database=test_schema3";
 
             using (var connection = new MySqlConnection(connectionString))
             {
@@ -494,7 +416,7 @@ namespace DesktopApp
                 sh.date, 
                 sh.hours, 
                 sh.comments 
-            FROM student_hours sh
+            FROM time_entry sh
             JOIN student s ON sh.student_id = s.id
             WHERE s.id = @studentId AND s.class_id = @classId
             ORDER BY sh.date DESC"; // Order by date for latest first
@@ -510,6 +432,7 @@ namespace DesktopApp
                             {
                                 _studentHourDetails.Add(new StudentHourDetail
                                 {
+                                    //Purpose for double reader is one is the initial and one can be changed. this is important later for modifications
                                     CurrentDate = reader.GetDateTime(0),
                                     CurrentHours = reader.GetDecimal(1), // Hours is the second column
                                     Currentstudentinfo = reader.IsDBNull(2) ? string.Empty : reader.GetString(2), // Comments is the third column
@@ -537,7 +460,7 @@ namespace DesktopApp
         // Update Student hours entries to DB, scan through all entries.
         private async void StudentDetailsOnUpdateInformationClicked(object sender, EventArgs e)
         {
-            string connectionString = "server=localhost;uid=root;pwd=kotori1430;database=test_schema";
+            string connectionString = "server=localhost;uid=root;pwd=kotori1430;database=test_schema3";
 
             using (var connection = new MySqlConnection(connectionString))
             {
@@ -545,17 +468,20 @@ namespace DesktopApp
                 {
                     connection.Open();
 
+                    int Rows = 0;
+
                     foreach (var detail in _studentHourDetails)
                     {
                         
                         // Check if Hours has changed
                         if (detail.CurrentHours != detail.Hours)
                         {
+                            Rows += 1;
                             Console.WriteLine("Hours has changed");
 
                             // Update hours in database
                             string updateHoursQuery = @"
-                        UPDATE student_hours
+                        UPDATE time_entry
                         SET hours = @newHours
                         WHERE student_id = @studentId AND date = @currentDate";
 
@@ -576,6 +502,8 @@ namespace DesktopApp
 
                        
                     }
+
+                    await DisplayAlert("Success", $"{Rows} rows updated successfully!", "OK");
                 }
                 catch (Exception ex)
                 {
@@ -605,159 +533,30 @@ namespace DesktopApp
 
 
         //Peer review details, ended up not using propertychanged due to bugs
-        public class TeamMemberComment : INotifyPropertyChanged
+        public class TeamMemberComment
         {
-            private int _qualityOfWork;
-            private int _timeliness;
-            private int _communication;
-            private int _teamwork;
-            private int _effortParticipation;
-            private DateTime _startDate;
-            private DateTime _endDate;
-            private string _comment;
-
-            // Fields to store initial values
-            private DateTime _initialStartDate;
-            private DateTime _initialEndDate;
-
-            public string Comment
-            {
-                get => _comment;
-                set
-                {
-                    if (_comment != value)
-                    {
-                        _comment = value;
-                        OnPropertyChanged(nameof(Comment));
-                    }
-                }
-            }
-
+            public string Comment { get; set; }
             public int TeammateId { get; set; }
             public string TeammateName { get; set; }
             public int ReviewId { get; set; }
             public int ClassId { get; set; }
-
-            public int QualityOfWork
-            {
-                get => _qualityOfWork;
-                set
-                {
-                    if (_qualityOfWork != value)
-                    {
-                        _qualityOfWork = value;
-                        OnPropertyChanged(nameof(QualityOfWork));
-                    }
-                }
-            }
-
-            public int Timeliness
-            {
-                get => _timeliness;
-                set
-                {
-                    if (_timeliness != value)
-                    {
-                        _timeliness = value;
-                        OnPropertyChanged(nameof(Timeliness));
-                    }
-                }
-            }
-
-            public int Communication
-            {
-                get => _communication;
-                set
-                {
-                    if (_communication != value)
-                    {
-                        _communication = value;
-                        OnPropertyChanged(nameof(Communication));
-                    }
-                }
-            }
-
-            public int Teamwork
-            {
-                get => _teamwork;
-                set
-                {
-                    if (_teamwork != value)
-                    {
-                        _teamwork = value;
-                        OnPropertyChanged(nameof(Teamwork));
-                    }
-                }
-            }
-
-            public int EffortParticipation
-            {
-                get => _effortParticipation;
-                set
-                {
-                    if (_effortParticipation != value)
-                    {
-                        _effortParticipation = value;
-                        OnPropertyChanged(nameof(EffortParticipation));
-                    }
-                }
-            }
-
-            public DateTime StartDate
-            {
-                get => _startDate;
-                set
-                {
-                    if (_startDate != value)
-                    {
-                        // Set initial date if this is the first change
-                        if (_initialStartDate == DateTime.MinValue) _initialStartDate = _startDate;
-                        _startDate = value;
-                        OnPropertyChanged(nameof(StartDate));
-                    }
-                }
-            }
-
-            public DateTime EndDate
-            {
-                get => _endDate;
-                set
-                {
-                    if (_endDate != value)
-                    {
-                        // Set initial date if this is the first change
-                        if (_initialEndDate == DateTime.MinValue) _initialEndDate = _endDate;
-                        _endDate = value;
-                        OnPropertyChanged(nameof(EndDate));
-                    }
-                }
-            }
-
-            public event PropertyChangedEventHandler PropertyChanged;
-
-            protected void OnPropertyChanged(string propertyName)
-            {
-
-                //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-               // UpdateDatabaseOnPropertyChanged(propertyName);
-            }
-
-            
-
-
-
+            public int QualityOfWork { get; set; }
+            public int Timeliness { get; set; }
+            public int Communication { get; set; }
+            public int Teamwork { get; set; }
+            public int EffortParticipation { get; set; }
+            public DateTime StartDate { get; set; }
+            public DateTime EndDate { get; set; }
         }
 
 
 
 
-       
-
         // Loading peer reviews for a student
         private void LoadPeerReviews(int studentId, int classId)
         {
             var peerReviews = new List<PeerReview>();
-            string connectionString = "server=localhost;uid=root;pwd=kotori1430;database=test_schema";
+            string connectionString = "server=localhost;uid=root;pwd=kotori1430;database=test_schema3";
 
             using (var connection = new MySqlConnection(connectionString))
             {
@@ -766,9 +565,9 @@ namespace DesktopApp
                     connection.Open();
                     string query = @"
  SELECT 
-    pr.id AS ReviewId,
-    pr.start_date AS StartDate,
-    pr.end_date AS EndDate,
+    pr.review_period_id AS ReviewId,
+    rp.start_date AS StartDate,
+    rp.end_date AS EndDate,
     pr.qual_of_work_rating AS QualityOfWork,
     pr.timeliness_rating AS Timeliness,
     pr.communication_rating AS Communication,
@@ -778,17 +577,21 @@ namespace DesktopApp
     r.first_name AS ReviewerFirstName,
     r.last_name AS ReviewerLastName,
     e.first_name AS RevieweeFirstName,
-    e.last_name AS RevieweeLastName
+    e.last_name AS RevieweeLastName,
+    pr.reviewee_id AS RevieweeId -- Extract the reviewee_id
+    
 FROM 
-    test_schema.peer_review pr
+    test_schema3.peer_review pr
 JOIN 
-    test_schema.student r ON pr.reviewer_id = r.id  -- Reviewer details
+    test_schema3.review_period rp ON pr.review_period_id = rp.review_id
 JOIN 
-    test_schema.student e ON pr.reviewee_id = e.id  -- Reviewee details
+    test_schema3.student r ON pr.reviewer_id = r.id
+JOIN 
+    test_schema3.student e ON pr.reviewee_id = e.id
 WHERE 
-    pr.reviewer_id = @studentId   -- Get all peer reviews for this reviewer ID
+    pr.reviewer_id = @studentId
 ORDER BY 
-    pr.start_date DESC;";
+    rp.start_date DESC;";
 
                     using (var cmd = new MySqlCommand(query, connection))
                     {
@@ -811,7 +614,6 @@ ORDER BY
                                     // Create a new peer review if it does not exist
                                     existingPeerReview = new PeerReview
                                     {
-
                                         StartDate = startDate,
                                         EndDate = endDate,
                                         TeamMemberComments = new List<TeamMemberComment>() // Initialize the comments list
@@ -824,7 +626,7 @@ ORDER BY
                                 // Now add the comment to the existing or newly created peer review
                                 existingPeerReview.TeamMemberComments.Add(new TeamMemberComment
                                 {
-                                    // Use the reviewer's name as the TeammateName
+                                    // Use the reviewee's name as the TeammateName
                                     TeammateName = $"{reader.GetString("RevieweeFirstName")} {reader.GetString("RevieweeLastName")}",
                                     Comment = reader.GetString("ReviewComments"),
                                     QualityOfWork = reader.GetInt32("QualityOfWork"),
@@ -835,7 +637,8 @@ ORDER BY
                                     StartDate = startDate,
                                     EndDate = endDate,
                                     ReviewId = reader.GetInt32("ReviewId"),
-                                    ClassId = classId
+                                    ClassId = classId,
+                                    TeammateId = reader.GetInt32("RevieweeId") // Assign the reviewee_id here
                                 });
                             }
                         }
@@ -863,6 +666,7 @@ ORDER BY
                 TeammatesCollectionView.ItemsSource = selectedReview.TeamMemberComments;
                 PeerReviewDetailsStack.BindingContext = selectedReview;
                 PeerReviewDetailsStack.IsVisible = false; // Hide details until teammate is selected
+                TeammatesCollectionView.IsVisible = true;
             }
         }
 
@@ -893,8 +697,8 @@ ORDER BY
 
                 // Set the binding context to the selected teammate
                 PeerReviewDetailsStack.BindingContext = selectedTeammate;
-
-                }
+                
+            }
         }
 
 
@@ -914,7 +718,7 @@ ORDER BY
         private async void AddNewPeerReviewButton_Clicked(object sender, EventArgs e)
         {
             // Define the MySQL connection string
-            string connectionString = "server=localhost;uid=root;pwd=kotori1430;database=test_schema";
+            string connectionString = "server=localhost;uid=root;pwd=kotori1430;database=test_schema3";
 
             // Initialize the connection object
             using (var connection = new MySqlConnection(connectionString))
@@ -942,20 +746,23 @@ ORDER BY
             }
         }
 
-       
-        // Method to generate peer reviews for all students in a selected class by team
+
+        // Method to generate peer reviews for all students in a selected class by team, and instill a new peer review period
         private async Task GeneratePeerReviewsForClass(MySqlConnection connection, int classId)
         {
-
+            
             DateTime startDate = DateTime.Today;
             DateTime endDate = DateTime.Today;
 
+           
+            int reviewPeriodId = await CreateNewReviewPeriod(connection, startDate, endDate);
+
             // Retrieve all students in the specified class, grouped by team_id
             var selectStudentsCommandText = @"
-    SELECT id, team_id 
-    FROM student 
-    WHERE class_id = @class_id 
-    ORDER BY team_id";
+        SELECT id, team_id 
+        FROM student 
+        WHERE class_id = @class_id 
+        ORDER BY team_id";
 
             var studentsByTeam = new Dictionary<int, List<int>>(); // team_id -> list of student IDs
 
@@ -988,7 +795,7 @@ ORDER BY
                 {
                     foreach (var revieweeId in team)
                     {
-                        await CreatePeerReview(connection, reviewerId, revieweeId, startDate, endDate); // Create review
+                        await CreatePeerReview(connection, reviewerId, revieweeId, reviewPeriodId); // Create review
                     }
                 }
             }
@@ -996,13 +803,30 @@ ORDER BY
             await DisplayAlert("Success", "Peer reviews (including self-reviews) generated successfully for the selected class.", "OK");
         }
 
-        // Method to create a peer review using existing start and end dates and with self-review capability
-        private async Task CreatePeerReview(MySqlConnection connection, int reviewerId, int revieweeId, DateTime? optionalStartDate = null, DateTime? optionalEndDate = null)
+        // Method to create a new review period with specified start and end dates, linked to a specific class
+        private async Task<int> CreateNewReviewPeriod(MySqlConnection connection, DateTime startDate, DateTime endDate)
         {
-            // Use optional dates if provided, otherwise default to today's date
-            DateTime startDate = optionalStartDate ?? DateTime.Today;
-            DateTime endDate = optionalEndDate ?? DateTime.Today;
+            // Inserting a new review period with provided dates and class_id
+            string insertReviewPeriodCommandText = @"
+INSERT INTO review_period (class_id, start_date, end_date) 
+VALUES (@class_id, @start_date, @end_date);
+SELECT LAST_INSERT_ID();";
 
+            using (var insertCommand = new MySqlCommand(insertReviewPeriodCommandText, connection))
+            {
+                insertCommand.Parameters.AddWithValue("@class_id", this.classId);
+
+                insertCommand.Parameters.AddWithValue("@start_date", startDate);
+                insertCommand.Parameters.AddWithValue("@end_date", endDate);
+                
+                object result = await insertCommand.ExecuteScalarAsync();
+                return Convert.ToInt32(result); // Return the generated review_period_id
+            }
+        }
+
+        // Method to create a peer review, associating it with the given review period ID
+        private async Task CreatePeerReview(MySqlConnection connection, int reviewerId, int revieweeId, int reviewPeriodId)
+        {
             // Initialize rating variables
             int qualOfWorkRating = 0;
             int timelinessRating = 0;
@@ -1011,21 +835,20 @@ ORDER BY
             int communicationRating = 0;
             string comments = "";
 
-            // Insert the new peer review with the specified or defaulted start and end dates
+            // Insert the new peer review associated with the review period
             var insertPeerReviewCommandText = @"
-INSERT INTO peer_review (reviewer_id, reviewee_id, start_date, end_date, 
-                         qual_of_work_rating, timeliness_rating, teamwork_rating, 
-                         eff_and_part_rating, communication_rating, comments)
-VALUES (@reviewer_id, @reviewee_id, @start_date, @end_date, 
-        @qual_of_work_rating, @timeliness_rating, @teamwork_rating, 
-        @eff_and_part_rating, @communication_rating, @comments)";
+        INSERT INTO peer_review (review_period_id, reviewer_id, reviewee_id, 
+                                 qual_of_work_rating, timeliness_rating, teamwork_rating, 
+                                 eff_and_part_rating, communication_rating, comments)
+        VALUES (@review_period_id, @reviewer_id, @reviewee_id, 
+                @qual_of_work_rating, @timeliness_rating, @teamwork_rating, 
+                @eff_and_part_rating, @communication_rating, @comments)";
 
             using (var insertCommand = new MySqlCommand(insertPeerReviewCommandText, connection))
             {
+                insertCommand.Parameters.AddWithValue("@review_period_id", reviewPeriodId);
                 insertCommand.Parameters.AddWithValue("@reviewer_id", reviewerId);
                 insertCommand.Parameters.AddWithValue("@reviewee_id", revieweeId);
-                insertCommand.Parameters.AddWithValue("@start_date", startDate);
-                insertCommand.Parameters.AddWithValue("@end_date", endDate);
                 insertCommand.Parameters.AddWithValue("@qual_of_work_rating", qualOfWorkRating);
                 insertCommand.Parameters.AddWithValue("@timeliness_rating", timelinessRating);
                 insertCommand.Parameters.AddWithValue("@teamwork_rating", teamworkRating);
@@ -1045,9 +868,8 @@ VALUES (@reviewer_id, @reviewee_id, @start_date, @end_date,
 
 
 
-
-
-        //deletion of peer reviews
+        
+        // Deletion of peer reviews and their corresponding review period
         private async void RemovePeerReviewButton_Clicked(object sender, EventArgs e)
         {
             // Get classId and prompt for dates
@@ -1064,7 +886,7 @@ VALUES (@reviewer_id, @reviewee_id, @start_date, @end_date,
             }
 
             // Database connection
-            string connectionString = "server=localhost;uid=root;pwd=kotori1430;database=test_schema";
+            string connectionString = "server=localhost;uid=root;pwd=kotori1430;database=test_schema3";
 
             try
             {
@@ -1072,30 +894,68 @@ VALUES (@reviewer_id, @reviewee_id, @start_date, @end_date,
                 {
                     await connection.OpenAsync();
 
-                    // DELETE query to remove peer reviews that match the start date, end date, and class_id
-                    string deleteQuery = @"
-            DELETE pr
-            FROM peer_review pr
-            INNER JOIN student s ON pr.reviewer_id = s.id
-            WHERE s.class_id = @classId 
-            AND pr.start_date = @startDate
-            AND pr.end_date = @endDate";
+                    // Finding the review_period_id with matching class_id, start_date, and end_date
+                    string selectReviewPeriodQuery = @"
+SELECT review_id 
+FROM review_period 
+WHERE class_id = @classId 
+AND start_date = @startDate 
+AND end_date = @endDate";
 
-                    using (var cmd = new MySqlCommand(deleteQuery, connection))
+                    int reviewPeriodId = 0;
+
+                    using (var selectCmd = new MySqlCommand(selectReviewPeriodQuery, connection))
                     {
-                        cmd.Parameters.AddWithValue("@classId", classId);
-                        cmd.Parameters.AddWithValue("@startDate", startDate);
-                        cmd.Parameters.AddWithValue("@endDate", endDate);
+                        selectCmd.Parameters.AddWithValue("@classId", classId);
+                        selectCmd.Parameters.AddWithValue("@startDate", startDate);
+                        selectCmd.Parameters.AddWithValue("@endDate", endDate);
 
-                        int rowsAffected = await cmd.ExecuteNonQueryAsync();
-
-                        LoadPeerReviews(this.currentStudentId, this.classId); // Load peer reviews for the selected student
-                        PeerReviewDetailsStack.IsVisible = false;
-                        // Notify how many records were deleted
-                        await DisplayAlert("Success", $"{rowsAffected} peer review record(s) deleted.", "OK");
-
-
+                        object result = await selectCmd.ExecuteScalarAsync();
+                        if (result != null)
+                        {
+                            reviewPeriodId = Convert.ToInt32(result);
+                        }
                     }
+
+                    // If no matching review_period is found, notify and exit
+                    if (reviewPeriodId == 0)
+                    {
+                        await DisplayAlert("Error", "No matching review period found for the specified dates and class.", "OK");
+                        return;
+                    }
+
+                    // Deleting peer reviews associated with the found review_period_id
+                    string deletePeerReviewsQuery = @"
+DELETE FROM peer_review 
+WHERE review_period_id = @reviewPeriodId";
+
+                    int peerReviewsDeleted = 0;
+
+                    using (var deleteCmd = new MySqlCommand(deletePeerReviewsQuery, connection))
+                    {
+                        deleteCmd.Parameters.AddWithValue("@reviewPeriodId", reviewPeriodId);
+                        peerReviewsDeleted = await deleteCmd.ExecuteNonQueryAsync();
+                    }
+
+                    // Deleting the review period itself
+                    string deleteReviewPeriodQuery = @"
+DELETE FROM review_period 
+WHERE review_id = @reviewPeriodId";
+
+                    int reviewPeriodDeleted = 0;
+
+                    using (var deleteCmd = new MySqlCommand(deleteReviewPeriodQuery, connection))
+                    {
+                        deleteCmd.Parameters.AddWithValue("@reviewPeriodId", reviewPeriodId);
+                        reviewPeriodDeleted = await deleteCmd.ExecuteNonQueryAsync();
+                    }
+
+                    // Refresh the peer reviews and notify the user
+                    LoadPeerReviews(this.currentStudentId, this.classId); // Reload peer reviews for the selected student
+                    PeerReviewDetailsStack.IsVisible = false;
+
+                    // Notify the number of records deleted
+                    await DisplayAlert("Success", $"{peerReviewsDeleted} peer review record(s) and {reviewPeriodDeleted} review period(s) deleted.", "OK");
                 }
             }
             catch (Exception ex)
@@ -1103,7 +963,6 @@ VALUES (@reviewer_id, @reviewee_id, @start_date, @end_date,
                 await DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
             }
         }
-
 
 
 
@@ -1209,69 +1068,104 @@ VALUES (@reviewer_id, @reviewee_id, @start_date, @end_date,
         }
 
 
-        //Updates all relevant peer reviews within same class and same date becomes modified
+        // Updates the review period and all associated peer reviews within the same class
         private void UpdateDatabaseOnPropertyChangedDate(DateTime newStartDate, DateTime newEndDate)
         {
-            string connectionString = "server=localhost;uid=root;pwd=kotori1430;database=test_schema";
+            string connectionString = "server=localhost;uid=root;pwd=kotori1430;database=test_schema3";
 
             using (var connection = new MySqlConnection(connectionString))
             {
-                connection.Open();
-                using (var cmd = new MySqlCommand())
+                try
                 {
-                    cmd.Connection = connection;
+                    connection.Open();
 
-                    // Validate and update only if the old start_date and end_date match
-                    cmd.CommandText = @"
-                UPDATE peer_review pr
-                INNER JOIN student s ON pr.reviewer_id = s.student_id
-                SET pr.start_date = @newStartDate, pr.end_date = @newEndDate
-                WHERE pr.reviewer_id = @currentReviewerId
-                  AND s.class_id = @classId
-                  AND pr.start_date = @oldStartDate
-                  AND pr.end_date = @oldEndDate";
-
-                    cmd.Parameters.AddWithValue("@newStartDate", newStartDate);
-                    cmd.Parameters.AddWithValue("@newEndDate", newEndDate);
-                    cmd.Parameters.AddWithValue("@currentReviewerId", this.currentStudentId);
-                    cmd.Parameters.AddWithValue("@classId", this.classId);
-                    cmd.Parameters.AddWithValue("@oldStartDate", this.StartDate);
-                    cmd.Parameters.AddWithValue("@oldEndDate", this.EndDate);
-
-                    int rowsAffected = cmd.ExecuteNonQuery();
-
-                    // Optionally, log or inform if no rows were updated
-                    if (rowsAffected == 0)
+                    // Update the review_period table with the new dates
+                    using (var updateReviewPeriodCmd = new MySqlCommand())
                     {
-                        Console.WriteLine("No rows updated. Ensure the old start and end dates match.");
+                        updateReviewPeriodCmd.Connection = connection;
+
+                        updateReviewPeriodCmd.CommandText = @"
+UPDATE review_period
+SET start_date = @newStartDate, end_date = @newEndDate
+WHERE review_id = @reviewId";
+
+                        // Use Date property to ensure only the date part is passed
+                        updateReviewPeriodCmd.Parameters.AddWithValue("@newStartDate", newStartDate.Date);
+                        updateReviewPeriodCmd.Parameters.AddWithValue("@newEndDate", newEndDate.Date);
+                        updateReviewPeriodCmd.Parameters.AddWithValue("@reviewId", this.ReviewId);
+
+                        int rowsAffected = updateReviewPeriodCmd.ExecuteNonQuery();
+
+                        // Log the result
+                        if (rowsAffected > 0)
+                        {
+                            Console.WriteLine("Review period updated successfully.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("No rows updated. Ensure the ReviewId is correct.");
+                        }
                     }
                 }
+                catch (Exception ex)
+                {
+                    // Handle and log exceptions
+                    Console.WriteLine($"An error occurred: {ex.Message}");
+                }
             }
         }
 
 
-        private void UpdateDatabaseOnPropertyChanged(string propertyName, object propertyvalue)
+
+        private void UpdateDatabaseOnPropertyChanged(string propertyName, object propertyValue)
         {
-            string connectionString = "server=localhost;uid=root;pwd=kotori1430;database=test_schema";
+            string connectionString = "server=localhost;uid=root;pwd=kotori1430;database=test_schema3";
 
             using (var connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
-                using (var cmd = new MySqlCommand())
+
+                try
                 {
-                    cmd.Connection = connection;
+                    using (var cmd = new MySqlCommand())
+                    {
+                        cmd.Connection = connection;
 
-                    // Prepare the SQL query based on the property name
-                    cmd.CommandText = $"UPDATE peer_review SET {propertyName.ToLower()} = @newValue WHERE id = @reviewId";
+                        // Prepare the SQL query
+                        cmd.CommandText = $@"
+UPDATE peer_review
+SET {propertyName.ToLower()} = @newValue
+WHERE review_period_id = @reviewPeriodId
+  AND reviewer_id = @currentStudentId
+  AND reviewee_id = @currentRevieweeStudentId";
 
-                    // Ensure the correct type is handled based on the property value
-                    cmd.Parameters.AddWithValue("@newValue", propertyvalue);
-                    cmd.Parameters.AddWithValue("@reviewId", this.ReviewId);
+                        // Add parameters
+                        cmd.Parameters.AddWithValue("@newValue", propertyValue);
+                        cmd.Parameters.AddWithValue("@reviewPeriodId", this.ReviewId);
+                        cmd.Parameters.AddWithValue("@currentStudentId", this.currentStudentId);
+                        cmd.Parameters.AddWithValue("@currentRevieweeStudentId", this.currentRevieweeStudentId);
 
-                    cmd.ExecuteNonQuery();
+                        // Execute the query
+                        int rowsAffected = cmd.ExecuteNonQuery();
+
+                        //Log the outcome
+                        if (rowsAffected > 0)
+                        {
+                            Console.WriteLine($"{rowsAffected} row(s) updated successfully.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("No rows updated. Ensure the review period and student IDs are correct.");
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"An error occurred: {ex.Message}");
                 }
             }
         }
+
         /// 
         /// 
         /// update button for peer review view
