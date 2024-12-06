@@ -1,6 +1,7 @@
 ﻿/* Factory contains classes and functions for creating/updating Student, Professor, PeerReviewEntry, and TimeEntry
  * entities and adding them to the database given to them 
  * Author:  Jesus Barrera-Gilabert III
+ * Editor:  Matthew Hernandez
  * Date:    11/26/2024
  * Class:   Computer Science Project CS 4485.0W1
  * Net ID:  jxb171030
