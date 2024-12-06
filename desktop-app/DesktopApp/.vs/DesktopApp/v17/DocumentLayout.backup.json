@@ -46,12 +46,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 4,
           "Children": [
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
-            },
             {
               "$type": "Document",
               "DocumentIndex": 1,
@@ -62,8 +58,7 @@
               "RelativeToolTip": "ClassesAndTimeTracking.xaml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-10-11T14:06:47.554Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-11T14:06:47.554Z"
             },
             {
               "$type": "Document",
@@ -75,8 +70,7 @@
               "RelativeToolTip": "Login.xaml.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-11T12:56:33.528Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-11T12:56:33.528Z"
             },
             {
               "$type": "Document",
@@ -88,8 +82,7 @@
               "RelativeToolTip": "AppShell.xaml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-10-11T13:19:48.148Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-11T13:19:48.148Z"
             },
             {
               "$type": "Document",
@@ -101,8 +94,7 @@
               "RelativeToolTip": "App.xaml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-10-11T15:18:15.046Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-11T15:18:15.046Z"
             },
             {
               "$type": "Document",
@@ -112,7 +104,7 @@
               "RelativeDocumentMoniker": "ClassesAndTimeTracking.xaml.cs",
               "ToolTip": "D:\\Documents\\repos\\DesktopApp\\ClassesAndTimeTracking.xaml.cs",
               "RelativeToolTip": "ClassesAndTimeTracking.xaml.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACcBAACCAAAAAAAAAA==",
+              "ViewState": "AgIAADEBAAAAAAAAAAAAAFUBAABcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-11T14:08:26.056Z",
               "EditorCaption": ""
@@ -127,8 +119,7 @@
               "RelativeToolTip": "AppShell.xaml.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-11T13:19:46.812Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-11T13:19:46.812Z"
             },
             {
               "$type": "Document",
@@ -140,8 +131,7 @@
               "RelativeToolTip": "App.xaml.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-11T13:19:36.501Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-11T13:19:36.501Z"
             },
             {
               "$type": "Document",
@@ -153,8 +143,7 @@
               "RelativeToolTip": "DesktopApp.csproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2024-10-11T12:54:12.569Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-11T12:54:12.569Z"
             },
             {
               "$type": "Document",
@@ -166,8 +155,11 @@
               "RelativeToolTip": "Login.xaml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-10-11T12:52:07.644Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-11T12:52:07.644Z"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
             }
           ]
         }

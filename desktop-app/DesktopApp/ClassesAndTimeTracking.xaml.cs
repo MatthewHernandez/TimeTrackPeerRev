@@ -294,7 +294,7 @@ namespace DesktopApp
                         var columns = line.Split(',');
 
                         // CSV file has columns that match the DB Schema id, username, first_name, last_name, password, class_id, team_id
-                        if (columns.Length >= 7)
+                        if (columns.Length >= 9)
                         {
                             studentsData.Add(columns);
                         }
@@ -328,7 +328,7 @@ namespace DesktopApp
                     foreach (var student in studentsData)
                     {
                         // Insert student with given non null data.
-                        var commandText = "INSERT INTO students (id, username, first_name, last_name, password, class_id, team_id) VALUES (@id, @username, @first_name, @last_name, @password, @class_id, @team_id)";
+                        var commandText = "INSERT INTO students (id, username, first_name, last_name, password, class_id, team_id, review_1_submitted, review_2_submitted) VALUES (@id, @username, @first_name, @last_name, @password, @class_id, @team_id, @review_1_submitted, @review_2_submitted)";
                         using (var command = new MySqlCommand(commandText, connection))
                         {
                             command.Parameters.AddWithValue("@id", student[0]);
@@ -338,6 +338,8 @@ namespace DesktopApp
                             command.Parameters.AddWithValue("@password", student[4]);
                             command.Parameters.AddWithValue("@class_id", student[5]);
                             command.Parameters.AddWithValue("@team_id", student[6]);
+                            command.Parameters.AddWithValue("@review_1_submitted", student[7]);
+                            command.Parameters.AddWithValue("@review_2_submitted", student[8]);
 
                             await command.ExecuteNonQueryAsync();
                         }

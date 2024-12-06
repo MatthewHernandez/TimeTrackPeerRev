@@ -29,7 +29,7 @@
     <AppXManifest Include="D:\Documents\repos\DesktopApp\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2024-12-05T03:35:26.085</Modified>
+      <Modified>2024-12-06T04:30:04.955</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
@@ -43,11 +43,11 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Documents\repos\DesktopApp\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\DesktopApp.dll">
       <PackagePath>DesktopApp.dll</PackagePath>
-      <Modified>2024-12-05T03:35:25.684</Modified>
+      <Modified>2024-12-06T04:30:04.102</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Documents\repos\DesktopApp\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\apphost.exe">
       <PackagePath>DesktopApp.exe</PackagePath>
-      <Modified>2024-12-05T03:35:25.863</Modified>
+      <Modified>2024-12-06T04:30:04.198</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Documents\repos\DesktopApp\Resources\Raw\AboutAssets.txt">
       <PackagePath>AboutAssets.txt</PackagePath>
